@@ -1,0 +1,842 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5-Day LLD Prep — Java Backend Developer</title>
+<style>
+:root{
+  --bg:#f6f7f9; --card:#fff; --ink:#12181f; --muted:#5b6673; --line:#e3e7ec;
+  --accent:#5b21b6; --accent-soft:#f0e9ff; --ok:#0f8a5f;
+  --warn:#a15c00; --warn-soft:#fff4e0; --hard:#8b1d4a; --hard-soft:#fdeaf2;
+  --code:#0b5f6b; --code-soft:#e2f5f7; --radius:10px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+header.top{position:sticky;top:0;z-index:20;background:#150d24;color:#fff;
+  padding:14px 20px;box-shadow:0 1px 0 rgba(0,0,0,.15)}
+header.top h1{margin:0;font-size:18px;letter-spacing:.2px}
+header.top p{margin:4px 0 0;font-size:13px;color:#b9a8d6}
+.topgrid{display:flex;gap:18px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.overall{min-width:260px;flex:1}
+.bar{height:9px;background:#33244a;border-radius:99px;overflow:hidden}
+.bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#c4b5fd,#7c3aed);transition:width .25s}
+.overall .lbl{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;color:#d8cdf0}
+.controls{display:flex;gap:8px;flex-wrap:wrap;padding:14px 20px 0;max-width:1080px;margin:0 auto}
+.controls input[type=search]{flex:1;min-width:200px;padding:9px 12px;border:1px solid var(--line);
+  border-radius:var(--radius);background:#fff;font-size:14px}
+button{font:inherit;font-size:13px;padding:9px 13px;border:1px solid var(--line);background:#fff;
+  border-radius:var(--radius);cursor:pointer;color:var(--ink)}
+button:hover{border-color:#c3ccd8}
+button:focus-visible,input:focus-visible,summary:focus-visible,label:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.toggle{display:inline-flex;align-items:center;gap:7px;padding:9px 13px;border:1px solid var(--line);
+  background:#fff;border-radius:var(--radius);font-size:13px;cursor:pointer}
+main{max-width:1080px;margin:0 auto;padding:18px 20px 70px}
+.howto{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin:14px 0 22px}
+.howto h2{margin:0 0 8px;font-size:15px}
+.howto ol,.howto ul{margin:8px 0 0;padding-left:20px;font-size:14px;color:var(--muted)}
+.howto li{margin:3px 0}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.day{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  margin-bottom:22px;overflow:hidden}
+.day>.head{padding:16px 18px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fcfbfe,#f6f4fa)}
+.day>.head h2{margin:0;font-size:18px}
+.day>.head .meta{font-size:13px;color:var(--muted);margin-top:4px}
+.day>.head .barwrap{margin-top:12px}
+.day>.head .bar{background:#e9e6f0}
+.sec{border-bottom:1px solid var(--line)}
+.sec:last-child{border-bottom:0}
+.sec>summary{cursor:pointer;padding:13px 18px;display:flex;gap:10px;align-items:center;
+  font-weight:600;font-size:15px;list-style:none}
+.sec>summary::-webkit-details-marker{display:none}
+.sec>summary::before{content:"▸";color:var(--muted);font-weight:400}
+.sec[open]>summary::before{content:"▾"}
+.sec>summary:hover{background:#fbfafd}
+.sec .count{margin-left:auto;font-weight:500;font-size:12px;color:var(--muted);
+  background:#f2f0f6;border-radius:99px;padding:3px 9px;white-space:nowrap}
+.sec .lvl{font-weight:500;font-size:11px;letter-spacing:.4px;text-transform:uppercase;
+  color:var(--accent);background:var(--accent-soft);border-radius:4px;padding:2px 7px}
+ol.qs{margin:0;padding:4px 18px 16px 18px;list-style:none}
+li.q{display:flex;gap:11px;padding:8px 0;border-top:1px dashed #eeecf3;align-items:flex-start}
+li.q:first-child{border-top:0}
+li.q input[type=checkbox]{margin:4px 0 0;width:17px;height:17px;flex:0 0 auto;accent-color:var(--accent);cursor:pointer}
+li.q .body{flex:1;min-width:0}
+li.q .txt{cursor:pointer;display:block}
+li.q.done .txt{color:var(--muted);text-decoration:line-through}
+.num{color:var(--muted);font-variant-numeric:tabular-nums;font-size:13px;margin-right:6px}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.4px;border-radius:4px;
+  padding:1px 6px;margin-left:7px;vertical-align:1px;white-space:nowrap}
+.tag.hf{color:var(--warn);background:var(--warn-soft)}
+.tag.sc{color:var(--accent);background:var(--accent-soft)}
+.tag.hard{color:var(--hard);background:var(--hard-soft)}
+.tag.code{color:var(--code);background:var(--code-soft)}
+details.hint{margin-top:5px}
+details.hint>summary{cursor:pointer;font-size:12.5px;color:var(--accent);list-style:none;display:inline-block}
+details.hint>summary::-webkit-details-marker{display:none}
+details.hint>summary::before{content:"＋ key points";}
+details.hint[open]>summary::before{content:"－ key points";}
+details.hint .hintbox{margin-top:6px;font-size:14px;color:#33404f;background:#faf9fd;
+  border-left:3px solid var(--accent);border-radius:0 6px 6px 0;padding:9px 12px}
+.hide{display:none !important}
+footer.foot{max-width:1080px;margin:0 auto;padding:0 20px 40px;font-size:13px;color:var(--muted)}
+.empty{padding:24px 18px;color:var(--muted);font-size:14px}
+@media print{
+  header.top{position:static;background:#fff;color:#000}
+  header.top p,.controls,.bar{display:none}
+  .sec>summary{background:#fff}
+  details.hint{display:none}
+  .day,.sec,.howto{border-color:#bbb;break-inside:avoid}
+  li.q input[type=checkbox]{-webkit-appearance:none;appearance:none;border:1px solid #444;border-radius:3px}
+}
+
+  /* ================= shared navbar across the 3 prep pages ================= */
+  .pnav{
+    --pn-fg:rgba(255,255,255,.72); --pn-fg-on:#fff;
+    --pn-bg:rgba(255,255,255,.06); --pn-bg-on:rgba(255,255,255,.14);
+    --pn-bd:rgba(255,255,255,.16);
+    display:flex; align-items:center; gap:8px;
+    margin:0; padding:8px 0 10px; max-width:100%; list-style:none;
+    overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch;
+    scrollbar-width:none; scroll-snap-type:x proximity;
+  }
+  .pnav::-webkit-scrollbar{display:none}
+  .pnav a{
+    --pn-dot:#8aa0b8;
+    flex:0 0 auto; scroll-snap-align:start;
+    display:inline-flex; align-items:center; gap:8px;
+    min-height:40px; padding:0 14px;
+    border:1px solid var(--pn-bd); border-radius:99px;
+    background:var(--pn-bg); color:var(--pn-fg);
+    font-size:13px; font-weight:600; line-height:1; white-space:nowrap; text-decoration:none;
+    -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .pnav a:hover{background:var(--pn-bg-on); color:var(--pn-fg-on); border-color:var(--pn-dot)}
+  .pnav a:active{background:var(--pn-bg-on); color:var(--pn-fg-on)}
+  .pnav a:focus-visible{outline:2px solid var(--pn-dot); outline-offset:2px}
+  .pnav a[aria-current="page"]{
+    color:var(--pn-fg-on); background:var(--pn-bg-on);
+    border-color:var(--pn-dot); box-shadow:inset 0 0 0 1px var(--pn-dot); cursor:default;
+  }
+  .pnav .pn-dot{width:8px; height:8px; border-radius:50%; background:var(--pn-dot); flex:none}
+  .pnav .pn-meta{font-weight:500; font-size:11.5px; opacity:.75}
+  .pnav .pn-spring{--pn-dot:#4fd1c5}
+  .pnav .pn-lld{--pn-dot:#a78bfa}
+  .pnav .pn-aws{--pn-dot:#4c9aff}
+  /* light theme (Spring page theme toggle) */
+  html[data-theme="light"] .pnav{
+    --pn-fg:rgba(18,24,31,.68); --pn-fg-on:#12181f;
+    --pn-bg:rgba(18,24,31,.05); --pn-bg-on:rgba(18,24,31,.1);
+    --pn-bd:rgba(18,24,31,.16);
+  }
+  @media (max-width:520px){ .pnav .pn-meta{display:none} }
+  @media print{ .pnav{display:none !important} }
+
+  /* ===== shy header: hidden as soon as you leave the top, back only at the top ===== */
+  header{transition:transform .22s ease; will-change:transform}
+  html.hdr-hidden header{transform:translateY(-102%)}
+  @media (prefers-reduced-motion:reduce){ header{transition:none} }
+  @media print{ header{transform:none !important} }
+</style>
+</head>
+<body>
+<header class="top">
+  <nav class="pnav" aria-label="Interview prep pages">
+    <a class="pn-spring" href="spring-microservices-interview-prep.html" title="Spring &amp; Microservices question bank — Level 1 to Level 4"><span class="pn-dot" aria-hidden="true"></span>Spring &amp; MSA<span class="pn-meta">Level 1–4</span></a>
+    <a class="pn-lld" href="java-lld-5-day-plan.html" aria-current="page" title="Low-Level Design prep — 5-day plan"><span class="pn-dot" aria-hidden="true"></span>Java LLD<span class="pn-meta">5-day plan</span></a>
+    <a class="pn-aws" href="aws-java-backend-3-day-plan.html" title="AWS, Kubernetes and Docker prep — 3-day plan"><span class="pn-dot" aria-hidden="true"></span>AWS · K8s · Docker<span class="pn-meta">3-day plan</span></a>
+  </nav>
+  <div class="topgrid">
+    <div>
+      <h1>5-Day Low-Level Design Prep — Java Backend Developer</h1>
+      <p>Scenario-first &nbsp;·&nbsp; concurrency, DB design, API design, caching, failures &nbsp;·&nbsp; Fundamentals → Core problems → Concurrency → Distributed → Production</p>
+    </div>
+    <div class="overall">
+      <div class="lbl"><span>Overall progress</span><span id="ovText">0 / 0</span></div>
+      <div class="bar"><i id="ovBar"></i></div>
+    </div>
+  </div>
+</header>
+
+<div class="controls">
+  <input type="search" id="search" placeholder="Search (e.g. idempotency, overselling, seat lock, token bucket)" aria-label="Search questions">
+  <label class="toggle"><input type="checkbox" id="hideDone"> Hide completed</label>
+  <button type="button" id="expandAll">Expand all</button>
+  <button type="button" id="collapseAll">Collapse all</button>
+  <button type="button" id="print">Print</button>
+  <button type="button" id="reset">Reset progress</button>
+</div>
+
+<main>
+  <section class="howto">
+    <h2>The framework to use on every design question</h2>
+    <ol>
+      <li><strong>Clarify (5–8 min).</strong> Scale, read/write ratio, consistency needs, in-scope vs out-of-scope. Never start with classes.</li>
+      <li><strong>Requirements.</strong> Functional list, then non-functional: concurrency, latency, durability, extensibility.</li>
+      <li><strong>Entities &amp; relationships.</strong> Nouns to classes, identify value objects and the aggregate root.</li>
+      <li><strong>API contract.</strong> Endpoints, request/response, status codes, idempotency.</li>
+      <li><strong>DB schema.</strong> Tables, keys, indexes, and one sentence on why each index exists.</li>
+      <li><strong>Class design.</strong> Interfaces first, then the pattern that earns its place. Say the pattern name.</li>
+      <li><strong>Edge cases, concurrency and failure.</strong> This is where the interview is actually won or lost.</li>
+    </ol>
+    <ul>
+      <li>Answer out loud, and for anything tagged CODE IT, actually write compilable Java against a timer.</li>
+      <li>Open <em>key points</em> only after attempting the answer.</li>
+      <li>Whenever you say a design word (idempotent, optimistic lock, saga), be ready for the immediate follow-up: "show me the table and the code path."</li>
+      <li>Days 3 and 5 carry the most weight for a Java backend role. Do not skip them to finish Day 4.</li>
+    </ul>
+    <div class="legend">
+      <span class="tag hf">HIGH FREQ</span><span style="font-size:13px;color:var(--muted)">asked in most rounds</span>
+      <span class="tag sc">SCENARIO</span><span style="font-size:13px;color:var(--muted)">situational</span>
+      <span class="tag hard">DEEP</span><span style="font-size:13px;color:var(--muted)">senior differentiator</span>
+      <span class="tag code">CODE IT</span><span style="font-size:13px;color:var(--muted)">write real Java, timed</span>
+    </div>
+  </section>
+  <div id="plan"></div>
+  <div class="empty hide" id="noResults">No questions match your search.</div>
+</main>
+
+<footer class="foot">
+  Progress is stored locally in this browser (localStorage). Clearing site data or switching browsers resets it.
+</footer>
+
+<script>
+const PLAN = [
+{
+  day: "Day 1",
+  title: "LLD Fundamentals — OO design, patterns, API design, DB design",
+  meta: "Level 1 · Target 7 hrs. These are the follow-up questions attached to every design problem. If you are shaky here, every later answer gets picked apart. End the day by writing one small class hierarchy from scratch.",
+  sections: [
+  { name: "OO design principles as interviewers actually probe them", level: "Fundamentals", items: [
+    { q: "Explain SOLID with one real violation you found and fixed in your own code.", tags:["hf"], hint: "Prepare a concrete story. Generic textbook definitions get an immediate follow-up: 'give me an example from your project.'" },
+    { q: "How do you know a class violates SRP? What is a 'reason to change'?", tags:["hf"] },
+    { q: "Add a new payment method without modifying existing code. Show the design.", tags:["hf","sc"], hint: "Strategy behind a PaymentMethod interface plus a registry/factory keyed by an enum, so adding a class and a registration is the only change. Open/Closed is best demonstrated, not defined." },
+    { q: "Give a realistic Liskov violation (not Square/Rectangle).", tags:["hard"], hint: "A ReadOnlyRepository extending Repository and throwing on save, or a Payment subclass that cannot refund. The subtype weakens a guarantee callers already depend on." },
+    { q: "Show a fat interface and split it using Interface Segregation.", tags:["hf"] },
+    { q: "Why does the service depend on a Repository interface rather than the JPA class? What does DIP actually buy you?", tags:["hf"] },
+    { q: "Composition over inheritance — model three discount types both ways and compare.", tags:["hf","sc"] },
+    { q: "Why is returning a mutable List from a getter a bug? Show the fix.", tags:["hf","hard"], hint: "Callers can mutate internal state and break invariants. Return List.copyOf / unmodifiableList, or expose intent-revealing methods (addItem) instead of the collection." },
+    { q: "State the equals/hashCode contract and what breaks in a HashMap if you get it wrong.", tags:["hf","hard"], hint: "Also: mutating a field used in hashCode after insertion makes the entry unreachable, and JPA entities with generated IDs break equality before persist." },
+    { q: "Design an immutable Money class. Why does immutability simplify concurrency?", tags:["hf","code"], hint: "final class, final fields, BigDecimal amount plus Currency, no setters, operations return new instances, validate in the constructor, and reject cross-currency arithmetic." },
+    { q: "Entity vs value object vs DTO — how do you decide which one you are modelling?", tags:["hf"] },
+    { q: "Abstract class vs interface in modern Java. Where do default methods fit?", tags:["hf"] },
+    { q: "What is the Law of Demeter, and what is wrong with order.getCustomer().getAddress().getCity()?" },
+    { q: "Why is calling 'new' on a collaborator inside a class a design smell?", tags:["hf"], hint: "It hard-wires the dependency and makes the class untestable. Constructor injection instead — and this is exactly why interviewers ask you to unit test your machine-coding solution." },
+    { q: "What is the difference between cohesion and coupling, with an example of each done badly?" },
+    { q: "Why should you abstract System.currentTimeMillis() and Random behind an interface?", tags:["hard"], hint: "Anything time- or randomness-dependent is untestable otherwise. Inject java.time.Clock and a RandomGenerator. Interviewers notice this immediately in TTL/expiry problems." }
+  ]},
+  { name: "Class modelling, layering & domain design", level: "Fundamentals", items: [
+    { q: "Walk me through your method for going from a problem statement to a class diagram.", tags:["hf"], hint: "Nouns become candidate classes, verbs become behaviours, then collapse anything that is really an attribute, extract value objects, pick the aggregate root, and only then choose patterns." },
+    { q: "What is an aggregate root, and why does it define your transaction boundary?", tags:["hard"] },
+    { q: "Where does business logic belong: entity or service? What is an anemic domain model and when is it acceptable?", tags:["hf","hard"] },
+    { q: "Why keep Entity, DTO and domain model separate? What breaks if you return JPA entities from a controller?", tags:["hf"], hint: "Lazy-loading exceptions and accidental N+1 outside the transaction, leaking internal fields, and coupling your public API to your schema so no migration is safe." },
+    { q: "Model an order lifecycle with legal transitions only. Enum plus map, State pattern, or if-else?", tags:["hf","sc","code"] },
+    { q: "You inherit a 2000-line OrderService. How do you split it, and in what order?", tags:["hf","sc"] },
+    { q: "Layered vs hexagonal/ports-and-adapters package structure. Which do you use and why?", tags:["hf"] },
+    { q: "Where does validation live: bean validation on the DTO, or invariants in the domain? Argue for both.", tags:["hf","hard"], hint: "Format/required checks belong at the edge on DTOs; business invariants (cannot ship a cancelled order) belong in the domain so they cannot be bypassed by another caller." },
+    { q: "Design an exception hierarchy for a service. Checked or unchecked, and what does the API return?", tags:["hf"], hint: "Unchecked domain exceptions (InsufficientStockException) mapped by a @ControllerAdvice to problem-detail responses. Never leak stack traces or SQL errors, and never swallow with an empty catch." },
+    { q: "How do you avoid over-engineering while still 'designing for extension'?", tags:["hf","hard"], hint: "Extend at known variation points only (payment methods, notification channels, pricing rules). Two hard-coded cases are fine; the third one earns an abstraction." },
+    { q: "How do you design a class so it is easy to unit test? Name four concrete properties." },
+    { q: "How do you model a discount engine where rules combine (10% off, plus free shipping over 500, plus first-order bonus)?", tags:["hf","sc","hard"], hint: "Chain of Responsibility or a rule list with a Strategy per rule, each returning a discount contribution; a resolver applies precedence and stacking rules. Keep rules pure functions of the cart so they are testable and orderable." }
+  ]},
+  { name: "Design patterns that actually come up", level: "Fundamentals", items: [
+    { q: "Strategy — where have you used it, and how do you select the strategy at runtime?", tags:["hf","code"], hint: "In Spring, inject Map<String, PaymentStrategy> or List and build a registry by a supportedType() method. This single pattern answers half of all LLD extensibility follow-ups." },
+    { q: "Factory vs Abstract Factory vs Builder — pick each for a concrete case.", tags:["hf"] },
+    { q: "Builder — why is it better than a 12-argument constructor or setters?", tags:["hf","code"] },
+    { q: "Implement a correct Singleton in Java, and explain why Spring makes it mostly unnecessary.", tags:["hf","code"], hint: "Enum singleton, or static holder class, or double-checked locking with a volatile field. Mention serialization and reflection attacks, and that a Spring bean is already a per-context singleton." },
+    { q: "Observer — design in-process event listeners for 'order placed'. How does it differ from a message queue?", tags:["hf"] },
+    { q: "Decorator — apply it to pricing or to a logging/caching wrapper around a repository.", tags:["hf","code"] },
+    { q: "Adapter — wrap two third-party payment gateway SDKs behind one interface.", tags:["hf","sc"] },
+    { q: "Template Method — design an order-processing skeleton with pluggable steps." },
+    { q: "Chain of Responsibility — design a validation or approval pipeline.", tags:["hf","code"] },
+    { q: "Command — design undo, or a queued task with retry metadata.", tags:["hard"] },
+    { q: "State — model a vending machine or a booking. Why is it better than nested if-else?", tags:["hf","code"] },
+    { q: "Proxy — give three real uses (lazy load, caching, rate limiting) and connect it to Spring AOP.", tags:["hard"], hint: "Also explains why @Transactional and @Cacheable do not work on self-invocation: the proxy is bypassed on an internal method call." },
+    { q: "Facade vs Mediator — where would you actually use each?" },
+    { q: "Repository and Unit of Work — how does JPA's EntityManager implement Unit of Work?", tags:["hard"] },
+    { q: "Which pattern underlies retry and circuit breaker in Resilience4j?" },
+    { q: "Name three pattern anti-patterns you avoid, and describe a design you simplified by removing a pattern.", tags:["hf","hard"] }
+  ]},
+  { name: "API design fundamentals", level: "Fundamentals", items: [
+    { q: "Design REST resources for a shopping/order domain. When is it right to break REST?", tags:["hf"] },
+    { q: "Which HTTP methods are idempotent and safe? Is PUT always idempotent in practice?", tags:["hf","hard"] },
+    { q: "Pick the right status code: 400 vs 422, 401 vs 403, 404 vs 409, 429, 502 vs 503 vs 504.", tags:["hf"] },
+    { q: "Offset vs cursor (keyset) pagination — which do you pick for an orders list and why?", tags:["hf","hard"], hint: "Offset degrades linearly and can skip or duplicate rows when data shifts. Cursor on (created_at, id) is stable and index-friendly — that composite ordering is the part candidates forget." },
+    { q: "Design an error response contract. What does RFC 7807 problem+json give you?", tags:["hf"] },
+    { q: "Design a bulk endpoint. How do you report partial success?", tags:["hf","sc"], hint: "207-style per-item results with an index, status and error code, so the client can retry only the failures. All-or-nothing is a valid alternative but must be stated." },
+    { q: "How do you expose a long-running operation over HTTP?", tags:["sc"], hint: "202 Accepted with a job id and a status endpoint (or webhook). Never hold the request open for a multi-minute job." },
+    { q: "Design an Idempotency-Key mechanism for POST /payments end to end.", tags:["hf","sc","hard"], hint: "Client-generated key, unique index on (tenant, key), store request fingerprint plus the final response, return the stored response on replay, and reject a reused key with a different body as 422." },
+    { q: "API versioning: URI path, header, or media type? What changes are backward compatible?", tags:["hf"] },
+    { q: "Why not expose entities directly as request bodies? Give two concrete attacks or bugs.", tags:["hf"], hint: "Mass assignment / over-posting (client sets isAdmin or price) and coupling that blocks schema change." },
+    { q: "REST vs gRPC for internal service-to-service calls — when do you switch?" },
+    { q: "How do you design an API that must support both a mobile app and a partner integration?" },
+    { q: "How do you deprecate an endpoint that a partner still calls?", tags:["sc"] }
+  ]},
+  { name: "Database design fundamentals", level: "Fundamentals", items: [
+    { q: "Normalise to 3NF, then justify a specific denormalisation you would make anyway.", tags:["hf","hard"] },
+    { q: "Auto-increment vs UUIDv4 vs ULID/UUIDv7 vs Snowflake as a primary key — trade-offs.", tags:["hf","hard"], hint: "Random UUIDs hurt B-tree insert locality and page splits and bloat secondary indexes. Time-ordered ULID/UUIDv7 keeps locality while staying non-guessable and generatable client-side." },
+    { q: "How do you choose composite index column order? What is a covering index?", tags:["hf","hard"], hint: "Equality columns first, then range, then sort; the leftmost-prefix rule decides what the index can serve. Covering index includes every column the query needs so it never touches the table." },
+    { q: "When does adding an index make things worse?", tags:["hf"] },
+    { q: "Design one-to-many and many-to-many relationships. What extra columns belong on a join table?" },
+    { q: "Soft delete vs hard delete — what does soft delete break?", tags:["hf","hard"], hint: "Unique constraints, every query needing a filter, index selectivity, and GDPR erasure. Partial unique indexes or an archive table are the usual fixes." },
+    { q: "How do you store money, and why never double/float?", tags:["hf"] },
+    { q: "How do you store enums: string, int, or a lookup table? What breaks with JPA ordinal mapping?", tags:["hf"] },
+    { q: "How do you store timestamps for a global product? What about a user's local 'business day'?", tags:["hf","hard"] },
+    { q: "Which schema changes are safe during a rolling deploy, and which need expand/contract?", tags:["hf","sc","hard"], hint: "Adding a nullable column or a new table is safe. Renaming, dropping, narrowing a type or adding a NOT NULL default in place is not — add, dual-write, backfill, switch reads, drop later." },
+    { q: "Design multi-tenancy: discriminator column vs schema per tenant vs database per tenant.", tags:["hf","hard"] },
+    { q: "Which entities in an e-commerce system belong in SQL and which in NoSQL? Justify each.", tags:["hf","sc"] },
+    { q: "Explain ACID, then name the isolation level your DB defaults to and the anomaly still possible.", tags:["hf","hard"] },
+    { q: "Design an audit trail table. Why is append-only better than updating a status column in place?", tags:["hf","hard"] },
+    { q: "How do you model a hierarchy (category tree) in SQL? Adjacency list vs path vs closure table.", tags:["hard"] },
+    { q: "How do you design a table you know will reach 500 million rows?", tags:["sc","hard"] }
+  ]}
+  ]
+},
+{
+  day: "Day 2",
+  title: "Core LLD problems — Parking Lot, Cart, Order, Inventory",
+  meta: "Level 2 · Target 8 hrs. For each problem: classes + API + schema + edge cases, in that order. Actually write the Parking Lot and the Cart in code — these two are the most commonly assigned machine-coding problems.",
+  sections: [
+  { name: "Parking Lot — the most assigned LLD problem", level: "Core problems", items: [
+    { q: "Design a parking lot. Give the full class list, interfaces and enums.", tags:["hf","code"], hint: "ParkingLot → Floor → Spot (with SpotType), Vehicle hierarchy, Ticket, ParkingStrategy, PricingStrategy, PaymentProcessor, EntryGate/ExitGate, DisplayBoard. Keep allocation policy out of ParkingLot itself." },
+    { q: "Support motorcycle, car, truck and EV spots without an if-else chain.", tags:["hf","sc"], hint: "SpotType enum plus a compatibility map or a Strategy per vehicle type returning acceptable spot types in preference order. Adding a type must not touch the allocator." },
+    { q: "How do you find the nearest available spot in O(log n) instead of scanning?", tags:["hf","hard"], hint: "Per floor per spot-type TreeSet or PriorityQueue of free spot ids, plus a counter per (floor, type) for the display board. Scanning a list is the answer that gets rejected." },
+    { q: "Two cars reach the last spot simultaneously. Guarantee only one gets it.", tags:["hf","sc","hard"], hint: "In-memory: a lock per (floor, type) bucket, or an atomic poll from a concurrent queue — never check-then-assign. Distributed: an atomic DB update with a WHERE status='FREE' guard and check the affected row count, or Redis with an atomic pop." },
+    { q: "Design pricing: hourly, flat, day/night rates, weekend surcharge, free first 15 minutes.", tags:["hf","code"], hint: "PricingStrategy per rule with a composite/decorator that sums slabs; compute over intervals, not just total hours, so a 23:00–01:00 stay splits correctly." },
+    { q: "Give the DB schema with indexes for the parking lot.", tags:["hf"] },
+    { q: "A customer loses the ticket. How does exit work and how do you charge them?", tags:["sc"] },
+    { q: "How does the entrance display board stay accurate with 50 gates operating concurrently?", tags:["sc","hard"] },
+    { q: "Payment fails at the exit gate. What is the state of the ticket and the spot?", tags:["sc","hf"] },
+    { q: "Extend the design to 100 parking lots in a city with a central availability API.", tags:["sc","hard"] },
+    { q: "Add reservations: a user books a spot for 6pm. What breaks in your allocator?", tags:["sc","hard"] },
+    { q: "Write it in 60 minutes: in-memory parking lot with tests, no framework.", tags:["code","hf"] }
+  ]},
+  { name: "Shopping cart (Amazon-style) — the most asked e-commerce LLD", level: "Core problems", items: [
+    { q: "Design the cart. Classes for Cart, CartItem, Product, Price, and where does total calculation live?", tags:["hf","code"] },
+    { q: "Where do you store the cart: RDBMS, Redis, or client-side? Argue the trade-offs.", tags:["hf","sc","hard"], hint: "Redis for speed and natural TTL on guest carts; DB for durability, cross-device and analytics. A common real answer is Redis as the working copy with async persistence, and DB as the source of truth for logged-in users." },
+    { q: "A guest adds items then logs in with an existing cart. Design the merge.", tags:["hf","sc"], hint: "Union by SKU, sum or take max quantity per business rule, re-validate stock and price, and make the merge idempotent because the login callback can fire twice." },
+    { q: "The price changed between add-to-cart and checkout. What does the user see?", tags:["hf","sc","hard"], hint: "Cart holds a reference, not a promise: re-price at checkout, show a clear diff and require re-confirmation. Snapshot the price into order_item only at order creation — that is why order_item stores price, not a join to product." },
+    { q: "An item goes out of stock at checkout. Design the flow.", tags:["hf","sc"] },
+    { q: "Design coupons, promotions and discounts so they compose.", tags:["hf","sc","hard"] },
+    { q: "Two coupons must not stack. Where do you enforce exclusivity?", tags:["sc","hard"] },
+    { q: "Design tax and shipping calculation as pluggable components." },
+    { q: "The user double-clicks Add to Cart. Make it idempotent.", tags:["hf","sc"] },
+    { q: "Give the schema for cart, cart_item, order, order_item. Why does order_item duplicate name and price?", tags:["hf","hard"] },
+    { q: "Design cart expiry and abandonment reminders without a full table scan.", tags:["sc"] },
+    { q: "Cart, wishlist and save-for-later — one table or three? Defend it." },
+    { q: "The same user has the cart open on web and mobile and edits both. What happens?", tags:["sc","hard"] },
+    { q: "How do you show 'you have 3 items' on every page without hammering the DB?", tags:["sc"] },
+    { q: "Write it in 60 minutes: cart service with add/update/remove, discount rules and totals, with tests.", tags:["code","hf"] }
+  ]},
+  { name: "Order management system", level: "Core problems", items: [
+    { q: "Enumerate order states and the legal transitions. Model it so an illegal transition is impossible.", tags:["hf","code"] },
+    { q: "Where do you enforce transitions: application state machine, DB constraint, or optimistic lock? Use all three?", tags:["hf","hard"], hint: "State machine for intent, optimistic version to stop concurrent transitions, and a conditional UPDATE ... WHERE status = expected as the last line of defence. Check the updated row count." },
+    { q: "Order created but payment is pending. How do you model it and time it out?", tags:["hf","sc"] },
+    { q: "Design partial fulfilment and split shipment across warehouses.", tags:["sc","hard"] },
+    { q: "Design cancellation: before payment, after payment, after shipping. What differs?", tags:["hf","sc"] },
+    { q: "Design returns and refunds, including partial refund of a multi-item order.", tags:["sc","hard"] },
+    { q: "Place-order touches inventory, payment and order. How do you keep it consistent without a distributed transaction?", tags:["hf","sc","hard"], hint: "Reserve stock, create the order in PENDING, take payment, then confirm — with a saga and compensations (release reservation, void authorisation) plus an outbox for events and a reconciliation job for the gaps. Say explicitly that 2PC is rejected and why." },
+    { q: "Show the outbox table and the publisher loop. Why not just call the broker inside the transaction?", tags:["hf","hard"] },
+    { q: "The user clicks Place Order twice in one second. Guarantee one order.", tags:["hf","sc"] },
+    { q: "Design order-number generation: human-readable, non-sequential, collision-free across pods.", tags:["hf","hard"] },
+    { q: "Design an order event history / audit table and the query for a timeline view." },
+    { q: "Design the 'my orders' query for a user with 5000 orders, sorted and filterable.", tags:["sc","hard"] },
+    { q: "An order is stuck in PROCESSING for two hours. How does your system notice and act?", tags:["sc","hf","hard"], hint: "A sweeper job over an index on (status, updated_at) with idempotent recovery: re-query the downstream for the true state, then either advance or compensate. Timeouts must be explicit states, not silence." },
+    { q: "How do you support scheduled or pre-orders in the same model?", tags:["sc"] }
+  ]},
+  { name: "Inventory system", level: "Core problems", items: [
+    { q: "Design inventory for a marketplace: SKU, warehouse, stock. Give the schema.", tags:["hf"] },
+    { q: "Model on-hand vs available vs reserved vs in-transit quantity. Which one does the PDP show?", tags:["hf","hard"] },
+    { q: "Prevent overselling under concurrency. Compare four approaches and pick one.", tags:["hf","sc","hard"], hint: "1) Atomic conditional update: UPDATE stock SET available = available - :q WHERE sku = :s AND available >= :q, then check row count — usually the best answer. 2) Optimistic @Version with retry. 3) SELECT FOR UPDATE, correct but serialises the hot row. 4) Redis DECR reservation with DB as source of truth. Name the trade-off, do not just pick one." },
+    { q: "Design reservations with a TTL. How do you expire and release them reliably?", tags:["hf","sc","hard"] },
+    { q: "Flash sale: 10,000 concurrent requests for 100 units. Design it end to end.", tags:["hf","sc","hard"], hint: "Admission control first (queue or token), atomic decrement in Redis with a Lua script, only winners hit the DB, and persist asynchronously with idempotency. Also design what the 9,900 losers see, and how you recover if Redis and DB diverge." },
+    { q: "Design multi-warehouse allocation for an order shipping to one address.", tags:["sc","hard"] },
+    { q: "A retry causes the same stock deduction twice. Make deduction idempotent.", tags:["hf","sc","hard"] },
+    { q: "Inventory syncs from an external ERP every 15 minutes and is therefore stale. How do you design around it?", tags:["sc","hard"] },
+    { q: "Is eventual consistency acceptable for the quantity shown on a product page? Where is it not acceptable?", tags:["hf","sc"] },
+    { q: "One SKU is red hot and its row is a contention point. Fix it.", tags:["sc","hard"], hint: "Shard the row into N sub-quantities and pick one at random (then aggregate for display), or move the hot counter into Redis. Same idea as sharded counters." },
+    { q: "Stock went negative in production. How is that possible and how do you prevent it structurally?", tags:["sc","hf","hard"] },
+    { q: "Design a stock-adjustment and reconciliation flow for warehouse staff, with an audit trail.", tags:["sc"] },
+    { q: "Design 'notify me when back in stock' for 200,000 subscribers on one SKU.", tags:["sc","hard"] }
+  ]}
+  ]
+},
+{
+  day: "Day 3",
+  title: "Concurrency, transactions & data integrity — the Java differentiator",
+  meta: "Level 3 · Target 8 hrs. This is the highest-yield day for a Java backend role, and the day most candidates under-prepare. Every answer must reach code: which lock, which annotation, which SQL, which exception, and the retry path.",
+  sections: [
+  { name: "Java concurrency for design questions", level: "Concurrency", items: [
+    { q: "synchronized vs ReentrantLock vs ReadWriteLock vs StampedLock — when does each earn its place?", tags:["hf","hard"] },
+    { q: "AtomicInteger vs LongAdder vs a synchronized counter — which for a 50k/s counter and why?", tags:["hf","hard"], hint: "LongAdder spreads contention across cells and wins under heavy write contention; AtomicInteger CAS-spins hot. LongAdder trades an exact instantaneous read for throughput." },
+    { q: "Why is map.containsKey() then map.put() broken on ConcurrentHashMap, and what replaces it?", tags:["hf","hard"], hint: "Two atomic operations are not one atomic operation. Use computeIfAbsent / putIfAbsent / merge, and keep the mapping function short and non-blocking to avoid bin lock contention." },
+    { q: "Give three real check-then-act bugs you have seen or can imagine in business code.", tags:["hf","sc"] },
+    { q: "What does volatile guarantee and what does it not?", tags:["hf"] },
+    { q: "How do you size a thread pool for CPU-bound vs IO-bound work? Show the reasoning.", tags:["hf","hard"] },
+    { q: "Why is Executors.newFixedThreadPool dangerous in a service?", tags:["hf","hard"], hint: "Unbounded LinkedBlockingQueue means back-pressure never reaches the caller — memory grows until OOM. Construct ThreadPoolExecutor with a bounded queue and an explicit RejectedExecutionHandler, and name your threads." },
+    { q: "CompletableFuture: compose two calls, add a timeout, and handle one failing. Write it.", tags:["hf","code"] },
+    { q: "CountDownLatch vs CyclicBarrier vs Semaphore vs Phaser — one use case each.", tags:["hf"] },
+    { q: "Design a producer-consumer pipeline with BlockingQueue. How do you shut it down cleanly?", tags:["hf","code"], hint: "Bounded queue for back-pressure, poison-pill or interrupt-based shutdown, drain semantics, and awaitTermination after shutdown(). Clean shutdown is the part people forget." },
+    { q: "Name the four conditions for deadlock and how you prevent it in a transfer-money design.", tags:["hf","sc","hard"], hint: "Global lock ordering by account id (or a single ordered UPDATE statement), tryLock with timeout, or push ordering into the DB. Locking in arrival order is the bug." },
+    { q: "Differentiate race condition, deadlock, livelock, starvation and contention with an example each.", tags:["hf"] },
+    { q: "Where is ThreadLocal genuinely useful, and how does it leak in a pooled-thread environment?", tags:["hard"] },
+    { q: "Write a correct double-checked-locking lazy initialisation and explain the volatile.", tags:["code","hard"] },
+    { q: "Java 21 virtual threads: what changes in your LLD answers, and what does not?", tags:["hf","hard"], hint: "Blocking IO becomes cheap so thread-per-request scales, and you stop needing reactive style for IO fan-out. But shared mutable state, DB connection limits, downstream rate limits and the need for semaphores/bulkheads are unchanged — and synchronized blocks could pin carrier threads in early versions." },
+    { q: "Why does @Transactional or @Async do nothing when called from another method in the same class?", tags:["hf","hard"] },
+    { q: "Why is a synchronized method useless once you run three pods? What replaces it?", tags:["hf","sc","hard"] },
+    { q: "Design a thread-safe in-memory cache with TTL and max size. Which structures?", tags:["code","hf"] },
+    { q: "How do you unit test concurrent code so the test is not flaky?", tags:["hard"] }
+  ]},
+  { name: "Transactions, locking & isolation", level: "Concurrency", items: [
+    { q: "Map each anomaly to the isolation level that prevents it: dirty read, non-repeatable read, phantom read, lost update.", tags:["hf","hard"] },
+    { q: "What is your database's default isolation level, and which anomaly can still bite you there?", tags:["hf","hard"] },
+    { q: "Explain the lost-update problem and give three different fixes.", tags:["hf","sc","hard"] },
+    { q: "Walk the full optimistic-locking flow with @Version: what SQL runs, what exception, where do you retry?", tags:["hf","code","hard"], hint: "UPDATE ... SET version = version + 1 WHERE id = ? AND version = ?; zero rows updated throws OptimisticLockException / ObjectOptimisticLockingFailureException. Retry must re-read fresh state outside the failed transaction, with a bounded attempt count." },
+    { q: "When do you use SELECT ... FOR UPDATE, and what does SKIP LOCKED unlock for you?", tags:["hf","hard"], hint: "FOR UPDATE SKIP LOCKED turns a table into a work queue that multiple pods can consume without contention — the answer to 'my cron runs on 5 pods'." },
+    { q: "Where do you put @Transactional, and what exactly does REQUIRES_NEW change?", tags:["hf","hard"] },
+    { q: "Scenario: inner method has REQUIRES_NEW and commits, the outer transaction then rolls back. What is in the DB?", tags:["sc","hard"] },
+    { q: "Why is holding a transaction open across an external HTTP call a serious bug?", tags:["hf","sc","hard"], hint: "The DB connection and any row locks are pinned for the remote call's duration, so a slow gateway exhausts the pool and blocks unrelated traffic. Commit first, then call, and reconcile — or call outside the transaction boundary entirely." },
+    { q: "A single request reads the same row twice and gets different values. Explain and fix.", tags:["sc","hard"] },
+    { q: "Two transactions update the same two rows in opposite order and deadlock. Show the fix in SQL and in code.", tags:["hf","sc","hard"] },
+    { q: "What are gap and next-key locks, and how do they cause a surprise deadlock on an insert?", tags:["hard"] },
+    { q: "Design the idempotency table: columns, unique constraint, and how you handle a concurrent duplicate.", tags:["hf","code","hard"] },
+    { q: "Is exactly-once processing achievable? Give the honest answer an interviewer wants.", tags:["hf","hard"], hint: "At-least-once delivery plus idempotent handlers equals effectively-once. Broker-level guarantees do not extend to external side effects like charging a card." },
+    { q: "How do you retry an optimistic-lock failure inside a REST request without returning an error to the user?", tags:["sc","code","hard"] },
+    { q: "2PC vs saga — when would you ever accept 2PC, and what does it cost?", tags:["hf","hard"] },
+    { q: "What is a compensating transaction, and how is it different from a rollback?", tags:["hf","hard"] },
+    { q: "How do you make a batch job transactional per chunk instead of per run, and why does that matter?", tags:["sc","hard"] }
+  ]},
+  { name: "Concurrency scenario problems (say the exact mechanism)", level: "Concurrency", items: [
+    { q: "Two users book the same seat at the same millisecond. Design so exactly one wins and the other gets a clean error.", tags:["hf","sc","hard"] },
+    { q: "Transfer money between two accounts under concurrency. Prevent both lost update and deadlock.", tags:["hf","sc","code","hard"] },
+    { q: "A coupon has 100 total uses and 10,000 people redeem at once. Design the counter.", tags:["hf","sc","hard"] },
+    { q: "Likes/views counter at 50k writes per second. Design it without melting the DB.", tags:["hf","sc","hard"], hint: "Buffer in memory or Redis, flush aggregated deltas periodically, or use sharded counters. Accept approximate reads and say so explicitly — that trade-off is the answer." },
+    { q: "A @Scheduled job now runs on five pods and processes the same rows. Give three fixes.", tags:["hf","sc","hard"], hint: "ShedLock or a DB advisory lock for leader-only execution, or SELECT FOR UPDATE SKIP LOCKED so all pods work in parallel safely, or move to a queue with one consumer group. Pick based on whether you want exclusivity or parallelism." },
+    { q: "Implement a distributed lock in Redis. Then tell me everything that can go wrong with it.", tags:["hf","sc","hard"], hint: "SET key value NX PX ttl, release only if the value matches (Lua compare-and-delete). Failure modes: TTL expiring mid-work, clock drift, no fencing token so a stale holder still writes, and Redlock's contested safety. Never rely on it for correctness of money movement without a DB guard." },
+    { q: "Design an idempotent consumer for duplicate SQS or Kafka messages.", tags:["hf","sc","hard"] },
+    { q: "Cache and DB disagree after two concurrent writes. Explain the interleaving and fix the ordering.", tags:["hf","sc","hard"], hint: "Classic: A reads, B writes DB + invalidates, A populates cache with the stale value. Fixes: delete-after-commit plus short TTL, versioned cache keys, write-through with a per-key lock, or CDC-driven invalidation." },
+    { q: "Two threads read-modify-write the same JSON/JSONB column. What happens and what do you do?", tags:["sc","hard"] },
+    { q: "A user double-submits a payment. Guarantee a single charge across retries at three layers.", tags:["hf","sc","hard"] },
+    { q: "Import 1 million rows from a file: design for batching, restartability and idempotency.", tags:["hf","sc","hard"], hint: "Chunk with a checkpoint per batch, idempotent upserts keyed by a natural business key, a row-level error table instead of failing the run, and bounded parallelism so you do not saturate the DB." },
+    { q: "Two admins edit the same product simultaneously. Last-write-wins, merge, or reject? Design the UX and the mechanism.", tags:["sc","hard"] },
+    { q: "You must generate unique sequential invoice numbers from multiple pods with no gaps. How?", tags:["sc","hard"] },
+    { q: "A queue consumer crashed after doing the work but before acking. What happens next and how do you make it safe?", tags:["hf","sc","hard"] }
+  ]},
+  { name: "Rate limiter — asked as both design and coding", level: "Concurrency", items: [
+    { q: "Design a rate limiter. Give the interface, the classes and where it plugs into the request path.", tags:["hf","code"] },
+    { q: "Compare fixed window, sliding window log, sliding window counter, token bucket and leaky bucket. Pick one and defend it.", tags:["hf","hard"], hint: "Fixed window allows a 2x burst at the boundary; sliding log is exact but O(n) memory; sliding counter is the practical approximation; token bucket allows controlled bursts and is the usual choice; leaky bucket smooths output." },
+    { q: "Implement a thread-safe token bucket in Java, without a background thread.", tags:["hf","code","hard"], hint: "Lazily refill on access from elapsed time: tokens = min(capacity, tokens + elapsed * rate). Guard with a lock or do it atomically on an immutable state object with CAS. Inject a Clock so it is testable." },
+    { q: "Make it distributed across 10 pods. Where do counters live and how do you keep the check atomic?", tags:["hf","sc","hard"], hint: "Redis with a Lua script so check-and-increment is one atomic operation, or INCR plus EXPIRE with care about the non-atomic gap. A local per-pod limit of total/N is a valid cheaper answer with worse fairness." },
+    { q: "How do you key limits: per user, per IP, per API key, per endpoint, per tenant? What about a user behind a corporate NAT?", tags:["hf","sc"] },
+    { q: "What exactly do you return when a request is limited?", tags:["hf"], hint: "429 with Retry-After and X-RateLimit-Limit/Remaining/Reset. Never a 500, and never fail silently." },
+    { q: "Redis is down. Does your limiter fail open or fail closed? Justify per endpoint.", tags:["hf","sc","hard"] },
+    { q: "Design tiered limits (free vs paid) plus a burst allowance, without redeploying to change limits.", tags:["sc","hard"] },
+    { q: "How do you rate limit yourself as a client against a third-party API with a 100/s quota?", tags:["sc","hard"] },
+    { q: "Distinguish rate limiting, throttling, load shedding, back-pressure and quota. When do you need each?", tags:["hf","hard"] },
+    { q: "Where is the race condition in a naive get-count, compare, increment implementation? Show the fix.", tags:["hf","code","hard"] },
+    { q: "How do you test a rate limiter deterministically, including the window boundary?", tags:["code","hard"] },
+    { q: "Write it in 45 minutes: token bucket plus sliding window counter behind one interface, with tests and a fake clock.", tags:["code","hf"] }
+  ]}
+  ]
+},
+{
+  day: "Day 4",
+  title: "Distributed LLD — caching, URL shortener, notifications, booking, payments",
+  meta: "Level 3–4 · Target 8 hrs. Payments and notifications are the two most commonly asked 'real system' designs for backend developers, and both are really tests of idempotency and failure handling. Spend the most time there.",
+  sections: [
+  { name: "Caching design", level: "Distributed", items: [
+    { q: "Cache-aside vs read-through vs write-through vs write-behind vs refresh-ahead — pick one per use case.", tags:["hf","hard"] },
+    { q: "What do you cache, and what must you never cache?", tags:["hf"] },
+    { q: "How do you choose a TTL, and why do you add jitter to it?", tags:["hf","hard"] },
+    { q: "A hot key expires and 5,000 requests hit the DB at once. Solve the cache stampede.", tags:["hf","sc","hard"], hint: "Single-flight: one loader per key (Caffeine does this), or a short-lived distributed lock with the rest serving stale, or probabilistic early recomputation. Plus jittered TTLs so keys do not expire together." },
+    { q: "Requests for a non-existent id bypass the cache and pound the DB. Fix it.", tags:["sc","hard"], hint: "Negative caching with a short TTL, or a bloom filter in front. This is cache penetration, distinct from stampede." },
+    { q: "Everything expires at the same minute after a deploy and the DB falls over. Design the fix and the warm-up.", tags:["sc","hf","hard"] },
+    { q: "One celebrity key gets 40% of all traffic. What do you do?", tags:["sc","hard"] },
+    { q: "Compare invalidation strategies: TTL only, explicit delete, versioned keys, write-through. Which is safest?", tags:["hf","hard"] },
+    { q: "Why is 'write DB then update cache' racy? Give the correct ordering and the residual risk.", tags:["hf","sc","hard"], hint: "Two writers can interleave and leave the older value in cache. Prefer write DB then delete cache (after commit), accept a brief miss, and bound residual staleness with a short TTL. There is no perfectly consistent cheap answer, and saying so is a plus." },
+    { q: "Local Caffeine vs Redis vs a near-cache with both. What breaks with per-pod local caches?", tags:["hf","hard"] },
+    { q: "Design your cache key scheme. How do you invalidate everything after a schema or logic change?", tags:["hf","hard"] },
+    { q: "LRU vs LFU vs FIFO vs TTL eviction; which Redis maxmemory-policy do you set and why?", tags:["hf"] },
+    { q: "Should you cache paginated or filtered search results? Argue both sides.", tags:["sc","hard"] },
+    { q: "Design caching for user-specific data (their cart, their orders) without leaking data between users.", tags:["sc","hf"] },
+    { q: "The product page shows a stale price after a price change. Trace it and fix every layer.", tags:["hf","sc","hard"] },
+    { q: "Write it in 45 minutes: thread-safe LRU cache with TTL and max size, plus tests.", tags:["code","hf"] }
+  ]},
+  { name: "URL shortener", level: "Distributed", items: [
+    { q: "Design the API, classes and schema for a URL shortener.", tags:["hf"] },
+    { q: "Compare key generation: counter plus base62, hash with collision check, pre-generated key pool, Snowflake-style id.", tags:["hf","hard"], hint: "Counter + base62 is compact and collision-free but needs a distributed sequence (Zookeeper/Redis INCR or per-pod ranges). Hashing needs collision handling. A pre-generated key table with SELECT FOR UPDATE SKIP LOCKED is a clean, underrated answer." },
+    { q: "Guarantee uniqueness when 10 pods generate keys concurrently.", tags:["hf","sc","hard"] },
+    { q: "Support custom aliases. How do you handle a collision with a generated key?", tags:["sc"] },
+    { q: "301 or 302 for the redirect, and how does that choice affect your analytics?", tags:["hf","hard"] },
+    { q: "Scale reads to 100k/s. Where does the cache sit and what is the hit rate you expect?", tags:["hf","sc"] },
+    { q: "Count clicks without slowing the redirect below 10 ms.", tags:["hf","sc","hard"], hint: "Do not write to the DB on the hot path: fire-and-forget to an in-memory buffer or queue, aggregate, and flush in batches. Accept approximate counts." },
+    { q: "SQL or KV store? What is the shard key, and how do you look up by short code across shards?", tags:["hard"] },
+    { q: "Design expiry, deletion and abuse prevention (malicious URLs, enumeration).", tags:["sc","hard"] },
+    { q: "A user pastes the same long URL twice. Same short code or a new one? Defend it.", tags:["sc"] }
+  ]},
+  { name: "Notification system", level: "Distributed", items: [
+    { q: "Design a multi-channel notification service (email, SMS, push, in-app). Full class design.", tags:["hf","code"], hint: "NotificationRequest → PreferenceResolver → TemplateRenderer → ChannelSender (Strategy per channel) → ProviderAdapter (Adapter per vendor) → DeliveryTracker. Queue between accept and send so the API returns fast." },
+    { q: "Give the schema: notification, delivery_attempt, template, user_preference. Which indexes?", tags:["hf"] },
+    { q: "Which patterns appear where, and why Adapter specifically for providers?", tags:["hf"] },
+    { q: "Model user preferences: per channel, per category, opt-out, quiet hours, timezone-aware sends.", tags:["hf","sc","hard"] },
+    { q: "Design templates with variables, localisation and versioning. Where does rendering happen?", tags:["hf"] },
+    { q: "Design retry: per-channel policy, exponential backoff, max attempts, DLQ. Which failures are retryable?", tags:["hf","sc","hard"], hint: "Retry on 5xx/timeouts, never on hard bounce or invalid number. Distinguish transient from permanent and record the reason — retrying a permanent failure forever is a classic production bug." },
+    { q: "The primary SMS provider is down. Design failover without duplicate sends.", tags:["hf","sc","hard"] },
+    { q: "Guarantee the same notification is not sent twice after a consumer retry.", tags:["hf","sc","hard"] },
+    { q: "A user triggers 100 events in a minute. Design batching, digest and per-user rate limiting.", tags:["hf","sc","hard"] },
+    { q: "An OTP and a marketing blast are queued together. Design priority so the OTP is never stuck behind it.", tags:["hf","sc","hard"], hint: "Separate queues per priority class with dedicated consumers, plus separate provider credentials or rate budgets. A single queue with a priority field starves under load." },
+    { q: "Handle provider delivery-status webhooks that arrive out of order or duplicated.", tags:["sc","hard"] },
+    { q: "Design scheduled notifications: 'send at 9am in the user's local time' for 10 million users.", tags:["sc","hard"] },
+    { q: "Fan out one announcement to 10 million users. Walk through the write and send path.", tags:["hf","sc","hard"] },
+    { q: "How do you test this without sending real messages, and how do you prevent a prod-data test blast?", tags:["sc","hf"] },
+    { q: "How does in-app notification differ in storage and read model from email/SMS?" },
+    { q: "A bug sent 50,000 wrong emails. What in your design limits the damage, and how do you stop it mid-flight?", tags:["sc","hard"] }
+  ]},
+  { name: "Booking / ticketing system (movie, flight, hotel)", level: "Distributed", items: [
+    { q: "Design seat booking: classes and schema for venue, show, seat, seat_status, booking.", tags:["hf","code"] },
+    { q: "Design the seat hold with a TTL. Where is hold state stored, and how does it expire reliably?", tags:["hf","sc","hard"], hint: "Redis key per seat with NX and TTL for speed, plus a DB row as the durable record; a sweeper reconciles orphans. Never rely only on an in-memory timer — a pod restart loses every hold." },
+    { q: "Two users select the same seat in the same second. Show the exact mechanism that resolves it.", tags:["hf","sc","hard"] },
+    { q: "The payment window expires while the gateway is still processing. Who owns the seat?", tags:["hf","sc","hard"] },
+    { q: "Design deliberate overbooking for a flight, plus the bump/compensation flow.", tags:["sc","hard"] },
+    { q: "Search shows 5 seats free, but by booking time there are 2. How do you avoid lying to the user?", tags:["hf","sc"] },
+    { q: "Make booking confirmation idempotent across client retries and webhook replays.", tags:["hf","sc","hard"] },
+    { q: "Design cancellation with tiered refund rules (100% before 48h, 50% before 24h, none after).", tags:["sc"] },
+    { q: "Payment succeeded but the booking write failed. How do you detect it and what does the customer see?", tags:["hf","sc","hard"], hint: "Never a silent loss: the payment intent is the durable record, a reconciliation job matches payments to bookings, and you either complete the booking or auto-refund. Say the words 'reconciliation job' — many candidates never do." },
+    { q: "A blockbuster release makes one show a hot partition. How do you shard and how do you handle the hot key?", tags:["sc","hard"] },
+    { q: "Design a waitlist that auto-allocates released seats fairly.", tags:["sc","hard"] },
+    { q: "Design group booking: 6 adjacent seats, all-or-nothing.", tags:["sc","code","hard"] },
+    { q: "Add dynamic pricing as an extension point without touching the booking flow.", tags:["hard"] }
+  ]},
+  { name: "Payment system", level: "Distributed", items: [
+    { q: "Design a payment service: classes, states and schema.", tags:["hf","code"] },
+    { q: "Enumerate the payment state machine precisely, including AUTHORIZED, CAPTURED, FAILED, REFUNDED, PARTIALLY_REFUNDED and terminal states.", tags:["hf","hard"] },
+    { q: "Design idempotency end to end: client key, your key, and the gateway's key. Which one wins?", tags:["hf","sc","hard"] },
+    { q: "Integrate three gateways behind one interface. Which patterns and how do you route between them?", tags:["hf","code"] },
+    { q: "The gateway call times out. Did the payment happen? Design for not knowing.", tags:["hf","sc","hard"], hint: "Write your intent row before the call, treat timeout as UNKNOWN not FAILED, then resolve with a status query using your idempotency key, plus a scheduled poller and a reconciliation report. Never auto-retry a charge on timeout without a key." },
+    { q: "Handle webhooks that are duplicated, out of order, delayed by hours, or forged.", tags:["hf","sc","hard"], hint: "Verify the signature, dedupe on the provider event id, ignore transitions that move backwards in the state machine, and treat the webhook as a hint that triggers a fetch of the authoritative status." },
+    { q: "A webhook arrives before your own DB transaction commits. What happens and how do you fix it?", tags:["sc","hard"] },
+    { q: "Design refunds: full, partial, multiple partials, and refund of a refund attempt that timed out.", tags:["hf","sc","hard"] },
+    { q: "Prevent double charging. List every layer where you enforce it.", tags:["hf","sc","hard"] },
+    { q: "Design a double-entry ledger. Why is an append-only ledger better than a mutable balance column?", tags:["hf","hard"], hint: "Every movement is two entries that sum to zero, balance is derived (or a cached snapshot plus entries since), nothing is ever updated or deleted. This makes disputes, audits and bug recovery possible." },
+    { q: "How do you read a balance efficiently if it is derived from millions of ledger entries?", tags:["sc","hard"] },
+    { q: "Money, currency and rounding: what type, what rounding mode, and where do you round?", tags:["hf","hard"] },
+    { q: "What must you never store, and what is tokenization? Which parts of PCI scope does that remove?", tags:["hf"] },
+    { q: "Design splitting one payment across wallet plus card, where the second leg fails.", tags:["sc","hard"] },
+    { q: "Money was debited but no order exists. How does your system detect and resolve it automatically?", tags:["hf","sc","hard"] },
+    { q: "Design the manual-intervention queue: which failures land there and what can an operator safely do?", tags:["sc","hard"] },
+    { q: "Design payouts/settlement to merchants, including a failed payout retry.", tags:["sc","hard"] },
+    { q: "How do you test a payment integration: sandbox, contract tests, and simulating timeouts and webhook replays?", tags:["hf","sc"] }
+  ]}
+  ]
+},
+{
+  day: "Day 5",
+  title: "Production scenarios, failure design, machine coding & mock",
+  meta: "Level 4 · Target 8 hrs. Morning: failure and scale scenarios out loud. Afternoon: two timed machine-coding problems with tests. Evening: one full 60-minute mock plus everything still unticked. Do not read on this day — speak and type.",
+  sections: [
+  { name: "Failure design & resilience scenarios", level: "Production", items: [
+    { q: "The payment gateway's p99 goes from 300 ms to 10 s. Protect your service. Give exact numbers.", tags:["hf","sc","hard"], hint: "Connect and read timeouts below your own SLA, a bulkhead limiting concurrent calls to that dependency, a circuit breaker with a failure-rate threshold, a fallback (queue for async completion), and load shedding at the edge. State the actual values you would set." },
+    { q: "The DB primary fails mid-transaction. What does the client see and what does your code do?", tags:["hf","sc","hard"] },
+    { q: "A network blip means you never learn whether your write succeeded. When is retrying safe?", tags:["hf","sc","hard"] },
+    { q: "The same request arrives three times because of retries at the client, the LB and the queue. Design once-and-only-once effect.", tags:["hf","sc","hard"] },
+    { q: "Step 3 of a 5-step flow fails. Design the compensation and where you record progress.", tags:["hf","sc","hard"] },
+    { q: "A consumer processed the message but crashed before ack. Explain the outcome and the fix.", tags:["hf","sc","hard"] },
+    { q: "One tenant's queries are slow and it degrades everyone. Contain it.", tags:["sc","hard"] },
+    { q: "One slow dependency exhausts the thread pool and the whole service returns 503s. Explain the mechanism and the fix.", tags:["hf","sc","hard"] },
+    { q: "Set timeout, retry, circuit breaker and bulkhead values for a real call chain: gateway → your API → DB → third party. Show the budget math.", tags:["hf","sc","hard"], hint: "Inner timeouts must be strictly smaller than outer ones, and total retries must fit inside the caller's budget. If the edge times out at 3 s, a 5 s DB timeout with 3 retries is incoherent — interviewers look for exactly this arithmetic." },
+    { q: "Design graceful degradation for a product page: what do you switch off first, second, third?", tags:["hf","sc"] },
+    { q: "Design your DLQ plus the replay tool. Who decides what gets replayed, and how do you avoid replaying twice?", tags:["hf","sc","hard"] },
+    { q: "Design a reconciliation job for payments vs orders. What does it compare, how often, and what can it auto-fix?", tags:["hf","sc","hard"] },
+    { q: "Make a long-running job resumable after a pod restart. What do you checkpoint?", tags:["sc","hard"] },
+    { q: "A poison message blocks the queue. Design detection and quarantine.", tags:["hf","sc"] },
+    { q: "Backfill a new column across 1 billion rows without impacting production traffic.", tags:["sc","hard"], hint: "Chunk by primary key ranges, throttle with a sleep between batches, watch replica lag as the feedback signal, make it idempotent and resumable, and run it as a separate job — never in a migration script that blocks a deploy." },
+    { q: "Your service depends on a partner API with no SLA and no sandbox. Design around it.", tags:["sc","hard"] },
+    { q: "How do you design so a bad deploy is detectable in 2 minutes and reversible in 5?", tags:["sc","hf"] },
+    { q: "What is a metastable failure, and how do retries turn a small blip into a full outage?", tags:["hard"] }
+  ]},
+  { name: "Scalability & data-layer scenarios", level: "Production", items: [
+    { q: "When do you shard, and how do you pick the shard key for orders? What query does sharding break?", tags:["hf","sc","hard"] },
+    { q: "Where does consistent hashing actually appear in your designs?", tags:["hard"] },
+    { q: "A user creates a record then immediately cannot see it because of replica lag. Give three fixes.", tags:["hf","sc","hard"], hint: "Route reads after a write to the primary for a short window (read-your-writes), pass a version/LSN token, or return the created object in the write response so no read is needed. The third is the cheapest and most overlooked." },
+    { q: "Paginate a 100-million-row table efficiently. Why does page 5000 kill offset pagination?", tags:["hf","sc","hard"] },
+    { q: "Diagnose and fix a hot partition or hot row.", tags:["hf","sc","hard"] },
+    { q: "Design an exact counter and an approximate counter at scale. When is approximate unacceptable?", tags:["sc","hard"] },
+    { q: "Design archival and partitioning for an orders table growing 50 million rows a year.", tags:["sc","hard"] },
+    { q: "Add a NOT NULL column with a default to a 500-million-row table with zero downtime.", tags:["hf","sc","hard"] },
+    { q: "Why is LIKE '%term%' unusable at scale? When do you add Elasticsearch and how do you keep it in sync?", tags:["hf","sc","hard"], hint: "No index can serve a leading wildcard. Sync via outbox or CDC (Debezium), never dual-write, and treat the index as a derived store you can rebuild from the source of truth." },
+    { q: "Your search index drifts out of sync with the DB. How do you detect it and repair it?", tags:["sc","hard"] },
+    { q: "Estimate for your design: QPS, storage per year, DB connections needed, cache memory. Show the arithmetic.", tags:["hf","sc","hard"] },
+    { q: "Apply CAP concretely: what do you choose for cart, for inventory, and for payments? Why are the answers different?", tags:["hf","sc","hard"] },
+    { q: "You need an audit query across 10 shards. How do you serve it?", tags:["sc","hard"] },
+    { q: "Design for multi-region reads with a single write region. What must the app tolerate?", tags:["sc","hard"] }
+  ]},
+  { name: "Machine coding round — timed, working code with tests", level: "Production", items: [
+    { q: "Parking lot: in-memory, extensible, tested. 75 minutes.", tags:["code","hf"] },
+    { q: "Rate limiter: token bucket plus sliding window, injectable clock. 45 minutes.", tags:["code","hf"] },
+    { q: "Splitwise / expense sharing: equal, exact and percentage splits, plus balance simplification. 60 minutes.", tags:["code","hf"] },
+    { q: "LRU cache with TTL, thread-safe, no external library. 45 minutes.", tags:["code","hf"] },
+    { q: "In-memory key-value store with begin/commit/rollback and nested transactions. 60 minutes.", tags:["code","hard"] },
+    { q: "Vending machine using the State pattern. 45 minutes.", tags:["code","hf"] },
+    { q: "Elevator system for a building with N lifts and a scheduling strategy. 60 minutes.", tags:["code","hf"] },
+    { q: "Logging framework: levels, multiple appenders, async, configurable format. 45 minutes.", tags:["code","hf"] },
+    { q: "Task scheduler with delays, retries and backoff, using a DelayQueue. 60 minutes.", tags:["code","hard"] },
+    { q: "Extensible board game (tic-tac-toe or snake and ladder) with pluggable rules. 45 minutes.", tags:["code"] },
+    { q: "Library management or ATM: entities, state, and a clean transaction flow. 60 minutes.", tags:["code"] },
+    { q: "Food delivery order flow: restaurant, menu, order, delivery assignment strategy. 60 minutes.", tags:["code","hf"] },
+    { q: "What are interviewers actually grading in machine coding? List it and self-score your last attempt.", tags:["hf","hard"], hint: "Working code that runs, correct core requirements first, clear naming, no God class, extension points where the problem hints at change, a few meaningful tests, and no premature abstraction. Unfinished-but-elegant loses to working-and-decent." },
+    { q: "How do you structure the code in minute 1 so that tests are easy in minute 50?", tags:["hf","hard"] },
+    { q: "The interviewer adds a requirement 15 minutes before the end. How does your design absorb it?", tags:["hf","sc","hard"] }
+  ]},
+  { name: "Interview technique & mock rounds", level: "Production", items: [
+    { q: "Rehearse the 7-step framework out loud until it is automatic.", tags:["hf"] },
+    { q: "List the clarifying questions you will ask on any design problem, before writing anything.", tags:["hf","hard"], hint: "Scale and QPS, read/write ratio, single or multi region, consistency tolerance, who calls this API, what is explicitly out of scope, and whether they want code or a diagram. Ask about consistency early — it drives every later decision." },
+    { q: "Practise stating assumptions explicitly instead of silently assuming.", tags:["hf"] },
+    { q: "Practise describing a class diagram verbally, with no whiteboard.", tags:["hard"] },
+    { q: "Practise defending a decision, then conceding a better one without losing credibility.", tags:["hf","hard"] },
+    { q: "List the usual rejection reasons for LLD rounds and check yourself against each.", tags:["hf","hard"], hint: "Jumping to code without clarifying, God classes, if-else instead of polymorphism where change is expected, ignoring concurrency entirely, no schema or no indexes, hand-waving failures, and over-engineering a simple requirement." },
+    { q: "Full 60-minute mock, timed and out loud: design the shopping cart and checkout.", tags:["hf","sc"] },
+    { q: "Full 60-minute mock, timed and out loud: design the notification system.", tags:["hf","sc"] },
+    { q: "Full 60-minute mock, timed and out loud: design the payment service with idempotency and reconciliation.", tags:["hf","sc","hard"] },
+    { q: "Explain a design from your own project in 3 minutes, then name two things you would change and why.", tags:["hf","hard"] },
+    { q: "Prepare two STAR stories: a concurrency or data-integrity bug you fixed, and a design you simplified.", tags:["hf"] },
+    { q: "Prepare your answer for a technology you have not used: 'I have not used that in production, here is how I would approach it.'", tags:["hf"] },
+    { q: "Final pass: review every unticked question in this plan and close the gaps.", tags:["hf"] }
+  ]}
+  ]
+}
+];
+
+/* ---------- state ---------- */
+const STORE_KEY = "java-lld-prep-5day-v1";
+let done = {};
+try { done = JSON.parse(localStorage.getItem(STORE_KEY) || "{}") || {}; } catch (e) { done = {}; }
+const save = () => { try { localStorage.setItem(STORE_KEY, JSON.stringify(done)); } catch (e) {} };
+
+const TAG_LABEL = { hf: "HIGH FREQ", sc: "SCENARIO", hard: "DEEP", code: "CODE IT" };
+const planEl = document.getElementById("plan");
+const dayNodes = [];
+
+/* ---------- render ---------- */
+PLAN.forEach((day, di) => {
+  const dayEl = document.createElement("section");
+  dayEl.className = "day";
+
+  const head = document.createElement("div");
+  head.className = "head";
+  const h2 = document.createElement("h2");
+  h2.textContent = day.day + " — " + day.title;
+  const meta = document.createElement("div");
+  meta.className = "meta";
+  meta.textContent = day.meta;
+  const barwrap = document.createElement("div");
+  barwrap.className = "barwrap";
+  const lbl = document.createElement("div");
+  lbl.style.cssText = "display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;color:var(--muted)";
+  const lblLeft = document.createElement("span");
+  lblLeft.textContent = "Day progress";
+  const lblRight = document.createElement("span");
+  lbl.append(lblLeft, lblRight);
+  const bar = document.createElement("div");
+  bar.className = "bar";
+  const fill = document.createElement("i");
+  bar.appendChild(fill);
+  barwrap.append(lbl, bar);
+  head.append(h2, meta, barwrap);
+  dayEl.appendChild(head);
+
+  const sectionNodes = [];
+
+  day.sections.forEach((sec, si) => {
+    const det = document.createElement("details");
+    det.className = "sec";
+    det.open = di === 0 && si === 0;
+
+    const sum = document.createElement("summary");
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = sec.name;
+    const lvl = document.createElement("span");
+    lvl.className = "lvl";
+    lvl.textContent = sec.level;
+    const count = document.createElement("span");
+    count.className = "count";
+    sum.append(nameSpan, lvl, count);
+    det.appendChild(sum);
+
+    const ol = document.createElement("ol");
+    ol.className = "qs";
+    const itemNodes = [];
+
+    sec.items.forEach((item, ii) => {
+      const id = "d" + di + "-s" + si + "-i" + ii;
+      const li = document.createElement("li");
+      li.className = "q";
+
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.id = id;
+      cb.checked = !!done[id];
+
+      const body = document.createElement("div");
+      body.className = "body";
+
+      const label = document.createElement("label");
+      label.className = "txt";
+      label.setAttribute("for", id);
+      const num = document.createElement("span");
+      num.className = "num";
+      num.textContent = (ii + 1) + ".";
+      const qtext = document.createElement("span");
+      qtext.textContent = item.q;
+      label.append(num, qtext);
+      (item.tags || []).forEach(t => {
+        const tag = document.createElement("span");
+        tag.className = "tag " + t;
+        tag.textContent = TAG_LABEL[t] || t;
+        label.appendChild(tag);
+      });
+      body.appendChild(label);
+
+      if (item.hint) {
+        const hd = document.createElement("details");
+        hd.className = "hint";
+        const hs = document.createElement("summary");
+        hs.setAttribute("aria-label", "Show key points");
+        const hb = document.createElement("div");
+        hb.className = "hintbox";
+        hb.textContent = item.hint;
+        hd.append(hs, hb);
+        body.appendChild(hd);
+      }
+
+      li.append(cb, body);
+      ol.appendChild(li);
+
+      const node = { id, li, cb, text: (item.q + " " + (item.hint || "") + " " + sec.name).toLowerCase() };
+      if (cb.checked) li.classList.add("done");
+      cb.addEventListener("change", () => {
+        if (cb.checked) { done[id] = 1; li.classList.add("done"); }
+        else { delete done[id]; li.classList.remove("done"); }
+        save();
+        refresh();
+      });
+      itemNodes.push(node);
+    });
+
+    det.appendChild(ol);
+    dayEl.appendChild(det);
+    sectionNodes.push({ det, count, items: itemNodes });
+  });
+
+  planEl.appendChild(dayEl);
+  dayNodes.push({ dayEl, fill, lblRight, sections: sectionNodes });
+});
+
+/* ---------- progress + filtering ---------- */
+const ovBar = document.getElementById("ovBar");
+const ovText = document.getElementById("ovText");
+const searchEl = document.getElementById("search");
+const hideDoneEl = document.getElementById("hideDone");
+const noResults = document.getElementById("noResults");
+
+function refresh() {
+  const term = searchEl.value.trim().toLowerCase();
+  const hidingDone = hideDoneEl.checked;
+  let totalAll = 0, doneAll = 0, visibleAll = 0;
+
+  dayNodes.forEach(day => {
+    let dayTotal = 0, dayDone = 0, dayVisible = 0;
+
+    day.sections.forEach(sec => {
+      let secTotal = 0, secDone = 0, secVisible = 0;
+
+      sec.items.forEach(it => {
+        const isDone = it.cb.checked;
+        secTotal++;
+        if (isDone) secDone++;
+        const matches = !term || it.text.indexOf(term) !== -1;
+        const visible = matches && !(hidingDone && isDone);
+        it.li.classList.toggle("hide", !visible);
+        if (visible) secVisible++;
+      });
+
+      sec.count.textContent = secDone + " / " + secTotal + " done";
+      sec.det.classList.toggle("hide", secVisible === 0);
+      if (term && secVisible > 0) sec.det.open = true;
+
+      dayTotal += secTotal; dayDone += secDone; dayVisible += secVisible;
+    });
+
+    const pct = dayTotal ? Math.round((dayDone / dayTotal) * 100) : 0;
+    day.fill.style.width = pct + "%";
+    day.lblRight.textContent = dayDone + " / " + dayTotal + "  (" + pct + "%)";
+    day.dayEl.classList.toggle("hide", dayVisible === 0);
+
+    totalAll += dayTotal; doneAll += dayDone; visibleAll += dayVisible;
+  });
+
+  const pctAll = totalAll ? Math.round((doneAll / totalAll) * 100) : 0;
+  ovBar.style.width = pctAll + "%";
+  ovText.textContent = doneAll + " / " + totalAll + " questions  (" + pctAll + "%)";
+  noResults.classList.toggle("hide", visibleAll !== 0);
+}
+
+searchEl.addEventListener("input", refresh);
+hideDoneEl.addEventListener("change", refresh);
+document.getElementById("expandAll").addEventListener("click",
+  () => document.querySelectorAll("details.sec").forEach(d => d.open = true));
+document.getElementById("collapseAll").addEventListener("click",
+  () => document.querySelectorAll("details.sec").forEach(d => d.open = false));
+document.getElementById("print").addEventListener("click", () => {
+  document.querySelectorAll("details.sec").forEach(d => d.open = true);
+  window.print();
+});
+document.getElementById("reset").addEventListener("click", () => {
+  if (!confirm("Clear all ticked questions? This cannot be undone.")) return;
+  done = {}; save();
+  document.querySelectorAll("li.q input[type=checkbox]").forEach(cb => {
+    cb.checked = false;
+    cb.closest("li.q").classList.remove("done");
+  });
+  refresh();
+});
+
+refresh();
+</script>
+<script>
+/* ------------------------------------------------------------------
+   Shy header — once you scroll away from the top, the sticky header
+   slides out of the way and stays out, so the content keeps the full
+   screen. Scrolling back up does NOT pull it in: it only returns when
+   you are actually back at the top of the page.
+-------------------------------------------------------------------*/
+(function shyHeader(){
+  var root = document.documentElement;
+  var hdr  = document.querySelector("header");
+  if(!hdr || !("requestAnimationFrame" in window)) return;
+
+  var TOP = 90;          /* the only zone where the header is shown */
+  var ticking = false;
+
+  function update(){
+    var y = window.pageYOffset || 0;
+    root.classList.toggle("hdr-hidden", y > TOP);
+  }
+
+  window.addEventListener("scroll", function(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){ update(); ticking = false; });
+  }, {passive:true});
+
+  /* a focused control must never stay off-screen (e.g. "/" to search),
+     so jump back to the top instead of revealing a floating header */
+  hdr.addEventListener("focusin", function(){
+    if((window.pageYOffset || 0) > TOP) window.scrollTo(0, 0);
+  });
+
+  update();   /* handles a reload that restores a mid-page position */
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,3162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spring &amp; Microservices Interview Prep — Level 1 to Level 4</title>
+<style>
+  :root{
+    --bg:#0f1216; --bg2:#151a21; --bg3:#1b222b; --line:#263140;
+    --fg:#e6edf3; --fg2:#a9b6c5; --fg3:#7d8b9b;
+    --accent:#4f9cf9; --accent2:#2f7ee0;
+    --c:#4fd1c5; --f:#f6c860; --s:#f2789f;
+    --ok:#3fb950; --warn:#d29922;
+    --radius:10px; --maxw:1120px;
+  }
+  html[data-theme="light"]{
+    --bg:#f6f8fa; --bg2:#ffffff; --bg3:#eef2f6; --line:#d6dee8;
+    --fg:#1b232c; --fg2:#4a5765; --fg3:#6b7a8a;
+    --accent:#1f6feb; --accent2:#1158c7;
+    --c:#0e8a7d; --f:#9a6b00; --s:#c0396b;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 18px}
+  a{color:var(--accent)}
+  .skip{position:absolute; left:-9999px; top:0; background:var(--accent); color:#fff; padding:10px 14px; z-index:99}
+  .skip:focus{left:8px; top:8px}
+
+  header{position:sticky; top:0; z-index:20; background:color-mix(in srgb,var(--bg) 92%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+  @supports not (backdrop-filter:blur(8px)){ header{background:var(--bg)} }
+  .titlebar{display:flex; gap:16px; align-items:flex-start; justify-content:space-between; padding-top:14px; flex-wrap:wrap}
+  h1{font-size:18px; margin:0 0 3px; letter-spacing:.2px}
+  .sub{color:var(--fg3); font-size:12.5px; margin:0}
+  .actions{display:flex; gap:8px; flex-wrap:wrap}
+
+  button, select, input[type=search]{
+    font:inherit; color:var(--fg); background:var(--bg3);
+    border:1px solid var(--line); border-radius:8px; padding:7px 11px; cursor:pointer;
+  }
+  button:hover, select:hover{border-color:var(--accent)}
+  button:focus-visible, select:focus-visible, input:focus-visible, summary:focus-visible, a:focus-visible{
+    outline:2px solid var(--accent); outline-offset:2px
+  }
+  input[type=search]{cursor:text; min-width:min(320px,60vw)}
+  .btn-danger:hover{border-color:var(--s); color:var(--s)}
+
+  .overall{display:flex; align-items:center; gap:14px; margin:12px 0 4px; flex-wrap:wrap}
+  .bar{flex:1 1 260px; height:9px; background:var(--bg3); border-radius:99px; overflow:hidden; border:1px solid var(--line)}
+  .bar > i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--accent2),var(--accent)); transition:width .25s ease}
+  .bar.mini{height:6px; flex-basis:120px}
+  .pct{font-variant-numeric:tabular-nums; font-weight:600; min-width:150px; font-size:13px; color:var(--fg2)}
+
+  .toolbar{display:flex; gap:8px; align-items:center; flex-wrap:wrap; padding:8px 0 12px}
+  .toolbar .grow{flex:1 1 auto}
+  .legend{display:flex; gap:12px; flex-wrap:wrap; padding:0 0 12px; font-size:12px; color:var(--fg3)}
+  .legend b{font-weight:600}
+
+  nav.levelnav{display:flex; gap:8px; overflow:auto; padding:0 0 12px}
+  nav.levelnav a{
+    white-space:nowrap; text-decoration:none; color:var(--fg2); font-size:12.5px;
+    border:1px solid var(--line); background:var(--bg2); padding:6px 10px; border-radius:99px
+  }
+  nav.levelnav a:hover{color:var(--fg); border-color:var(--accent)}
+
+  main{padding:22px 18px 80px}
+  .level{margin:0 0 34px; scroll-margin-top:210px}
+  .level-head{border:1px solid var(--line); background:var(--bg2); border-radius:var(--radius); padding:14px 16px; margin-bottom:14px}
+  .level-head h2{margin:0 0 4px; font-size:17px}
+  .level-head .goal{margin:0 0 10px; color:var(--fg2); font-size:13px}
+  .tag{
+    display:inline-block; font-size:11px; font-weight:700; letter-spacing:.4px; text-transform:uppercase;
+    border-radius:99px; padding:2px 8px; border:1px solid currentColor
+  }
+  .lvl-1{color:var(--c)} .lvl-2{color:var(--accent)} .lvl-3{color:var(--f)} .lvl-4{color:var(--s)}
+
+  details.concept{border:1px solid var(--line); background:var(--bg2); border-radius:var(--radius); margin:0 0 10px; overflow:hidden}
+  details.concept[open]{border-color:color-mix(in srgb,var(--accent) 35%, var(--line))}
+  summary{
+    display:flex; gap:12px; align-items:center; padding:11px 14px; cursor:pointer;
+    list-style:none; background:var(--bg2); font-weight:600; font-size:14px
+  }
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"▸"; color:var(--fg3); font-size:12px; transition:transform .15s ease}
+  details[open] > summary::before{transform:rotate(90deg)}
+  summary .st{margin-left:auto; display:flex; align-items:center; gap:10px; font-weight:500; font-size:12px; color:var(--fg3)}
+  summary.allDone .ck{color:var(--ok)}
+
+  ol.qs{list-style:none; margin:0; padding:4px 8px 12px}
+  li.q{display:block; padding:4px 2px}
+  li.q + li.q{border-top:1px solid color-mix(in srgb,var(--line) 55%, transparent)}
+  .qrow{display:flex; gap:10px; align-items:flex-start; padding:5px 6px; border-radius:8px}
+  .qrow:hover{background:var(--bg3)}
+  li.q input[type=checkbox]{margin:3px 0 0; width:16px; height:16px; accent-color:var(--accent); cursor:pointer; flex:none}
+  li.q label{cursor:pointer; display:block}
+  li.q .txt{display:block}
+
+  /* ---- my answers (collapsed by default, one per question) ---- */
+  details.ans{
+    margin:2px 0 8px 28px; border-radius:0 8px 8px 0;
+    border-left:2px solid color-mix(in srgb,var(--accent) 45%, var(--line));
+    background:color-mix(in srgb,var(--bg3) 50%, transparent)
+  }
+  details.ans > summary{padding:5px 10px; gap:8px; font-size:12px; font-weight:600; color:var(--fg2); background:none}
+  details.ans > summary:hover{color:var(--fg)}
+  details.ans > summary::before{font-size:10px}
+  details.ans[open] > summary{border-bottom:1px solid color-mix(in srgb,var(--line) 60%, transparent)}
+  .anschip{
+    display:inline-block; font-size:10px; font-weight:700; letter-spacing:.5px; text-transform:uppercase;
+    padding:1px 6px; border-radius:5px; border:1px solid currentColor; color:var(--ok)
+  }
+  .anshint{font-weight:400; color:var(--fg3); font-size:11.5px}
+  .ansbody{padding:11px 14px 13px; font-size:13.5px; color:var(--fg2)}
+  .ansbody > :first-child{margin-top:0}
+  .ansbody > :last-child{margin-bottom:0}
+  .ansbody p{margin:0 0 9px}
+  .ansbody b,.ansbody strong{color:var(--fg)}
+  .ansbody h4{margin:14px 0 6px; font-size:11.5px; text-transform:uppercase; letter-spacing:.5px; color:var(--fg3)}
+  .ansbody ul,.ansbody ol{margin:0 0 9px; padding-left:20px}
+  .ansbody li{margin:2px 0}
+  .ansbody code{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:12.5px; color:var(--fg);
+    background:var(--bg3); border:1px solid var(--line); border-radius:5px; padding:0 4px
+  }
+  .ansbody pre{
+    margin:0 0 10px; padding:10px 12px; overflow:auto; color:var(--fg);
+    background:var(--bg); border:1px solid var(--line); border-radius:8px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:12.5px; line-height:1.5
+  }
+  .ansbody pre.flow{color:var(--fg2); background:color-mix(in srgb,var(--bg) 55%, transparent)}
+  .ansbody table.atbl{width:100%; border-collapse:collapse; font-size:12.5px; margin:0 0 10px}
+  .ansbody table.atbl th,.ansbody table.atbl td{
+    text-align:left; padding:6px 9px; vertical-align:top;
+    border-bottom:1px solid color-mix(in srgb,var(--line) 60%, transparent)
+  }
+  .ansbody table.atbl th{color:var(--fg3); font-size:11px; text-transform:uppercase; letter-spacing:.4px; font-weight:600}
+  .ansbody table.atbl td:first-child{color:var(--fg); font-weight:600}
+  .ansbody .mem{
+    margin:10px 0 0; padding:8px 12px; border-radius:0 6px 6px 0;
+    border-left:3px solid var(--f); background:color-mix(in srgb,var(--f) 9%, transparent)
+  }
+  .ansbody .mem b{color:var(--f)}
+  .ansbody .warn{
+    margin:10px 0; padding:8px 12px; border-radius:0 6px 6px 0;
+    border-left:3px solid var(--s); background:color-mix(in srgb,var(--s) 9%, transparent)
+  }
+  .ansbody .warn b{color:var(--s)}
+  .ansbody .ok{color:var(--ok); font-weight:600}
+  .ansbody .no{color:var(--s); font-weight:600}
+  #answerBank{display:none}
+  li.q.done .txt{color:var(--fg3); text-decoration:line-through; text-decoration-color:color-mix(in srgb,var(--fg3) 60%, transparent)}
+  .badge{
+    display:inline-block; font-size:10px; font-weight:700; letter-spacing:.5px; text-transform:uppercase;
+    padding:1px 6px; border-radius:5px; margin-right:8px; vertical-align:1.5px; border:1px solid currentColor; white-space:nowrap
+  }
+  .b-c{color:var(--c)} .b-f{color:var(--f)} .b-s{color:var(--s)}
+  .num{color:var(--fg3); font-size:12px; font-variant-numeric:tabular-nums; margin-right:6px}
+
+  /* day / priority markers */
+  .daytag{
+    display:inline-block; font-size:10px; font-weight:700; letter-spacing:.4px; text-transform:uppercase;
+    padding:2px 7px; border-radius:5px; white-space:nowrap; border:1px solid currentColor; flex:none
+  }
+  .d-core{color:var(--accent)} .d-stretch{color:var(--f)} .d-optional{color:var(--fg3)}
+
+  details.plan{border:1px solid var(--line); background:var(--bg2); border-radius:var(--radius); margin:18px 0 0}
+  details.plan > summary{font-size:13.5px}
+  .planhint{font-weight:400; color:var(--fg3); font-size:12px; margin-left:6px}
+  .planbody{padding:2px 14px 14px}
+  table.plantable{width:100%; border-collapse:collapse; font-size:13px}
+  table.plantable caption{caption-side:top; text-align:left; color:var(--fg3); font-size:12px; padding:0 0 8px}
+  table.plantable th, table.plantable td{text-align:left; padding:6px 8px; border-bottom:1px solid color-mix(in srgb,var(--line) 60%, transparent)}
+  table.plantable th{color:var(--fg3); font-size:11.5px; text-transform:uppercase; letter-spacing:.4px; font-weight:600}
+  table.plantable td.n{font-variant-numeric:tabular-nums; white-space:nowrap; color:var(--fg2)}
+  table.plantable tr.dayrow{cursor:pointer}
+  table.plantable tr.dayrow:hover{background:var(--bg3)}
+  table.plantable tr.dayrow:focus-visible{outline:2px solid var(--accent); outline-offset:-2px}
+  td.dcell{white-space:nowrap; font-weight:600}
+  td.pcell{width:110px}
+  .planfoot{color:var(--fg2); font-size:12.5px; margin:12px 0 0; line-height:1.5}
+  .empty{color:var(--fg3); font-size:13px; padding:10px 14px; display:none}
+  .hidden{display:none !important}
+  footer{border-top:1px solid var(--line); color:var(--fg3); font-size:12.5px; padding:16px 18px 40px}
+  .toast{
+    position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(20px);
+    background:var(--bg3); border:1px solid var(--line); color:var(--fg);
+    padding:10px 16px; border-radius:99px; font-size:13px; opacity:0; pointer-events:none; transition:.2s ease; z-index:50
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+  noscript{display:block; padding:20px; background:var(--bg2); border:1px solid var(--s); border-radius:8px; margin:20px}
+
+  @media (max-width:640px){
+    .pct{min-width:0}
+    summary .st .bar.mini{display:none}
+    details.ans{margin-left:6px}
+    .ansbody{padding:9px 10px 11px}
+  }
+  @media print{
+    header,footer,.toolbar,nav.levelnav,.actions,.toast{display:none !important}
+    body{background:#fff; color:#000}
+    details.concept{break-inside:avoid; border-color:#bbb}
+    details.ans{break-inside:avoid; border-color:#bbb; background:none}
+    .qrow:hover{background:none}
+  }
+
+  /* ================= shared navbar across the 3 prep pages ================= */
+  .pnav{
+    --pn-fg:rgba(255,255,255,.72); --pn-fg-on:#fff;
+    --pn-bg:rgba(255,255,255,.06); --pn-bg-on:rgba(255,255,255,.14);
+    --pn-bd:rgba(255,255,255,.16);
+    display:flex; align-items:center; gap:8px;
+    margin:0; padding:8px 0 10px; max-width:100%; list-style:none;
+    overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch;
+    scrollbar-width:none; scroll-snap-type:x proximity;
+  }
+  .pnav::-webkit-scrollbar{display:none}
+  .pnav a{
+    --pn-dot:#8aa0b8;
+    flex:0 0 auto; scroll-snap-align:start;
+    display:inline-flex; align-items:center; gap:8px;
+    min-height:40px; padding:0 14px;
+    border:1px solid var(--pn-bd); border-radius:99px;
+    background:var(--pn-bg); color:var(--pn-fg);
+    font-size:13px; font-weight:600; line-height:1; white-space:nowrap; text-decoration:none;
+    -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .pnav a:hover{background:var(--pn-bg-on); color:var(--pn-fg-on); border-color:var(--pn-dot)}
+  .pnav a:active{background:var(--pn-bg-on); color:var(--pn-fg-on)}
+  .pnav a:focus-visible{outline:2px solid var(--pn-dot); outline-offset:2px}
+  .pnav a[aria-current="page"]{
+    color:var(--pn-fg-on); background:var(--pn-bg-on);
+    border-color:var(--pn-dot); box-shadow:inset 0 0 0 1px var(--pn-dot); cursor:default;
+  }
+  .pnav .pn-dot{width:8px; height:8px; border-radius:50%; background:var(--pn-dot); flex:none}
+  .pnav .pn-meta{font-weight:500; font-size:11.5px; opacity:.75}
+  .pnav .pn-spring{--pn-dot:#4fd1c5}
+  .pnav .pn-lld{--pn-dot:#a78bfa}
+  .pnav .pn-aws{--pn-dot:#4c9aff}
+  /* light theme (Spring page theme toggle) */
+  html[data-theme="light"] .pnav{
+    --pn-fg:rgba(18,24,31,.68); --pn-fg-on:#12181f;
+    --pn-bg:rgba(18,24,31,.05); --pn-bg-on:rgba(18,24,31,.1);
+    --pn-bd:rgba(18,24,31,.16);
+  }
+  @media (max-width:520px){ .pnav .pn-meta{display:none} }
+  @media print{ .pnav{display:none !important} }
+
+  /* ===== shy header: hidden as soon as you leave the top, back only at the top ===== */
+  header{transition:transform .22s ease; will-change:transform}
+  html.hdr-hidden header{transform:translateY(-102%)}
+  @media (prefers-reduced-motion:reduce){ header{transition:none} }
+  @media print{ header{transform:none !important} }
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to questions</a>
+
+<header>
+  <div class="wrap">
+    <nav class="pnav" aria-label="Interview prep pages">
+      <a class="pn-spring" href="spring-microservices-interview-prep.html" aria-current="page" title="Spring &amp; Microservices question bank — Level 1 to Level 4"><span class="pn-dot" aria-hidden="true"></span>Spring &amp; MSA<span class="pn-meta">Level 1–4</span></a>
+      <a class="pn-lld" href="java-lld-5-day-plan.html" title="Low-Level Design prep — 5-day plan"><span class="pn-dot" aria-hidden="true"></span>Java LLD<span class="pn-meta">5-day plan</span></a>
+      <a class="pn-aws" href="aws-java-backend-3-day-plan.html" title="AWS, Kubernetes and Docker prep — 3-day plan"><span class="pn-dot" aria-hidden="true"></span>AWS · K8s · Docker<span class="pn-meta">3-day plan</span></a>
+    </nav>
+    <div class="titlebar">
+      <div>
+        <h1>Spring &amp; Microservices — Interview Question Bank</h1>
+        <p class="sub">Level 1 fundamentals → Level 4 production. Each level ordered concept by concept, mixing concept, frequently-asked and scenario questions.</p>
+      </div>
+      <div class="actions">
+        <button id="btnTheme" type="button" title="Toggle light/dark">◐ Theme</button>
+        <button id="btnExport" type="button" title="Download your progress as JSON">↓ Export</button>
+        <button id="btnImport" type="button" title="Restore progress from a JSON file">↑ Import</button>
+        <button id="btnReset" type="button" class="btn-danger" title="Clear all saved progress">Reset</button>
+        <input type="file" id="fileImport" accept="application/json,.json" class="hidden">
+      </div>
+    </div>
+
+    <div class="overall">
+      <span class="pct" id="overallPct" aria-live="polite">0 of 0 done · 0%</span>
+      <span class="bar" role="progressbar" aria-labelledby="overallPct" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="overallBar"></i></span>
+    </div>
+
+    <div class="toolbar">
+      <label for="q" class="hidden">Search questions</label>
+      <input type="search" id="q" placeholder="Search questions, e.g. transaction, kafka, circuit breaker…" autocomplete="off">
+      <label for="fType" class="hidden">Filter by question type</label>
+      <select id="fType" title="Filter by question type">
+        <option value="all">All types</option>
+        <option value="c">Concept only</option>
+        <option value="f">Frequently asked only</option>
+        <option value="s">Scenario only</option>
+      </select>
+      <label for="fStat" class="hidden">Filter by status</label>
+      <select id="fStat" title="Filter by completion status">
+        <option value="all">All statuses</option>
+        <option value="todo">Pending only</option>
+        <option value="done">Completed only</option>
+      </select>
+      <label for="fAns" class="hidden">Filter by whether you have written an answer</label>
+      <select id="fAns" title="Filter by whether you have written an answer">
+        <option value="all">All answers</option>
+        <option value="yes">Answer written</option>
+        <option value="no">No answer yet</option>
+      </select>
+      <label for="fPlan" class="hidden">Filter by study plan</label>
+      <select id="fPlan" title="Filter by the 8-day study plan">
+        <option value="all">Whole bank (563)</option>
+        <option value="core">8-day core plan only (432)</option>
+        <option value="d1">Day 1 — Spring core, beans, Boot, config</option>
+        <option value="d2">Day 2 — MVC/REST, JPA, errors, MSA intro</option>
+        <option value="d3">Day 3 — Container depth, AOP, transactions</option>
+        <option value="d4">Day 4 — JPA performance, REST design</option>
+        <option value="d5">Day 5 — Security, caching, async, actuator</option>
+        <option value="d6">Day 6 — Inter-service, gateway, messaging, resilience</option>
+        <option value="d7">Day 7 — OAuth2, distributed data, events, tracing</option>
+        <option value="d8">Day 8 — Architecture, performance, memory, DB, incidents</option>
+        <option value="stretch">Stretch — do if time (61)</option>
+        <option value="optional">Optional — stack dependent (70)</option>
+      </select>
+      <span class="grow"></span>
+      <button id="btnExpand" type="button">Expand all</button>
+      <button id="btnCollapse" type="button">Collapse all</button>
+    </div>
+
+    <div class="legend">
+      <span><span class="badge b-c">Concept</span> understand and be able to explain it</span>
+      <span><span class="badge b-f">FAQ</span> asked in most interviews, answer crisply</span>
+      <span><span class="badge b-s">Scenario</span> applied or debugging question, think out loud</span>
+      <span><span class="anschip">Answer</span> your own notes — collapsed on load, click to reveal</span>
+    </div>
+
+    <nav class="levelnav" id="levelNav" aria-label="Jump to level"></nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <details class="plan" id="planPanel">
+    <summary><b>8-day sprint plan</b> <span class="planhint">432 core questions · roughly 3–4 focused hours a day · click a day to study just that slice</span></summary>
+    <div class="planbody">
+      <table class="plantable">
+        <caption>Days run in dependency order. Levels 1 and 2 first because everything later assumes them.</caption>
+        <thead><tr><th scope="col">Day</th><th scope="col">Focus</th><th scope="col">Qs</th><th scope="col">Done</th><th scope="col"><span class="hidden">Progress</span></th></tr></thead>
+        <tbody id="planRows"></tbody>
+      </table>
+      <p class="planfoot">
+        <b>Deferred on purpose.</b> Stretch (61 q: Boot internals, Kubernetes, release engineering, security hardening, containerisation)
+        is what to pick up first if you find spare hours. Optional (70 q: WebFlux, service mesh, testing depth, capacity/cost,
+        migration, judgement) only matters if your stack or role calls for it — your services are Spring MVC on Tomcat, so WebFlux is the safest cut.
+      </p>
+    </div>
+  </details>
+</div>
+
+<noscript>This tracker needs JavaScript enabled: the questions are rendered by script and progress is stored in your browser localStorage.</noscript>
+
+<main id="content" class="wrap" tabindex="-1"></main>
+
+<footer class="wrap">
+  <p>Progress is saved in this browser only (localStorage key <code>springMsaPrep.v1</code>). Use Export before clearing browser data or switching machines.</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ==================================================================
+     ANSWER BANK — my own notes, taken from learn_spring.md
+     Every template's data-q attribute must match a question string in
+     DATA exactly. Unmatched keys are reported in the browser console.
+     Add new answers just above the marker at the end of this block.
+=================================================================== -->
+<div id="answerBank" hidden>
+<!-- ============ Level 1 · 1. Spring Core: IoC & Dependency Injection ============ -->
+
+<template data-q="What is Dependency Injection and what are its benefits over creating objects with new?">
+  <p>Dependency Injection means a class doesn't create its dependency using <code>new</code>. Instead it <b>receives</b> the dependency from outside, usually from the Spring IoC container.</p>
+  <p>The main benefit is <b>loose coupling</b>. We can change or replace the dependency without changing the main class. It also makes the code easier to test and maintain.</p>
+  <ul>
+    <li><b>Don't create</b> — class should not create the dependency using <code>new</code></li>
+    <li><b>Receive</b> — dependency is provided from outside</li>
+    <li><b>Spring</b> — the Spring IoC container manages and injects it</li>
+    <li><b>Loose coupling</b> — class isn't tightly tied to an implementation</li>
+    <li><b>Benefits</b> — testing, maintenance, flexibility</li>
+  </ul>
+  <p class="mem"><b>Remember</b> DI → Don't create → Receive → Loose coupling → Benefits</p>
+</template>
+
+<template data-q="What are the three types of dependency injection in Spring: constructor, setter and field?">
+  <p>Spring supports three common types of DI: <b>constructor</b> injection, <b>setter</b> injection and <b>field</b> injection. Constructor injection provides the dependency through the constructor, setter injection through a setter method, and field injection injects it directly into the field using <code>@Autowired</code>.</p>
+  <h4>Why constructor injection is generally preferred</h4>
+  <ul>
+    <li>Dependency is required and available when the object is created</li>
+    <li>Makes the dependency explicit</li>
+    <li>Supports <code>final</code> fields</li>
+    <li>Makes unit testing easier</li>
+    <li>Helps prevent partially initialised objects</li>
+  </ul>
+  <p class="mem"><b>Remember</b> 3 types → Constructor, Setter, Field. Preferred → Constructor injection.</p>
+</template>
+
+<template data-q="Which injection type does Spring recommend today and why?">
+  <p>Spring generally recommends <b>constructor injection</b> for required dependencies. Dependencies are explicit, required dependencies are available at object creation, and testing is easier.</p>
+  <p>The reason is that dependencies are provided when the object is created, so the object cannot exist without its required dependencies. It also makes dependencies explicit, supports <code>final</code> fields, and makes unit testing easier. Setter injection is more suitable for optional dependencies, while field injection is generally avoided because it hides dependencies and makes testing harder.</p>
+  <p class="mem"><b>Remember</b> Constructor = Required · Setter = Optional · Field = Avoid</p>
+</template>
+
+<template data-q="What is the Spring IoC container and what exactly is it responsible for?">
+  <p>The Spring IoC container is the core component of Spring that manages the objects, called <b>beans</b>, in the application. It is responsible for creating beans, injecting their dependencies, managing their lifecycle and controlling their scope. Instead of us creating and managing objects using <code>new</code>, we let the Spring container do it for us.</p>
+  <ul>
+    <li><b>Create</b> — creates Spring beans</li>
+    <li><b>Inject</b> — injects their dependencies</li>
+    <li><b>Manage</b> — manages lifecycle and scope</li>
+  </ul>
+  <p class="mem"><b>Remember</b> Container = Create → Inject → Manage</p>
+</template>
+
+<template data-q="What is the difference between BeanFactory and ApplicationContext?">
+  <p>Both are Spring IoC containers used to manage beans and their dependencies. The main difference is that <code>ApplicationContext</code> provides more features and is the preferred choice in modern Spring applications, while <code>BeanFactory</code> is more basic.</p>
+  <table class="atbl">
+    <thead><tr><th>Container</th><th>What you get</th></tr></thead>
+    <tbody>
+      <tr><td>BeanFactory</td><td>Basic container — bean creation and dependency injection</td></tr>
+      <tr><td>ApplicationContext</td><td>BeanFactory + enterprise features: event publishing, internationalisation, better AOP integration</td></tr>
+    </tbody>
+  </table>
+  <p><code>ApplicationContext</code> extends <code>BeanFactory</code>, which is why it is generally preferred in Spring applications.</p>
+  <p class="mem"><b>Remember</b> BeanFactory = Basic · ApplicationContext = BeanFactory + More Features</p>
+</template>
+
+<template data-q="What is the difference between tight coupling and loose coupling? Give a code example of each.">
+  <p><b>Tight coupling</b> means one class is directly dependent on a specific implementation of another class. If we change that implementation, we usually need to modify the dependent class.</p>
+  <p><b>Loose coupling</b> means a class depends on an abstraction, such as an interface, rather than a specific implementation. So we can replace the implementation without changing the dependent class.</p>
+  <h4><span class="no">Tight coupling</span></h4>
+  <pre>class EmailService {
+    void send() {
+        System.out.println("Email sent");
+    }
+}
+
+class OrderService {
+    private EmailService emailService = new EmailService();
+
+    void placeOrder() {
+        emailService.send();
+    }
+}</pre>
+  <pre class="flow">OrderService → directly depends on → EmailService</pre>
+  <p>If we want to change from <code>EmailService</code> to <code>SmsService</code>, we have to modify <code>OrderService</code>.</p>
+  <h4><span class="ok">Loose coupling</span></h4>
+  <pre>interface NotificationService {
+    void send();
+}
+
+class EmailService implements NotificationService {
+    public void send() {
+        System.out.println("Email sent");
+    }
+}
+
+class OrderService {
+    private final NotificationService notificationService;
+
+    OrderService(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+
+    void placeOrder() {
+        notificationService.send();
+    }
+}</pre>
+  <pre class="flow">OrderService → depends on → NotificationService
+                                   ↑
+                             EmailService</pre>
+  <p>We can easily provide another implementation, with no change required in <code>OrderService</code>:</p>
+  <pre>class SmsService implements NotificationService {
+    public void send() {
+        System.out.println("SMS sent");
+    }
+}</pre>
+  <p class="mem"><b>Remember</b> Tight coupling: depends on a concrete class and creates it itself. Loose coupling: depends on an interface and the dependency is provided from outside.</p>
+</template>
+
+<template data-q="What is the difference between @Autowired, @Inject and @Resource?">
+  <p>All three are annotations used for Dependency Injection. <code>@Autowired</code> and <code>@Inject</code> primarily perform <b>type-based</b> injection, while <code>@Resource</code> primarily performs <b>name-based</b> injection. <code>@Autowired</code> is Spring-specific, whereas <code>@Inject</code> and <code>@Resource</code> are Jakarta standard annotations. When multiple beans of the same type exist, we can use a qualifier or bean name to select the required implementation.</p>
+  <table class="atbl">
+    <thead><tr><th>Annotation</th><th>Origin</th><th>Resolves by</th></tr></thead>
+    <tbody>
+      <tr><td>@Autowired</td><td>Spring-specific</td><td>Type</td></tr>
+      <tr><td>@Inject</td><td>Jakarta standard</td><td>Type — similar to @Autowired</td></tr>
+      <tr><td>@Resource</td><td>Jakarta standard</td><td>Name first, then type</td></tr>
+    </tbody>
+  </table>
+  <pre>@Autowired
+private PaymentService paymentService;      // by type
+
+@Inject
+private PaymentService paymentService;      // by type
+
+@Resource(name = "cardPayment")
+private PaymentService paymentService;      // by name</pre>
+  <pre class="flow">@Autowired → TYPE → "Give me any PaymentService"
+@Inject    → TYPE → "Give me any PaymentService"
+@Resource  → NAME → "Give me the bean with this name"</pre>
+  <p class="mem"><b>Remember</b> @Autowired → Spring → Type · @Inject → Jakarta → Type · @Resource → Jakarta → Name</p>
+</template>
+
+<template data-q="Is @Autowired required on a single-constructor class in modern Spring? Why not?">
+  <p>No. If the class has a <b>single constructor</b>, Spring automatically uses it for dependency injection, so <code>@Autowired</code> is not required. If there are multiple constructors, we use <code>@Autowired</code> to tell Spring which constructor to use.</p>
+  <pre>@Service
+public class OrderService {
+
+    public OrderService() { }
+
+    @Autowired                                   // needed here
+    public OrderService(PaymentService paymentService) { }
+}</pre>
+  <p class="mem"><b>Remember</b> Single constructor → <code>@Autowired</code> not required. Multiple constructors → use <code>@Autowired</code> to identify the injection constructor.</p>
+</template>
+
+<template data-q="A service class keeps growing and now has eight injected dependencies. Is that a DI problem or a design problem, and what do you do about it?">
+  <p>A large number of dependencies is a signal to review the <b>class design</b>, not a reason to avoid DI. I would look for violations of the Single Responsibility Principle and split the class based on business responsibilities rather than simply hiding the dependencies.</p>
+  <p class="mem"><b>Remember</b> Many dependencies → Don't blame DI → Check responsibilities → Split the class</p>
+</template>
+
+<template data-q="A colleague used field injection with @Autowired and now cannot unit test the class without starting Spring. Explain the fix and why constructor injection solves it.">
+  <p>This happens because field injection depends on Spring to inject the dependency. If I create the class directly in a unit test using <code>new</code>, Spring isn't running, so the injected field is <code>null</code>.</p>
+  <p>The fix is to change field injection to <b>constructor injection</b>. The dependency is then passed through the constructor, so I can provide a mock directly in the unit test without starting Spring.</p>
+  <h4><span class="no">Field injection — the problem</span></h4>
+  <pre>@Service
+public class OrderService {
+
+    @Autowired
+    private PaymentService paymentService;
+
+    public void placeOrder() {
+        paymentService.pay();
+    }
+}
+
+@Test
+void shouldPlaceOrder() {
+    OrderService orderService = new OrderService();
+    orderService.placeOrder();     // ❌ NullPointerException
+}</pre>
+  <h4><span class="ok">Constructor injection — the fix</span></h4>
+  <pre>@Service
+public class OrderService {
+
+    private final PaymentService paymentService;
+
+    public OrderService(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+
+    public void placeOrder() {
+        paymentService.pay();
+    }
+}
+
+@Test
+void shouldPlaceOrder() {
+    PaymentService mockPayment = mock(PaymentService.class);
+    OrderService orderService = new OrderService(mockPayment);
+    orderService.placeOrder();     // ✅ works
+}</pre>
+  <p class="mem"><b>Remember</b> Field injection → Spring must inject → harder to test. Constructor injection → I can pass the dependency myself → easy to test.</p>
+</template>
+
+<template data-q="You must swap an email-based notifier for an SMS-based one without touching the calling class. Show how DI makes that possible.">
+  <p>I would define an interface such as <code>NotificationService</code> and have both Email and SMS implement it. The calling class depends only on the interface and receives it through constructor injection, so the implementation can be changed without changing the business logic of the caller. That is one of the main benefits of DI: loose coupling and easy replacement of implementations.</p>
+  <pre class="flow">Interface → Implementations → Inject → Swap</pre>
+  <pre>interface NotificationService {
+    void send(String message);
+}
+
+@Service
+class EmailNotificationService implements NotificationService {
+    public void send(String message) {
+        System.out.println("Sending Email: " + message);
+    }
+}
+
+@Service
+class SmsNotificationService implements NotificationService {
+    public void send(String message) {
+        System.out.println("Sending SMS: " + message);
+    }
+}</pre>
+  <p>The calling class:</p>
+  <pre>@Service
+class OrderService {
+
+    private final NotificationService notificationService;
+
+    OrderService(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+
+    public void placeOrder() {
+        notificationService.send("Order placed");
+    }
+}</pre>
+  <div class="warn"><b>Watch out</b> if both Email and SMS are registered as Spring beans, Spring doesn't know which one to inject and you get <code>NoUniqueBeanDefinitionException</code>. Use <code>@Qualifier</code> (or <code>@Primary</code>):
+  <pre>public OrderService(
+        @Qualifier("smsNotificationService") NotificationService notificationService) {
+    this.notificationService = notificationService;
+}</pre>
+  </div>
+  <p class="mem"><b>One line</b> The caller depends on the interface, not the implementation.</p>
+</template>
+
+<!-- ============ Level 1 · 2. Beans: definition, scopes and lifecycle ============ -->
+
+<template data-q="What is a Spring bean and what makes an object a bean?">
+  <p>A Spring bean is simply an object that is created, configured and managed by the Spring IoC container. An object becomes a bean when Spring <b>registers it in the ApplicationContext</b> and takes responsibility for managing it.</p>
+  <pre class="flow">Spring Container
+    ↓
+creates PaymentService
+    ↓
+registers it as a Bean
+    ↓
+injects it into OrderService
+    ↓
+manages its lifecycle / scope</pre>
+  <p class="mem"><b>Remember</b> Bean = Spring-managed object. Create → Configure → Manage. And not every Java object is a Spring bean.</p>
+</template>
+
+<template data-q="What bean scopes does Spring support? Explain singleton versus prototype.">
+  <p>Bean scope defines how many instances of a bean are created and how long those instances are used. The two most important for interviews:</p>
+  <table class="atbl">
+    <thead><tr><th>Scope</th><th>Instances</th><th>Lifecycle</th></tr></thead>
+    <tbody>
+      <tr><td>singleton <i>(default)</i></td><td>One instance per Spring container</td><td>Spring manages the full lifecycle</td></tr>
+      <tr><td>prototype</td><td>A new instance every time the bean is requested</td><td>Spring generally doesn't manage destruction after creation</td></tr>
+    </tbody>
+  </table>
+  <pre>@Service
+@Scope("singleton")
+public class PaymentService {}
+
+@Service
+@Scope("prototype")
+public class PaymentService {}</pre>
+  <div class="warn"><b>Important</b> Spring singleton means <b>one instance per Spring IoC container</b>, not one instance for the entire JVM.</div>
+  <h4>Interview scenario</h4>
+  <p>If <code>ReportService</code> is a singleton, Spring injects one <code>ReportGenerator</code> into it during creation. So marking <code>ReportGenerator</code> as prototype does <b>not</b> mean you get a new instance every time <code>ReportService</code> uses it.</p>
+  <pre>@Service
+@Scope("prototype")
+class ReportGenerator { }
+
+@Service
+class ReportService {
+    private final ReportGenerator generator;
+    ReportService(ReportGenerator generator) {
+        this.generator = generator;
+    }
+}</pre>
+  <p>For a fresh prototype instance each time, use a mechanism such as <code>ObjectProvider</code>:</p>
+  <pre>@Service
+class ReportService {
+
+    private final ObjectProvider&lt;ReportGenerator&gt; provider;
+
+    ReportService(ObjectProvider&lt;ReportGenerator&gt; provider) {
+        this.provider = provider;
+    }
+
+    void generate() {
+        ReportGenerator generator = provider.getObject();   // new prototype instance
+    }
+}</pre>
+  <h4>Spring also supports</h4>
+  <ul>
+    <li><b>request</b> — one bean instance per HTTP request</li>
+    <li><b>session</b> — one instance per HTTP session</li>
+    <li><b>application</b> — one instance per Servlet <code>ServletContext</code></li>
+    <li><b>websocket</b> — one instance per WebSocket session</li>
+  </ul>
+  <p class="mem"><b>Remember</b> Scope = how many instances + how long they live. Singleton → same object. Prototype → new object when requested.</p>
+</template>
+
+<template data-q="Is Spring singleton scope the same as the Singleton design pattern? Explain the difference precisely.">
+  <p>No. They are not the same. Spring singleton means <b>one instance per Spring container</b>, not one instance per JVM. The Singleton design pattern is a design pattern whose purpose is to restrict a class to a single instance according to the pattern's implementation.</p>
+  <table class="atbl">
+    <thead><tr><th></th><th>Who controls it</th><th>Uniqueness boundary</th></tr></thead>
+    <tbody>
+      <tr><td>Singleton pattern</td><td>The class controls → one instance</td><td>One instance per ClassLoader per JVM</td></tr>
+      <tr><td>Spring singleton</td><td>The container controls → one instance</td><td>One instance per Spring IoC container (ApplicationContext)</td></tr>
+    </tbody>
+  </table>
+  <p class="mem"><b>Remember</b> Singleton pattern → class controls → one per ClassLoader per JVM. Spring singleton → container controls → one per ApplicationContext.</p>
+</template>
+
+<template data-q="What is the default bean scope and why was that chosen?">
+  <p><b>Singleton</b> is the default scope. Spring creates one instance per <code>ApplicationContext</code> and reuses it. It was chosen because most Spring components such as services and repositories are stateless and can safely be shared, which reduces object creation, memory usage and overhead.</p>
+  <p>However, singleton does not automatically mean thread-safe, so we should avoid storing mutable request-specific state in singleton beans.</p>
+  <p class="mem"><b>Remember</b> Default → Singleton → Reuse → Stateless → Fewer objects. And the warning: Singleton ≠ Thread-safe.</p>
+</template>
+
+<template data-q="Describe the Spring bean lifecycle from instantiation to destruction.">
+  <p>The lifecycle starts when the container instantiates the bean. Spring then injects its dependencies, invokes the relevant aware callbacks and <code>BeanPostProcessor</code>s, and performs initialisation such as <code>@PostConstruct</code> or <code>afterPropertiesSet()</code>. The bean is then ready for use. When the container shuts down, Spring invokes destruction callbacks such as <code>@PreDestroy</code>.</p>
+  <pre class="flow">Spring Container starts
+        ↓
+ 1. Instantiate bean
+        ↓
+ 2. Inject dependencies / populate properties
+        ↓
+ 3. Aware callbacks (if applicable)
+        ↓
+ 4. BeanPostProcessor — before initialization
+        ↓
+ 5. @PostConstruct
+        ↓
+ 6. InitializingBean.afterPropertiesSet()
+        ↓
+ 7. Custom init method
+        ↓
+ 8. BeanPostProcessor — after initialization
+        ↓
+    BEAN READY
+        ↓
+   Application uses bean
+        ↓
+Spring Container shuts down
+        ↓
+ 9. @PreDestroy
+        ↓
+10. DisposableBean.destroy()
+        ↓
+11. Custom destroy method
+        ↓
+   BEAN DESTROYED</pre>
+  <p><b>BeanPostProcessor</b> can modify or intercept beans before and after initialisation. This is an important internal mechanism Spring uses for things such as proxy creation and framework features.</p>
+  <p class="mem"><b>Remember</b> Create → Inject → Initialize → Use → Destroy</p>
+</template>
+
+<template data-q="What are @PostConstruct and @PreDestroy used for?">
+  <p>Both are lifecycle callback annotations. They let you run code at specific points in a bean's lifecycle.</p>
+  <h4>@PostConstruct</h4>
+  <p>Runs after Spring creates the bean and injects its dependencies, before the bean is used.</p>
+  <pre>@PostConstruct
+public void initialize() {
+    System.out.println("PaymentService initialized");
+}</pre>
+  <p>Typical uses: initialise resources, validate configuration, prepare in-memory data, perform startup initialisation.</p>
+  <h4>@PreDestroy</h4>
+  <p>Runs when Spring is destroying the bean, typically when the <code>ApplicationContext</code> is shutting down.</p>
+  <pre>@PreDestroy
+public void cleanup() {
+    System.out.println("Cleaning up resources");
+}</pre>
+  <p>Typical uses: close resources, stop background tasks, release connections, clean up temporary resources.</p>
+  <pre class="flow">Application starts
+    ↓
+Constructor
+    ↓
+Dependencies injected
+    ↓
+@PostConstruct
+    ↓
+Bean ready
+    ↓
+Application runs
+    ↓
+Application shuts down
+    ↓
+@PreDestroy
+    ↓
+Bean destroyed</pre>
+  <p class="mem"><b>Remember</b> @PostConstruct → after creation → initialise. @PreDestroy → before destruction → cleanup.</p>
+</template>
+
+<template data-q="What are InitializingBean and DisposableBean, and how do they compare with the annotations?">
+  <p><code>InitializingBean</code> runs initialisation logic after dependencies are set; <code>DisposableBean</code> runs cleanup logic before the bean is destroyed. They are the Spring-interface equivalents of the lifecycle annotations.</p>
+  <pre>@Service
+public class PaymentService implements InitializingBean {
+    @Override
+    public void afterPropertiesSet() {
+        System.out.println("Bean initialized");
+    }
+}
+
+@Service
+public class PaymentService implements DisposableBean {
+    @Override
+    public void destroy() {
+        System.out.println("Bean cleanup");
+    }
+}</pre>
+  <table class="atbl">
+    <thead><tr><th></th><th>Annotation</th><th>Interface</th></tr></thead>
+    <tbody>
+      <tr><td>Initialisation</td><td>@PostConstruct</td><td>InitializingBean.afterPropertiesSet()</td></tr>
+      <tr><td>Destruction</td><td>@PreDestroy</td><td>DisposableBean.destroy()</td></tr>
+      <tr><td>Spring-specific?</td><td>No — @PostConstruct is a Jakarta standard</td><td>Yes, Spring-specific</td></tr>
+      <tr><td>Coupling to Spring</td><td>Lower</td><td>Higher</td></tr>
+    </tbody>
+  </table>
+  <pre class="flow">Initialization                    Destruction
+Bean created                      Application shutdown
+    ↓                                 ↓
+Dependencies injected             @PreDestroy
+    ↓                                 ↓
+@PostConstruct                    DisposableBean.destroy()
+    ↓                                 ↓
+afterPropertiesSet()              Custom destroy method
+    ↓
+Custom init method
+    ↓
+Bean ready</pre>
+  <p class="mem"><b>Remember</b> Annotations → less Spring coupling. Interfaces → Spring-specific coupling.</p>
+</template>
+
+<template data-q="What are the request, session and application scopes used for?">
+  <p>These are web-specific bean scopes. They determine how long a bean instance should live in a web application.</p>
+  <pre class="flow">Request → one HTTP request
+Session → one user's HTTP session
+Application → entire web application</pre>
+  <h4>request</h4>
+  <p>A new bean instance is created for each HTTP request. Use it when data belongs only to one request: request-specific metadata, request processing state, temporary request context.</p>
+  <pre>@Component
+@Scope("request")
+public class RequestContext { }
+
+HTTP Request 1 → RequestContext #1
+HTTP Request 2 → RequestContext #2
+HTTP Request 3 → RequestContext #3</pre>
+  <h4>session</h4>
+  <p>One instance per HTTP session, so multiple requests from the same user share the same bean. Use it when data must live across several requests for one user: shopping cart, temporary UI preferences, multi-step workflow state.</p>
+  <pre>@Component
+@Scope("session")
+public class UserSession { }
+
+User A → Session → UserSession #1 → Request 1, 2, 3
+User B → Session → UserSession #2 → Request 1, 2</pre>
+  <div class="warn"><b>Careful</b> don't put large or sensitive data unnecessarily into session-scoped beans, they consume server-side memory.</div>
+  <h4>application</h4>
+  <p>One instance for the lifetime of the web application's <code>ServletContext</code>, shared by all users and requests. Use it for application-level configuration, shared metadata, application-wide counters or cache-like state.</p>
+  <pre>@Component
+@Scope("application")
+public class ApplicationSettings { }</pre>
+  <div class="warn"><b>Don't confuse</b> a Spring <b>singleton</b> is one instance per Spring <code>ApplicationContext</code>; an <b>application</b>-scoped bean is one instance per Servlet <code>ServletContext</code>.</div>
+  <h4>Session scope in practice — shopping cart</h4>
+  <pre>@Component
+@SessionScope
+public class ShoppingCart {
+    private final List&lt;String&gt; items = new ArrayList&lt;&gt;();
+
+    public void addItem(String item) { items.add(item); }
+    public List&lt;String&gt; getItems()   { return items; }
+    public void clear()              { items.clear(); }
+}</pre>
+  <ul>
+    <li>Request 1 <code>POST /cart/add?item=Laptop</code> — server creates a session (JSESSIONID=101) and appends "Laptop"</li>
+    <li>Request 2 <code>POST /cart/add?item=Mouse</code> — browser sends JSESSIONID=101, Spring adds "Mouse" to the same cart</li>
+    <li>Request 3 <code>GET /cart</code> — same session, Spring returns ["Laptop", "Mouse"]</li>
+    <li>Request 4 <code>POST /checkout</code> — order processed, database record created, <code>cart.clear()</code> empties the session state</li>
+  </ul>
+  <p class="mem"><b>Remember</b> Request → request · Session → user session · Application → whole web application</p>
+</template>
+
+<template data-q="Are Spring singleton beans thread safe by default? Explain your answer.">
+  <p>No. Spring singleton beans are <b>not</b> thread-safe by default. Singleton means one shared object; thread safety means multiple threads can safely use that object concurrently. Spring manages the lifecycle and scope of the bean, but it does not make your bean's code thread-safe.</p>
+  <pre>@Service
+public class PaymentService {
+    private int count = 0;
+    public void processPayment() {
+        count++;                 // ❌ not atomic → race condition
+    }
+}</pre>
+  <p>Multiple requests can execute <code>processPayment()</code> concurrently and <code>count++</code> is not atomic.</p>
+  <h4>Why stateless singleton beans are usually safe</h4>
+  <pre>@Service
+public class PaymentService {
+    public void processPayment(String paymentId) {
+        String status = "PROCESSING";   // local variable
+        // process payment
+    }
+}
+
+Thread 1 → status = "PROCESSING"
+Thread 2 → status = "PROCESSING"</pre>
+  <p>Each thread has its own stack and local variables, so they don't share them. A stateless service like this is generally safe.</p>
+  <p class="mem"><b>Remember</b> Singleton ≠ Thread-safe. One object + many threads = shared state must be handled carefully.</p>
+</template>
+
+<template data-q="What does @Lazy do and when is lazy initialisation appropriate?">
+  <p><code>@Lazy</code> tells Spring to delay bean creation until the bean is actually needed, instead of creating it during application startup. By default, singleton beans are eagerly created when the <code>ApplicationContext</code> starts.</p>
+  <pre class="flow">Without @Lazy                  With @Lazy
+Application starts             Application starts
+    ↓                              ↓
+Spring creates ReportService   ReportService NOT created
+    ↓                              ↓
+Application ready              Application ready
+                                   ↓
+                               First time bean is requested
+                                   ↓
+                               Spring creates ReportService</pre>
+  <pre>@Service
+@Lazy
+public class ReportService { }</pre>
+  <h4>When it is useful</h4>
+  <ul>
+    <li>Expensive bean initialisation</li>
+    <li>Rarely used functionality — e.g. an admin or reporting feature used only occasionally</li>
+    <li>Reducing startup time</li>
+  </ul>
+  <p>The trade-off: startup is fast, but the first request that triggers the bean pays the expensive initialisation and may be slower.</p>
+  <p class="mem"><b>Remember</b> Normal singleton → create at startup. @Lazy singleton → create when needed. Use @Lazy → expensive + rarely used + startup optimisation.</p>
+</template>
+
+<template data-q="A singleton bean holds a mutable List field that accumulates data per request. What breaks in production and how do you fix it?">
+  <pre>@Service
+class OrderService {
+    List&lt;String&gt; orders = new ArrayList&lt;&gt;();
+    void addOrder(String order) {
+        orders.add(order);
+    }
+}</pre>
+  <h4>What breaks</h4>
+  <ul>
+    <li>Data can leak between users and requests</li>
+    <li>Multiple threads can modify the <code>List</code> at the same time</li>
+    <li>The list keeps growing → memory problem</li>
+  </ul>
+  <h4>Best fix</h4>
+  <p>Don't keep request-specific data in a singleton field. Use a <b>local variable</b>, so each request gets its own list. If the data genuinely has to live for the whole request, use a request-scoped bean.</p>
+  <pre>@Component
+@RequestScope
+class RequestData {
+    String orderId;
+}</pre>
+  <p class="mem"><b>Remember</b> Singleton + mutable request data = problem ❌. Request data → local variable or request scope ✅</p>
+</template>
+
+<template data-q="You inject a prototype-scoped bean into a singleton and always get the same instance. Why does that happen and how do you get a fresh instance each time?">
+  <p>A prototype bean injected directly into a singleton is created only once, because dependency injection happens when the singleton is created. The singleton then keeps that reference for its whole life.</p>
+  <pre>@Component
+@Scope("prototype")
+class ReportGenerator { }
+
+@Service
+class ReportService {
+    private final ReportGenerator generator;
+    ReportService(ReportGenerator generator) {
+        this.generator = generator;
+    }
+}</pre>
+  <pre class="flow">Application startup
+    ↓
+Create ReportService #1
+    ↓
+Create ReportGenerator #1
+    ↓
+Inject ReportGenerator #1
+    ↓
+ReportService keeps #1
+
+Request A → ReportService → ReportGenerator #1
+Request B → ReportService → ReportGenerator #1
+Request C → ReportService → ReportGenerator #1</pre>
+  <h4>Getting a fresh instance</h4>
+  <p>Use <code>ObjectProvider</code> and call <code>getObject()</code> whenever a new instance is needed.</p>
+  <pre>@Service
+class ReportService {
+
+    private final ObjectProvider&lt;ReportGenerator&gt; provider;
+
+    ReportService(ObjectProvider&lt;ReportGenerator&gt; provider) {
+        this.provider = provider;
+    }
+
+    public void generate() {
+        ReportGenerator generator = provider.getObject();
+    }
+}
+
+Request A → provider.getObject() → ReportGenerator #1
+Request B → provider.getObject() → ReportGenerator #2</pre>
+  <p class="mem"><b>Remember</b> Prototype injected into a singleton: singleton created once → dependency injected once → same instance. Need a fresh one: <code>ObjectProvider.getObject()</code> → ask Spring again → new instance.</p>
+</template>
+
+<template data-q="A bean must open a connection pool on startup and close it cleanly on shutdown. Which lifecycle hooks do you use?">
+  <p><code>@PostConstruct</code> to open and start the pool, <code>@PreDestroy</code> to close it.</p>
+  <pre>@Component
+public class ConnectionPoolManager {
+
+    private ConnectionPool pool;
+
+    @PostConstruct
+    public void start() {
+        pool = new ConnectionPool();
+        pool.start();
+        System.out.println("Pool started");
+    }
+
+    @PreDestroy
+    public void stop() {
+        if (pool != null) {
+            pool.close();
+        }
+        System.out.println("Pool closed");
+    }
+}</pre>
+  <pre class="flow">Application starts → Spring creates bean → @PostConstruct → Open connection pool
+        ↓
+Application runs
+        ↓
+Application shutdown → @PreDestroy → Close connection pool</pre>
+  <h4>Why not the constructor?</h4>
+  <p>The constructor runs too early: Spring creates the object first, then injects its dependencies. Starting the pool in the constructor can use dependencies that are not populated yet.</p>
+  <pre>@Component
+public class ConnectionPoolManager {
+
+    private final DatabaseConfig config;
+
+    public ConnectionPoolManager(DatabaseConfig config) {
+        this.config = config;
+        // ❌ starting the pool here can be problematic
+    }
+
+    @PostConstruct
+    public void start() {
+        // ✅ dependencies are ready
+        pool = new ConnectionPool(config);
+        pool.start();
+    }
+}</pre>
+  <p class="mem"><b>Remember</b> Constructor = object creation · @PostConstruct = initialisation · @PreDestroy = cleanup</p>
+</template>
+
+<!-- ============ Level 1 · 3. Configuration, stereotypes and annotations ============ -->
+
+<template data-q="What is the difference between @Component, @Service, @Repository and @Controller?">
+  <p>All four are Spring stereotype annotations used to register a class as a Spring bean. <code>@Controller</code> handles web requests, <code>@Service</code> contains business logic, <code>@Repository</code> handles database operations, and <code>@Component</code> is for general-purpose components that don't specifically belong to another layer.</p>
+  <table class="atbl">
+    <thead><tr><th>Annotation</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td>@Component</td><td>Generic Spring bean</td></tr>
+      <tr><td>@Service</td><td>Business logic</td></tr>
+      <tr><td>@Repository</td><td>Database access + exception translation</td></tr>
+      <tr><td>@Controller</td><td>Web / API — handles HTTP requests</td></tr>
+    </tbody>
+  </table>
+  <pre class="flow">Client
+   ↓
+@Controller     → receives request
+   ↓
+@Service        → performs business logic
+   ↓
+@Repository     → talks to database
+   ↓
+Database</pre>
+  <p>Technically we could use <code>@Component</code> for many classes, because the others are specialisations of <code>@Component</code>. We use the specific ones to express the responsibility of each class clearly, and because some carry framework-specific behaviour — especially <code>@Repository</code> for exception translation and <code>@Controller</code> for Spring MVC.</p>
+  <p>All of them are Spring beans and singleton by default. The annotation mainly tells us what responsibility that bean has.</p>
+  <p class="mem"><b>Remember</b> Controller → request · Service → business · Repository → database · Component → generic</p>
+</template>
+
+<template data-q="Is there any functional difference between @Component and @Service, or is it only semantic?">
+  <p>Both tell Spring the same thing: <i>create and manage this class as a Spring bean</i>. <code>@Service</code> is a specialisation of <code>@Component</code>, so component scanning treats them the same way. The difference is what they communicate about the class.</p>
+  <p class="mem"><b>Remember</b> Same behaviour, different meaning → @Component = Generic · @Service = Business</p>
+</template>
+
+<template data-q="What does @Repository add beyond being a stereotype? Explain exception translation.">
+  <p><code>@Repository</code> tells Spring <i>this class talks to the database</i>. On top of registering the bean, Spring can convert database-related exceptions into its own common exception type.</p>
+  <pre class="flow">Without @Repository        With @Repository
+Database throws            Database exception
+SQLException                   ↓
+    ↓                      @Repository
+Application receives           ↓
+SQLException               Spring translates it
+                               ↓
+                           DataAccessException</pre>
+  <p>So your application code can work with Spring's common database exception:</p>
+  <pre>catch (DataAccessException e) {
+    // handle database problem
+}</pre>
+  <div class="warn"><b>Not every exception</b> only recognised database exceptions are translated. A <code>NullPointerException</code> thrown inside a <code>@Repository</code> stays a <code>NullPointerException</code>.
+  <pre>@Repository
+public class PaymentRepository {
+    public void test() {
+        throw new NullPointerException();   // stays as-is, not a DataAccessException
+    }
+}</pre>
+  </div>
+  <h4>Why Spring does this</h4>
+  <p>Today you use Hibernate, tomorrow you switch to JDBC. You don't want service code to care about the database technology. Instead of <code>HibernateException</code>, <code>SQLException</code>, <code>JPAException</code>, Spring gives you one family:</p>
+  <pre class="flow">    DataAccessException
+            ↑
+  Database-related errors</pre>
+  <p class="mem"><b>Remember</b> @Repository = database class + Spring can translate recognised database exceptions into <code>DataAccessException</code>. Not every exception gets converted.</p>
+</template>
+
+<template data-q="What are @Configuration and @Bean, and when do you prefer @Bean over @Component?">
+  <p><code>@Configuration</code> marks a class that contains Spring configuration — bean definitions. <code>@Bean</code> says <i>take the object returned by this method and manage it as a Spring bean</i>.</p>
+  <pre>@Configuration
+public class AppConfig {
+
+    @Bean
+    public PaymentService paymentService() {
+        return new PaymentService();
+    }
+}</pre>
+  <pre class="flow">@Configuration → contains bean definitions
+        ↓
+@Bean → Spring creates &amp; manages the returned object</pre>
+  <h4>Why @Bean if we already have @Component?</h4>
+  <p>With <code>@Component</code>, Spring sees the class and creates the object — you control the class. With <code>@Bean</code>, you control <b>how the object is created</b>.</p>
+  <pre>@Configuration
+public class AppConfig {
+
+    @Bean
+    public PaymentService paymentService() {
+        PaymentService service = new PaymentService();
+        service.setTimeout(5000);      // I control creation
+        return service;
+    }
+}</pre>
+  <h4>When I prefer @Bean</h4>
+  <p><b>A. Third-party classes</b> — you cannot add <code>@Component</code> to a library class:</p>
+  <pre>@Configuration
+public class AppConfig {
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
+    }
+}</pre>
+  <p><b>B. Custom creation or configuration</b>:</p>
+  <pre>@Configuration
+public class AppConfig {
+
+    @Bean
+    public PaymentClient paymentClient() {
+        PaymentClient client = new PaymentClient();
+        client.setTimeout(5000);
+        client.setRetryCount(3);
+        return client;
+    }
+}</pre>
+  <p>So: I prefer <code>@Component</code> for classes I own and want Spring to discover automatically, and <code>@Bean</code> when I need custom creation or the class comes from a third-party library.</p>
+  <p class="mem"><b>Remember</b> @Component → Spring finds the class. @Bean → I control how the object is created.</p>
+</template>
+
+<template data-q="What is component scanning and how does Spring decide which packages to scan?">
+  <p>Component scanning is the process where Spring searches configured packages for stereotype annotations such as <code>@Component</code>, <code>@Service</code>, <code>@Repository</code> and <code>@Controller</code>, and registers those classes as beans.</p>
+  <pre class="flow">Spring starts
+    ↓
+Scan packages
+    ↓
+Find @Component / @Service / @Repository / @Controller
+    ↓
+Create &amp; register beans</pre>
+  <h4>Which packages does Spring scan?</h4>
+  <p>In Spring Boot, the default scan starts from the package containing the <code>@SpringBootApplication</code> class and includes its subpackages.</p>
+  <pre>com.mycompany.payment
+│
+├── PaymentApplication.java      @SpringBootApplication
+│
+├── controller
+│   └── PaymentController.java   @RestController
+│
+├── service
+│   └── PaymentService.java      @Service
+│
+└── repository
+    └── PaymentRepository.java   @Repository</pre>
+  <p>All three are found and registered because they sit below the application class's package.</p>
+  <h4>What about a sibling package?</h4>
+  <pre>com.mycompany
+│
+├── payment
+│   ├── PaymentApplication.java   @SpringBootApplication
+│   └── service
+│       └── PaymentService.java
+│
+└── notification
+    └── EmailService.java         ❌ not scanned</pre>
+  <p>Spring scans <code>com.mycompany.payment</code> and below. <code>com.mycompany.notification</code> is a sibling package, not a subpackage, so it isn't scanned automatically.</p>
+  <h4>Changing the scanned packages</h4>
+  <pre>@SpringBootApplication
+@ComponentScan("com.mycompany")
+public class PaymentApplication { }</pre>
+  <p>Now Spring scans <code>com.mycompany</code>, so both <code>payment</code> and <code>notification</code> are found.</p>
+  <p class="mem"><b>Remember</b> @SpringBootApplication → its own package → subpackages → stereotypes → Spring beans</p>
+</template>
+
+<template data-q="What does @ComponentScan do and how do base packages work?">
+  <p><code>@ComponentScan</code> tells Spring which packages to scan for components such as <code>@Component</code>, <code>@Service</code>, <code>@Repository</code> and <code>@Controller</code>. The package specified is the <b>base package</b>, and Spring scans that package and its subpackages.</p>
+  <pre class="flow">@ComponentScan
+    ↓
+Base Package
+    ↓
+Subpackages
+    ↓
+Find @Component / @Service / @Repository / @Controller
+    ↓
+Register as Spring beans</pre>
+  <p class="mem"><b>Remember</b> Base package = the starting point of Spring's component search.</p>
+</template>
+
+<template data-q="What is the difference between @Primary and @Qualifier?">
+  <p><code>@Primary</code> tells Spring which bean should be selected <b>by default</b> when multiple candidates exist. <code>@Qualifier</code> lets us <b>explicitly</b> select a specific bean. So <code>@Primary</code> is the default choice, <code>@Qualifier</code> is the explicit choice.</p>
+  <p>Suppose we have one interface and two implementations:</p>
+  <pre>public interface PaymentGateway {}
+
+@Component
+public class StripeGateway implements PaymentGateway {}
+
+@Component
+public class RazorpayGateway implements PaymentGateway {}</pre>
+  <p>Spring now sees two <code>PaymentGateway</code> beans, so injecting by type alone is ambiguous.</p>
+  <h4>@Primary — make one the default</h4>
+  <pre>@Component
+@Primary
+public class StripeGateway implements PaymentGateway { }</pre>
+  <p>Now when Spring needs a <code>PaymentGateway</code> it chooses <code>StripeGateway</code>. ✅</p>
+  <h4>@Qualifier — explicitly choose one</h4>
+  <pre>@Service
+public class PaymentService {
+
+    private final PaymentGateway gateway;
+
+    public PaymentService(@Qualifier("razorpay") PaymentGateway gateway) {
+        this.gateway = gateway;
+    }
+}</pre>
+  <p class="mem"><b>Remember</b> 🥇 @Primary → default · 🎯 @Qualifier → specific</p>
+</template>
+
+<template data-q="What does @Value do and how are placeholders resolved?">
+  <p><code>@Value</code> injects configuration values into a Spring bean. <code>${...}</code> is a placeholder that Spring resolves against its property sources. We can also provide a default with <code>${property:default}</code>.</p>
+  <pre># application.properties
+payment.timeout=5000</pre>
+  <pre>@Service
+public class PaymentService {
+
+    @Value("${payment.timeout}")
+    private int timeout;
+
+    public void process() {
+        System.out.println(timeout);
+    }
+}</pre>
+  <p><code>@Value("${payment.timeout}")</code> means: <i>Spring, find the configuration property called payment.timeout and put its value here.</i></p>
+  <h4>If the property doesn't exist</h4>
+  <pre>@Value("${payment.timeout:3000}")
+private int timeout;</pre>
+  <h4>Where the value comes from</h4>
+  <ul>
+    <li><code>application.properties</code></li>
+    <li><code>application.yml</code></li>
+    <li>Environment variables</li>
+    <li>System properties</li>
+    <li>Command-line arguments</li>
+  </ul>
+  <p class="mem"><b>Remember</b> @Value → "${property.name}" → Spring searches property sources → finds value → injects into bean. @Value = read configuration → inject value.</p>
+</template>
+
+<template data-q="Compare XML configuration, Java configuration and annotation-based configuration.">
+  <p>Spring supports all three. XML defines beans in XML files, Java configuration defines them using <code>@Configuration</code> and <code>@Bean</code>, and annotation-based configuration uses annotations like <code>@Component</code> and <code>@Service</code> together with component scanning. In modern Spring Boot applications we generally prefer annotations and Java configuration; XML is mostly legacy.</p>
+  <h4>A. XML — old style</h4>
+  <pre>&lt;bean id="paymentService" class="com.example.PaymentService"/&gt;</pre>
+  <p>Problem: lots of XML, and configuration lives away from the Java code.</p>
+  <h4>B. Java configuration — @Configuration + @Bean</h4>
+  <pre>@Configuration
+public class AppConfig {
+
+    @Bean
+    public PaymentService paymentService() {
+        return new PaymentService();
+    }
+}</pre>
+  <p>Useful when you need custom object creation, need to configure a third-party class, or need conditional setup.</p>
+  <h4>C. Annotation-based</h4>
+  <pre>@Service
+public class PaymentService { }</pre>
+  <p>Preferred for application classes I own.</p>
+  <p class="mem"><b>Remember</b> XML → configuration outside Java · Java → @Configuration + @Bean · Annotation → @Component / @Service / @Repository / @Controller</p>
+</template>
+
+<template data-q="How do you register a bean for a third-party class you cannot annotate?">
+  <p>For a third-party class I cannot annotate with <code>@Component</code>, I register it explicitly using <code>@Bean</code> inside a <code>@Configuration</code> class. This also lets me control how the object is created and configured.</p>
+  <pre>@Configuration
+public class AppConfig {
+
+    @Bean
+    public HttpClient httpClient() {
+        return HttpClient.newBuilder()
+                .build();
+    }
+}</pre>
+  <p class="mem"><b>Remember</b> Own class → @Component. Third-party class → @Configuration + @Bean.</p>
+</template>
+
+<template data-q="You have two implementations of PaymentGateway and Spring fails with NoUniqueBeanDefinitionException. Give three different ways to resolve it.">
+  <p>If multiple beans implement the same interface, I can resolve the ambiguity in three ways:</p>
+  <ol>
+    <li><b>@Primary</b> — make one the default</li>
+    <li><b>@Qualifier</b> — explicitly select one</li>
+    <li><b>Inject all implementations</b> as a <code>List</code> or <code>Map</code> and choose at runtime</li>
+  </ol>
+  <pre>@Service
+class PaymentService {
+
+    private final Map&lt;String, PaymentGateway&gt; gateways;
+
+    public PaymentService(Map&lt;String, PaymentGateway&gt; gateways) {
+        this.gateways = gateways;
+    }
+
+    public void pay(String provider) {
+        gateways.get(provider).pay();
+    }
+}</pre>
+  <p class="mem"><b>Remember</b> @Primary → default · @Qualifier → specific · List/Map → multiple, runtime selection</p>
+</template>
+
+<template data-q="A bean in a sibling package is never picked up by the container. How do you debug and fix it?">
+  <p>This is usually a <b>component scanning</b> problem. Spring Boot normally scans from the package of the <code>@SpringBootApplication</code> class and its subpackages, so a bean in a sibling package won't be detected.</p>
+  <h4>How I would debug it</h4>
+  <ol>
+    <li>Check the package of the main application class</li>
+    <li>Check that the bean actually has a stereotype annotation</li>
+    <li>Check the component scan configuration</li>
+    <li>Better fix: move the main class to the common parent package</li>
+  </ol>
+  <p>Alternatively, configure <code>@ComponentScan</code> explicitly with the appropriate base package.</p>
+  <p class="mem"><b>Remember</b> @SpringBootApplication → component scan → base package → subpackages. Sibling package ❌ → common parent or @ComponentScan ✅</p>
+</template>
+
+<!-- ============ Level 1 · 4. Spring Boot fundamentals ============ -->
+
+<template data-q="What is Spring Boot and how is it different from the Spring Framework?">
+  <p>Spring Boot is built on top of the Spring Framework and makes it much easier and faster to create Spring applications. It doesn't replace Spring — it simplifies and accelerates development with Spring.</p>
+  <table class="atbl">
+    <thead><tr><th></th><th>What it provides</th></tr></thead>
+    <tbody>
+      <tr><td>Spring Framework</td><td>Core capabilities: IoC / dependency injection, AOP, transactions, Spring MVC, data access, security — but generally more configuration</td></tr>
+      <tr><td>Spring Boot</td><td>Convention, auto-configuration, starter dependencies, embedded servers and sensible defaults on top of Spring</td></tr>
+    </tbody>
+  </table>
+  <p class="mem"><b>Remember</b> Spring = foundation. Spring Boot = Spring + auto-configuration + starters + embedded server + defaults.</p>
+</template>
+
+<template data-q="What are the main advantages of Spring Boot over plain Spring?">
+  <p>Auto-configuration, starter dependencies, embedded servers, reduced configuration, externalised configuration and production-ready features like Actuator. Overall Boot reduces boilerplate configuration and lets us build and deploy Spring applications much faster.</p>
+  <h4>1. Auto-configuration</h4>
+  <p>Boot configures many components automatically based on the dependencies present. Add the web starter and it can configure Spring MVC and an embedded web server for you.</p>
+  <h4>2. Starter dependencies</h4>
+  <pre class="flow">Without Boot                        With Boot
+spring-web                          spring-boot-starter-web
+spring-webmvc                              ↓
+Jackson                             Common dependencies together
+validation
+embedded server...
+       ↓
+Manual dependency management</pre>
+  <h4>3. Embedded server ⭐</h4>
+  <p>The application runs as a standalone JAR with an embedded server such as Tomcat:</p>
+  <pre>java -jar payment-service.jar</pre>
+  <p>No need to deploy a WAR into an externally installed Tomcat.</p>
+  <h4>4. Less configuration</h4>
+  <p>Plain Spring often needs more explicit configuration. Boot gives sensible defaults, so you only configure what you actually need to change.</p>
+  <h4>5. Production-ready features</h4>
+  <p>Actuator provides health checks, metrics, application information and monitoring endpoints — particularly useful for production and microservices.</p>
+  <h4>6. Externalised configuration</h4>
+  <pre>server.port=8081
+payment.timeout=5000
+
+application-dev.properties
+application-prod.properties</pre>
+  <h4>7. Faster development</h4>
+  <pre class="flow">Spring Boot → Less configuration → Faster development
+           → Easy deployment → Good fit for REST APIs &amp; microservices</pre>
+  <p class="mem"><b>Remember</b> Boot = auto-config + starters + embedded server + less config + production ready</p>
+</template>
+
+<template data-q="What is auto-configuration and how does it work at a high level?">
+  <p>Auto-configuration is a Spring Boot feature that automatically configures commonly required beans based on the dependencies available on the classpath, the application properties and the beans that already exist. If we provide our own bean, Boot usually backs off from its default.</p>
+  <p>Example — add the web starter:</p>
+  <pre>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+  <p>Boot sees web dependencies on the classpath and can automatically configure Spring MVC, the <code>DispatcherServlet</code>, message converters, embedded Tomcat and other web beans.</p>
+  <h4>How it works</h4>
+  <pre class="flow">@SpringBootApplication
+        ↓
+@EnableAutoConfiguration
+        ↓
+Spring Boot loads auto-configuration classes
+        ↓
+Checks conditions
+   · Are required classes/dependencies present?
+   · Is a bean already defined?
+   · Are required properties configured?
+        ↓
+Condition matches
+        ↓
+Creates / configures beans</pre>
+  <pre>@Configuration
+@ConditionalOnClass(DataSource.class)
+public class DataSourceAutoConfiguration {
+
+    @Bean
+    public DataSource dataSource() {
+        // configure DataSource
+    }
+}</pre>
+  <p>Meaning: <i>if <code>DataSource</code> is available, this configuration can be applied.</i></p>
+  <h4>Conditional annotations Boot uses</h4>
+  <ul>
+    <li><code>@ConditionalOnClass</code></li>
+    <li><code>@ConditionalOnMissingBean</code></li>
+    <li><code>@ConditionalOnProperty</code></li>
+    <li><code>@ConditionalOnBean</code></li>
+  </ul>
+  <p>Because of <code>@ConditionalOnMissingBean</code>, Boot sees your bean and doesn't create its default one:</p>
+  <pre class="flow">Boot wants to create default bean
+            ↓
+Is a bean already defined?
+     YES → back off
+     NO  → create default</pre>
+  <p><code>@SpringBootApplication</code> is a combination of <code>@SpringBootConfiguration</code>, <code>@EnableAutoConfiguration</code> and <code>@ComponentScan</code>, so <code>@EnableAutoConfiguration</code> is the part that switches this mechanism on.</p>
+  <p class="mem"><b>Remember</b> Dependency → detect → conditions → configure → back off if a custom bean exists</p>
+</template>
+
+<template data-q="Which annotations does @SpringBootApplication combine?">
+  <p>Three of them.</p>
+  <table class="atbl">
+    <thead><tr><th>Annotation</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td>@SpringBootConfiguration</td><td>Marks the class as a Spring Boot configuration class — a specialised form of <code>@Configuration</code></td></tr>
+      <tr><td>@EnableAutoConfiguration</td><td>Enables auto-configuration: Boot checks the classpath, properties and existing beans and configures components automatically</td></tr>
+      <tr><td>@ComponentScan</td><td>Tells Spring to scan for <code>@Component</code>, <code>@Service</code>, <code>@Repository</code>, <code>@Controller</code></td></tr>
+    </tbody>
+  </table>
+  <pre class="flow">Dependencies
+    ↓
+@EnableAutoConfiguration
+    ↓
+Conditional configuration
+    ↓
+Required beans</pre>
+  <p class="mem"><b>Remember</b> @SpringBootApplication = Configuration + Auto-Configuration + Component Scanning</p>
+</template>
+
+<template data-q="What are starter dependencies? Give three examples and what they pull in.">
+  <p>Starter dependencies are Spring Boot's pre-defined dependency bundles for a specific application feature. They remove the need to add and manage many related dependencies manually.</p>
+  <table class="atbl">
+    <thead><tr><th>Starter</th><th>What it's for</th><th>Common dependencies it brings</th></tr></thead>
+    <tbody>
+      <tr><td>spring-boot-starter-web</td><td>REST / web applications</td><td>Spring MVC, embedded Tomcat, Jackson, validation-related web support</td></tr>
+      <tr><td>spring-boot-starter-data-jpa</td><td>Database / JPA</td><td>Spring Data JPA, Hibernate ORM, Spring JDBC and transaction support</td></tr>
+      <tr><td>spring-boot-starter-test</td><td>Testing</td><td>JUnit Jupiter, Spring Test, AssertJ, Mockito</td></tr>
+    </tbody>
+  </table>
+  <p class="mem"><b>Remember</b> Starter = dependency bundle → feature ready</p>
+</template>
+
+<template data-q="What is an embedded server and which embedded servers does Spring Boot support?">
+  <p>An embedded server is a web server packaged and started as part of the Spring Boot application, so we don't need to install and configure an external server separately.</p>
+  <pre class="flow">java -jar payment-service.jar
+        ↓
+Spring Boot starts
+        ↓
+Embedded Tomcat starts
+        ↓
+Application starts
+        ↓
+HTTP requests accepted</pre>
+  <table class="atbl">
+    <thead><tr><th>Stack</th><th>Embedded servers</th></tr></thead>
+    <tbody>
+      <tr><td>Spring MVC / Servlet</td><td>Tomcat (default with <code>spring-boot-starter-web</code>), Jetty, Undertow</td></tr>
+      <tr><td>Spring WebFlux</td><td>Reactor Netty (default)</td></tr>
+    </tbody>
+  </table>
+  <p>You can replace Tomcat with Jetty by changing the dependencies.</p>
+  <p class="mem"><b>Remember</b> Embedded server → server inside the application → <code>java -jar</code> → no external Tomcat required</p>
+</template>
+
+<template data-q="How do you switch the embedded server from Tomcat to Jetty or Undertow?">
+  <p>Spring Boot uses Tomcat by default with <code>spring-boot-starter-web</code>. To switch, I exclude <code>spring-boot-starter-tomcat</code> from the web starter and add <code>spring-boot-starter-jetty</code> or <code>spring-boot-starter-undertow</code>. Boot then configures the selected embedded server automatically.</p>
+  <h4>Why exclude Tomcat?</h4>
+  <p>Because <code>spring-boot-starter-web</code> already brings it transitively:</p>
+  <pre>starter-web
+├── Spring MVC
+├── Jackson
+└── Tomcat</pre>
+  <p class="mem"><b>Remember</b> Exclude Tomcat → add Jetty/Undertow → Boot auto-configures it</p>
+</template>
+
+<template data-q="What is the difference between JAR and WAR packaging for a Spring Boot app?">
+  <p>They mainly differ in deployment. A Spring Boot JAR is typically self-contained and includes an embedded server, so we can run it directly with <code>java -jar</code>. A WAR is designed to be deployed to an external Servlet container such as Tomcat.</p>
+  <table class="atbl">
+    <thead><tr><th>Packaging</th><th>Deployment model</th></tr></thead>
+    <tbody>
+      <tr><td>JAR</td><td>Self-contained, embedded server, <code>java -jar app.jar</code></td></tr>
+      <tr><td>WAR</td><td>Deployed into an external application server — the traditional model</td></tr>
+    </tbody>
+  </table>
+  <p>For modern Spring Boot microservices, executable JAR packaging is generally preferred. WAR is useful when an organisation requires deployment to an existing application server.</p>
+  <p class="mem"><b>Remember</b> JAR → self-contained → embedded server → <code>java -jar</code>. WAR → deploy to external server → traditional model.</p>
+</template>
+
+<template data-q="How does an executable fat JAR actually work?">
+  <p>A Spring Boot executable fat JAR packages our application classes, resources, dependency JARs and the Spring Boot launcher into a single artifact. When we run <code>java -jar</code>, the Boot launcher sets up the class-loading mechanism for the nested dependencies and invokes our application's <code>main</code> method. Spring Boot then creates the application context, performs auto-configuration and starts the embedded server.</p>
+  <div class="warn"><b>Key interview point</b> dependencies are <b>nested JARs</b> inside <code>BOOT-INF/lib</code>, not merged into one giant flat JAR.</div>
+  <p class="mem"><b>Remember</b> Fat JAR → app + dependencies + Boot loader → <code>java -jar</code> → ClassLoader → <code>main()</code> → Spring Boot starts</p>
+</template>
+
+<template data-q="How do you exclude or disable a specific auto-configuration class?">
+  <p>Using the <code>exclude</code> attribute of <code>@SpringBootApplication</code> or <code>@EnableAutoConfiguration</code>, or the <code>spring.autoconfigure.exclude</code> property. For example, if an application doesn't use a database, we can exclude <code>DataSourceAutoConfiguration</code>.</p>
+  <h4>A. exclude on @SpringBootApplication</h4>
+  <pre>@SpringBootApplication(
+    exclude = {DataSourceAutoConfiguration.class}
+)
+public class PaymentApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(PaymentApplication.class, args);
+    }
+}</pre>
+  <h4>B. exclude on @EnableAutoConfiguration</h4>
+  <pre>@Configuration
+@EnableAutoConfiguration(
+    exclude = {DataSourceAutoConfiguration.class}
+)
+public class AppConfig { }</pre>
+  <p>Since <code>@SpringBootApplication</code> already includes <code>@EnableAutoConfiguration</code>, this is mainly useful when configuring auto-configuration separately.</p>
+  <h4>C. Configuration property</h4>
+  <pre>spring.autoconfigure.exclude=\
+  org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration</pre>
+  <p>Useful when the exclusion should be controlled through configuration rather than Java code.</p>
+  <p class="mem"><b>Remember</b> <code>@SpringBootApplication(exclude = ...)</code> → Java-based · <code>spring.autoconfigure.exclude</code> → configuration-based</p>
+</template>
+
+<template data-q="What is Spring Boot DevTools and what does it give you during development?">
+  <p>DevTools is a development-time module that improves developer productivity. It is meant for local development, not production.</p>
+  <ul>
+    <li><b>Automatic restart</b> ⭐ when classpath changes are detected</li>
+    <li><b>LiveReload</b> support, working with a LiveReload browser extension</li>
+    <li><b>Faster restarts</b> using a special classloader arrangement instead of a full JVM start</li>
+    <li><b>Development-friendly defaults</b>, e.g. disabling certain caches so template and resource changes show up quickly</li>
+  </ul>
+  <p class="mem"><b>Remember</b> DevTools → development → auto restart + LiveReload + faster feedback</p>
+</template>
+
+<template data-q="What is Spring Boot Actuator at a basic level?">
+  <p>Actuator provides production-ready endpoints for monitoring and managing a Spring Boot application. The application is running — Actuator lets you see its health, metrics and operational information.</p>
+  <pre>spring-boot-starter-actuator</pre>
+  <pre>GET /actuator/health
+
+{
+    "status": "UP"
+}</pre>
+  <table class="atbl">
+    <thead><tr><th>Endpoint</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td>/actuator/health</td><td>Application health</td></tr>
+      <tr><td>/actuator/info</td><td>Application information</td></tr>
+      <tr><td>/actuator/metrics</td><td>Metrics</td></tr>
+      <tr><td>/actuator/loggers</td><td>View / change logging levels</td></tr>
+      <tr><td>/actuator/beans</td><td>Spring beans</td></tr>
+      <tr><td>/actuator/mappings</td><td>Request mappings</td></tr>
+    </tbody>
+  </table>
+  <p class="mem"><b>Remember</b> Actuator = monitor + health + metrics + operational information</p>
+</template>
+
+<template data-q="Your app runs on port 8080 but one environment needs 9090 with no code change. List every way you could do that.">
+  <ol>
+    <li><b>application.properties</b><pre>server.port=9090</pre></li>
+    <li><b>application.yml</b><pre>server:
+  port: 9090</pre></li>
+    <li><b>Environment variable</b> ⭐ — very common in containers, Kubernetes and cloud<pre>export SERVER_PORT=9090</pre>
+      <pre class="flow">SERVER_PORT
+    ↓
+server.port</pre></li>
+    <li><b>Command-line argument</b> — no code change, no rebuild<pre>java -jar app.jar --server.port=9090</pre></li>
+    <li><b>JVM system property</b><pre>java -Dserver.port=9090 -jar app.jar</pre></li>
+    <li><b>Profile-specific configuration</b><pre># application-prod.properties
+server.port=9090
+
+java -jar app.jar --spring.profiles.active=prod</pre>
+      Now production uses 9090 while other environments keep their own configuration.</li>
+  </ol>
+  <p class="mem"><b>Remember</b> Properties → YAML → profile → external file → environment → command line → JVM property</p>
+</template>
+
+<!-- ============ Level 1 · 5. Externalised configuration and profiles ============ -->
+
+<template data-q="What is externalised configuration and why does it matter for deployable services?">
+  <p>Externalised configuration means keeping environment-specific settings outside the application code and ideally outside the build artifact. This lets the same build artifact run in dev, QA and production with different database URLs, ports, API endpoints and timeouts. It avoids rebuilding per environment and makes deployments more consistent and secure.</p>
+  <p>Instead of hard-coding:</p>
+  <pre>String dbUrl = "jdbc:postgresql://prod-db:5432/payment";   // ❌</pre>
+  <p>keep it in configuration and supply the value from the environment:</p>
+  <pre>db.url=${DB_URL}
+
+DB_URL=jdbc:postgresql://prod-db:5432/payment</pre>
+  <pre class="flow">           payment-service.jar
+                   │
+      ┌────────────┼────────────┐
+      ↓            ↓            ↓
+     DEV          QA          PROD
+   DB-DEV       DB-QA       DB-PROD
+  port 8080    port 8081    port 9090</pre>
+  <h4>Commonly externalised</h4>
+  <ul>
+    <li>Database URLs and credentials</li>
+    <li>Server port</li>
+    <li>API URLs and timeouts</li>
+    <li>Feature flags</li>
+    <li>Kafka and Redis configuration</li>
+    <li>Logging settings</li>
+  </ul>
+  <pre># application.properties
+server.port=${SERVER_PORT:8080}
+payment.timeout=${PAYMENT_TIMEOUT:5000}
+
+DEV                        PROD
+SERVER_PORT=8080           SERVER_PORT=9090
+PAYMENT_TIMEOUT=3000       PAYMENT_TIMEOUT=5000</pre>
+  <p>Same application artifact, different runtime behaviour.</p>
+  <p class="mem"><b>Remember</b> Code = what the application does. Configuration = how and where it runs. Build once → configure per environment → deploy anywhere.</p>
+</template>
+
+<template data-q="What is the precedence order of Spring Boot configuration sources?">
+  <p>Spring Boot uses a defined property-source precedence: if the same property is defined in several places, the higher-precedence source wins. This is what lets us change configuration without modifying or rebuilding the application.</p>
+  <table class="atbl">
+    <thead><tr><th>#</th><th>Source (highest → lowest)</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td>A</td><td>Command-line arguments</td><td><code>java -jar app.jar --server.port=9090</code></td></tr>
+      <tr><td>B</td><td>Java system properties</td><td><code>java -Dserver.port=9090 -jar app.jar</code></td></tr>
+      <tr><td>C</td><td>OS environment variables</td><td><code>SERVER_PORT=9090</code></td></tr>
+      <tr><td>D</td><td>Profile-specific external configuration</td><td><code>/config/application-prod.properties</code></td></tr>
+      <tr><td>E</td><td>Profile-specific configuration inside the JAR</td><td><code>application-prod.properties</code></td></tr>
+      <tr><td>F</td><td>External application.properties / .yml</td><td><code>/config/application.properties</code></td></tr>
+      <tr><td>G</td><td>application.properties / .yml inside the JAR</td><td></td></tr>
+      <tr><td>H</td><td>@PropertySource</td><td></td></tr>
+      <tr><td>I</td><td>Default properties</td><td><code>SpringApplication.setDefaultProperties(...)</code></td></tr>
+    </tbody>
+  </table>
+  <p class="mem"><b>Remember</b> CLI → System → Env → External → Packaged → Defaults</p>
+</template>
+
+<template data-q="Compare application.properties and application.yml, including trade-offs.">
+  <p>Both are supported by Spring Boot for externalised configuration. Properties uses a simple key-value format, YAML represents configuration hierarchically. Properties is simpler and less error-prone for small configurations; YAML is more readable for complex nested configuration and lists. The choice is mostly about readability and maintainability, not functionality.</p>
+  <table class="atbl">
+    <thead><tr><th>Aspect</th><th>application.properties</th><th>application.yml</th></tr></thead>
+    <tbody>
+      <tr><td>Syntax</td><td>key=value</td><td>YAML indentation</td></tr>
+      <tr><td>Simple configuration</td><td>⭐⭐⭐⭐⭐</td><td>⭐⭐⭐⭐</td></tr>
+      <tr><td>Nested configuration</td><td>Can become repetitive</td><td>Cleaner</td></tr>
+      <tr><td>Lists</td><td>More verbose</td><td>Easier</td></tr>
+      <tr><td>Readability</td><td>Very straightforward</td><td>Good for complex config</td></tr>
+      <tr><td>Indentation sensitive</td><td>No</td><td>Yes</td></tr>
+      <tr><td>Learning / debugging</td><td>Easier</td><td>Slightly harder</td></tr>
+      <tr><td>Complex configuration</td><td>Can get long</td><td>Usually cleaner</td></tr>
+    </tbody>
+  </table>
+  <p class="mem"><b>Remember</b> Properties → simple &amp; explicit · YAML → hierarchical &amp; readable · Both → same Spring Boot configuration mechanism</p>
+</template>
+
+<template data-q="What are Spring profiles and how do you activate them?">
+  <p>Profiles let us define environment-specific configuration and beans — for example dev, QA and prod with different database URLs or implementations. We activate a profile with <code>spring.profiles.active</code>, and we can use <code>@Profile</code> to create a bean only when a particular profile is active.</p>
+  <h4>1. Profile-specific configuration files</h4>
+  <pre>application.properties
+application-dev.properties
+application-qa.properties
+application-prod.properties</pre>
+  <p>With <code>--spring.profiles.active=prod</code> Boot loads <code>application.properties</code> <b>plus</b> <code>application-prod.properties</code>.</p>
+  <h4>2. How to activate</h4>
+  <ul>
+    <li><b>Configuration file</b> — <code>spring.profiles.active=dev</code></li>
+    <li><b>Command line</b> — <code>java -jar app.jar --spring.profiles.active=prod</code> (very useful in deployment, no change to the application)</li>
+    <li><b>Environment variable</b> — <code>SPRING_PROFILES_ACTIVE=prod</code>, via relaxed binding</li>
+    <li><b>Programmatically</b> — less common for normal deployment:
+      <pre>SpringApplication app = new SpringApplication(MyApplication.class);
+app.setAdditionalProfiles("prod");
+app.run(args);</pre>
+    </li>
+  </ul>
+  <h4>3. @Profile — conditional beans</h4>
+  <pre>@Component
+@Profile("dev")
+public class MockPaymentGateway implements PaymentGateway {
+    public void pay() {
+        System.out.println("Mock payment");
+    }
+}
+
+@Component
+@Profile("prod")
+public class RealPaymentGateway implements PaymentGateway {
+    public void pay() {
+        System.out.println("Real payment");
+    }
+}</pre>
+  <p>With <code>spring.profiles.active=dev</code> Spring creates <code>MockPaymentGateway</code> and not <code>RealPaymentGateway</code>; with <code>prod</code> the opposite.</p>
+  <h4>4. Multiple profiles</h4>
+  <pre>--spring.profiles.active=prod,monitoring</pre>
+  <p>Both are active. Useful for separating concerns (<code>prod</code>, <code>monitoring</code>, <code>kafka</code>) instead of creating combinations like <code>prod-monitoring-kafka</code>.</p>
+  <p class="mem"><b>Remember</b> Profile → environment-specific configuration → dev / qa / prod → <code>spring.profiles.active</code> → @Profile for conditional beans</p>
+</template>
+
+<template data-q="What is @ConfigurationProperties and how does it compare with @Value?">
+  <p>Both read configuration values, but they suit different situations. <code>@Value</code> injects a single value; <code>@ConfigurationProperties</code> binds a group of related properties into an object.</p>
+  <h4>1. @Value — individual values</h4>
+  <pre>payment.timeout=3000
+payment.retry-count=3
+payment.enabled=true</pre>
+  <pre>@Service
+public class PaymentService {
+
+    @Value("${payment.timeout}")
+    private int timeout;
+
+    @Value("${payment.retry-count}")
+    private int retryCount;
+
+    @Value("${payment.enabled}")
+    private boolean enabled;
+}</pre>
+  <h4>2. @ConfigurationProperties — a group of related properties</h4>
+  <pre>@ConfigurationProperties(prefix = "payment")
+public class PaymentProperties {
+
+    private int timeout;
+    private int retryCount;
+    private boolean enabled;
+
+    // getters and setters
+}</pre>
+  <pre class="flow">payment.timeout       → timeout
+payment.retry-count   → retryCount
+payment.enabled       → enabled</pre>
+  <pre>@ConfigurationPropertiesScan
+@SpringBootApplication
+public class PaymentApplication { }</pre>
+  <h4>3. Why it is better for large configuration</h4>
+  <p>Nested configuration becomes one strongly typed object instead of many <code>@Value</code> fields:</p>
+  <pre>kafka.bootstrap-servers=localhost:9092
+kafka.consumer.group-id=payment-service
+kafka.consumer.max-poll-records=100
+kafka.consumer.enabled=true</pre>
+  <pre>@ConfigurationProperties(prefix = "kafka")
+public class KafkaProperties {
+
+    private String bootstrapServers;
+    private Consumer consumer;
+
+    // getters/setters
+
+    public static class Consumer {
+        private String groupId;
+        private int maxPollRecords;
+        private boolean enabled;
+
+        // getters/setters
+    }
+}</pre>
+  <h4>4. Validation — important interview point</h4>
+  <pre>@ConfigurationProperties(prefix = "payment")
+@Validated
+public class PaymentProperties {
+
+    @Min(100)
+    private int timeout;
+
+    @Min(1)
+    private int retryCount;
+
+    // getters/setters
+}</pre>
+  <p>If someone configures <code>payment.timeout=10</code> or <code>payment.retry-count=0</code>, the application can fail during startup rather than discovering the invalid configuration later. Especially useful in production.</p>
+  <table class="atbl">
+    <thead><tr><th>Use</th><th>When</th></tr></thead>
+    <tbody>
+      <tr><td>@Value</td><td>1–3 simple configuration values</td></tr>
+      <tr><td>@ConfigurationProperties</td><td>A group of related configuration — nested, type-safe, validated, reusable, maintainable</td></tr>
+    </tbody>
+  </table>
+  <p class="mem"><b>Remember</b> @Value = inject a value. @ConfigurationProperties = bind configuration into an object (prefix + type-safe + nested + validation).</p>
+</template>
+
+<template data-q="How do you validate configuration properties at startup so the app fails fast?">
+  <p>I would represent the configuration using <code>@ConfigurationProperties</code> and add Bean Validation constraints such as <code>@NotBlank</code> and <code>@Min</code>. With <code>@Validated</code>, Spring validates the properties while creating the configuration bean. If the configuration is missing or invalid, bean creation fails and Spring Boot stops startup. That gives fail-fast behaviour instead of discovering configuration problems at runtime.</p>
+  <pre class="flow">@ConfigurationProperties
+        ↓
+    @Validated
+        ↓
+@NotBlank / @Min / @Max
+        ↓
+Bind configuration
+        ↓
+    Validate
+        ↓
+Invalid → startup fails ❌
+Valid   → application starts ✅</pre>
+  <p class="mem"><b>Remember</b> @ConfigurationProperties → @Validated → @NotBlank / @Min / @Max → bind + validate → invalid = startup fails ❌</p>
+</template>
+
+<template data-q="Where can @Profile be applied and what are typical uses?">
+  <p><code>@Profile</code> makes a bean or a whole configuration active only for specific profiles. It can go on a component, a <code>@Configuration</code> class, or an individual <code>@Bean</code> method.</p>
+  <h4>1. On a @Component</h4>
+  <pre>@Component
+@Profile("dev")
+public class MockPaymentGateway implements PaymentGateway { }</pre>
+  <p>Created only when <code>spring.profiles.active=dev</code>.</p>
+  <h4>2. On a @Configuration class</h4>
+  <pre>@Configuration
+@Profile("prod")
+public class ProductionConfig {
+
+    @Bean
+    public PaymentGateway paymentGateway() {
+        return new RealPaymentGateway();
+    }
+}</pre>
+  <h4>3. On an individual @Bean</h4>
+  <pre>@Configuration
+public class PaymentConfig {
+
+    @Bean
+    @Profile("dev")
+    public PaymentGateway mockGateway() {
+        return new MockPaymentGateway();
+    }
+
+    @Bean
+    @Profile("prod")
+    public PaymentGateway realGateway() {
+        return new RealPaymentGateway();
+    }
+}</pre>
+  <h4>4. Multiple profiles and expressions</h4>
+  <pre>@Profile({"dev", "qa"})       // active when either dev or qa is active
+@Profile("!prod")             // active when prod is NOT active</pre>
+  <h4>Typical uses</h4>
+  <ul>
+    <li>Mock vs real external service</li>
+    <li>Different databases — dev → H2/local, qa → QA DB, prod → production DB</li>
+    <li>Development-only tools</li>
+    <li>Different infrastructure — dev → local Kafka, prod → production Kafka</li>
+  </ul>
+  <div class="warn"><b>Key distinction</b> <code>application-prod.properties</code> decides <b>what configuration values</b> to use; <code>@Profile("prod")</code> decides <b>which beans</b> get created.</div>
+  <p class="mem"><b>Remember</b> @Profile → component / configuration / @Bean → dev / qa / prod → controls WHICH BEANS are created</p>
+</template>
+
+<template data-q="How do you supply a property through a command-line argument and an environment variable?">
+  <h4>1. Command-line argument</h4>
+  <pre>java -jar app.jar --server.port=9090
+java -jar app.jar --payment.timeout=5000</pre>
+  <h4>2. Environment variable</h4>
+  <pre>export SERVER_PORT=9090
+java -jar app.jar</pre>
+  <p>Spring Boot's relaxed binding maps the variable onto the property name:</p>
+  <table class="atbl">
+    <thead><tr><th>Property</th><th>Environment variable</th></tr></thead>
+    <tbody>
+      <tr><td>server.port</td><td>SERVER_PORT</td></tr>
+      <tr><td>payment.timeout</td><td>PAYMENT_TIMEOUT</td></tr>
+      <tr><td>payment.retry-count</td><td>PAYMENT_RETRY_COUNT</td></tr>
+      <tr><td>spring.profiles.active</td><td>SPRING_PROFILES_ACTIVE</td></tr>
+    </tbody>
+  </table>
+  <p class="mem"><b>Remember</b> Command line <code>--payment.timeout=5000</code> · Environment <code>PAYMENT_TIMEOUT=5000</code> · Both are external configuration, both need no code or JAR change.</p>
+</template>
+
+<template data-q="The same build artifact must run in dev, QA and production with different database URLs and no rebuild. How do you design that?">
+  <p>Build once, configure per environment. The artifact must not contain environment-specific database URLs. We build the JAR once and deploy the same artifact everywhere; each environment supplies its own <code>spring.datasource.url</code> through environment variables, external configuration or profile-specific configuration. For production credentials I would use a secret-management mechanism rather than committing them to source control.</p>
+  <h4>1. Keep the database URL externalised</h4>
+  <pre># dev
+export SPRING_DATASOURCE_URL=jdbc:postgresql://dev-db:5432/payment
+
+# prod
+export SPRING_DATASOURCE_URL=jdbc:postgresql://prod-db:5432/payment</pre>
+  <h4>2. Use Spring profiles where appropriate</h4>
+  <pre>application.properties
+application-dev.properties
+application-qa.properties
+application-prod.properties
+
+java -jar payment-service.jar --spring.profiles.active=prod</pre>
+  <pre class="flow">Build once
+    ↓
+Same artifact
+    ↓
+Configure externally
+    ↓
+DEV / QA / PROD</pre>
+  <p class="mem"><b>Remember</b> Same JAR → external config → different environment → different DB</p>
+</template>
+
+<template data-q="A production-only property was missing, the app still started and failed hours later at runtime. How do you make it fail at startup instead?">
+  <p>Use <code>@ConfigurationProperties</code> with <code>@Validated</code> and Bean Validation annotations such as <code>@NotBlank</code>, <code>@Min</code> and <code>@Max</code>. Spring binds and validates the configuration while creating the configuration bean, so if a required production property is missing or invalid, bean creation fails and Spring Boot stops during startup instead of failing hours later.</p>
+  <ul>
+    <li><code>@ConfigurationProperties</code> + validation constraints (<code>@NotBlank</code>)</li>
+    <li>Enable scanning with <code>@ConfigurationPropertiesScan</code></li>
+    <li>Add <code>spring-boot-starter-validation</code></li>
+  </ul>
+  <pre class="flow">@ConfigurationProperties
+        ↓
+    @Validated
+        ↓
+@NotBlank / @Min / @Max
+        ↓
+Bind + validate at startup
+        ↓
+Invalid → startup fails ❌
+Valid   → application starts ✅</pre>
+  <p class="mem"><b>Remember</b> Missing property must break the <b>startup</b>, not the 3 am shift → @ConfigurationProperties + @Validated + @NotBlank</p>
+</template>
+
+<!-- ANSWERS-END -->
+</div>
+
+<script>
+/* ------------------------------------------------------------------
+   Question bank
+   type codes:  c = concept   f = frequently asked   s = scenario
+   Order inside every level goes concept-by-concept, easiest first.
+-------------------------------------------------------------------*/
+var DATA = [
+{
+  id:"level-1", tag:"Level 1", title:"Foundations — Core Spring, Spring Boot & Microservices basics",
+  goal:"The questions almost every interview opens with. Target: explain each answer in 2–3 sentences without notes.",
+  sections:[
+    { name:"1. Spring Core: IoC & Dependency Injection", day:1, prio:"core", qs:[
+      ["c","What is the Spring Framework and which problems does it solve?"],
+      ["c","What is Inversion of Control (IoC) and how does Spring implement it?"],
+      ["f","What is Dependency Injection and what are its benefits over creating objects with new?"],
+      ["f","What are the three types of dependency injection in Spring: constructor, setter and field?"],
+      ["f","Which injection type does Spring recommend today and why?"],
+      ["c","What is the Spring IoC container and what exactly is it responsible for?"],
+      ["c","What is the difference between BeanFactory and ApplicationContext?"],
+      ["f","What is the difference between tight coupling and loose coupling? Give a code example of each."],
+      ["c","What is the difference between @Autowired, @Inject and @Resource?"],
+      ["f","Is @Autowired required on a single-constructor class in modern Spring? Why not?"],
+      ["s","A service class keeps growing and now has eight injected dependencies. Is that a DI problem or a design problem, and what do you do about it?"],
+      ["s","A colleague used field injection with @Autowired and now cannot unit test the class without starting Spring. Explain the fix and why constructor injection solves it."],
+      ["s","You must swap an email-based notifier for an SMS-based one without touching the calling class. Show how DI makes that possible."]
+    ]},
+    { name:"2. Beans: definition, scopes and lifecycle", day:1, prio:"core", qs:[
+      ["c","What is a Spring bean and what makes an object a bean?"],
+      ["f","What bean scopes does Spring support? Explain singleton versus prototype."],
+      ["f","Is Spring singleton scope the same as the Singleton design pattern? Explain the difference precisely."],
+      ["c","What is the default bean scope and why was that chosen?"],
+      ["c","Describe the Spring bean lifecycle from instantiation to destruction."],
+      ["f","What are @PostConstruct and @PreDestroy used for?"],
+      ["c","What are InitializingBean and DisposableBean, and how do they compare with the annotations?"],
+      ["f","What are the request, session and application scopes used for?"],
+      ["c","Are Spring singleton beans thread safe by default? Explain your answer."],
+      ["f","What does @Lazy do and when is lazy initialisation appropriate?"],
+      ["s","A singleton bean holds a mutable List field that accumulates data per request. What breaks in production and how do you fix it?"],
+      ["s","You inject a prototype-scoped bean into a singleton and always get the same instance. Why does that happen and how do you get a fresh instance each time?"],
+      ["s","A bean must open a connection pool on startup and close it cleanly on shutdown. Which lifecycle hooks do you use?"]
+    ]},
+    { name:"3. Configuration, stereotypes and annotations", day:1, prio:"core", qs:[
+      ["c","What is the difference between @Component, @Service, @Repository and @Controller?"],
+      ["f","Is there any functional difference between @Component and @Service, or is it only semantic?"],
+      ["c","What does @Repository add beyond being a stereotype? Explain exception translation."],
+      ["c","What are @Configuration and @Bean, and when do you prefer @Bean over @Component?"],
+      ["f","What is component scanning and how does Spring decide which packages to scan?"],
+      ["c","What does @ComponentScan do and how do base packages work?"],
+      ["c","What is the difference between @Primary and @Qualifier?"],
+      ["c","What does @Value do and how are placeholders resolved?"],
+      ["f","Compare XML configuration, Java configuration and annotation-based configuration."],
+      ["f","How do you register a bean for a third-party class you cannot annotate?"],
+      ["s","You have two implementations of PaymentGateway and Spring fails with NoUniqueBeanDefinitionException. Give three different ways to resolve it."],
+      ["s","A bean in a sibling package is never picked up by the container. How do you debug and fix it?"]
+    ]},
+    { name:"4. Spring Boot fundamentals", day:1, prio:"core", qs:[
+      ["c","What is Spring Boot and how is it different from the Spring Framework?"],
+      ["f","What are the main advantages of Spring Boot over plain Spring?"],
+      ["c","What is auto-configuration and how does it work at a high level?"],
+      ["f","Which annotations does @SpringBootApplication combine?"],
+      ["c","What are starter dependencies? Give three examples and what they pull in."],
+      ["f","What is the role of spring-boot-starter-parent and dependency management?"],
+      ["c","What is an embedded server and which embedded servers does Spring Boot support?"],
+      ["f","How do you switch the embedded server from Tomcat to Jetty or Undertow?"],
+      ["c","What is the difference between JAR and WAR packaging for a Spring Boot app?"],
+      ["f","How does an executable fat JAR actually work?"],
+      ["c","What happens internally when SpringApplication.run() is called?"],
+      ["f","How do you exclude or disable a specific auto-configuration class?"],
+      ["f","What is Spring Boot DevTools and what does it give you during development?"],
+      ["f","What is Spring Boot Actuator at a basic level?"],
+      ["s","Your app runs on port 8080 but one environment needs 9090 with no code change. List every way you could do that."]
+    ]},
+    { name:"5. Externalised configuration and profiles", day:1, prio:"core", qs:[
+      ["c","What is externalised configuration and why does it matter for deployable services?"],
+      ["f","What is the precedence order of Spring Boot configuration sources?"],
+      ["c","Compare application.properties and application.yml, including trade-offs."],
+      ["f","What are Spring profiles and how do you activate them?"],
+      ["c","What is @ConfigurationProperties and how does it compare with @Value?"],
+      ["f","How do you validate configuration properties at startup so the app fails fast?"],
+      ["c","Where can @Profile be applied and what are typical uses?"],
+      ["f","How do you supply a property through a command-line argument and an environment variable?"],
+      ["s","The same build artifact must run in dev, QA and production with different database URLs and no rebuild. How do you design that?"],
+      ["s","A production-only property was missing, the app still started and failed hours later at runtime. How do you make it fail at startup instead?"]
+    ]},
+    { name:"6. Spring MVC and REST fundamentals", day:2, prio:"core", qs:[
+      ["c","Walk through the Spring MVC request processing flow from request to response."],
+      ["f","What is the DispatcherServlet and what is its role?"],
+      ["c","What are HandlerMapping and HandlerAdapter?"],
+      ["f","What is the difference between @Controller and @RestController?"],
+      ["c","What does @RequestMapping do and what are its shortcut annotations?"],
+      ["f","When do you use @RequestParam, @PathVariable and @RequestBody?"],
+      ["c","What does @ResponseBody do and how does HTTP message conversion work?"],
+      ["f","How do you return a specific HTTP status code from a controller method?"],
+      ["c","What is ResponseEntity and why would you use it instead of returning the object directly?"],
+      ["f","What is content negotiation and how does Spring decide the response format?"],
+      ["c","Which HTTP methods are safe and which are idempotent? Map CRUD onto HTTP verbs."],
+      ["f","What is the difference between PUT and PATCH?"],
+      ["c","What is CORS and how do you enable it in Spring Boot?"],
+      ["f","How do you handle optional request parameters and default values?"],
+      ["s","A client needs to upload a file together with JSON metadata in a single call. How do you design that endpoint?"],
+      ["s","Your GET endpoint returns 500 when a record does not exist. What should it return and how do you implement that cleanly?"]
+    ]},
+    { name:"7. Data access with Spring Data JPA", day:2, prio:"core", qs:[
+      ["c","What are JPA, Hibernate and Spring Data JPA, and how do they relate to each other?"],
+      ["f","What is an ORM and what problems does it solve?"],
+      ["c","Compare CrudRepository, PagingAndSortingRepository and JpaRepository."],
+      ["f","How do derived query methods such as findByEmailAndStatus work?"],
+      ["c","What do @Entity, @Id and @GeneratedValue do?"],
+      ["f","What are the GenerationType strategies and which suits which database?"],
+      ["c","When do you need @Query, and what is the difference between JPQL and a native query?"],
+      ["c","Explain @OneToMany, @ManyToOne, @OneToOne and @ManyToMany with an example each."],
+      ["f","What is the difference between FetchType.LAZY and FetchType.EAGER?"],
+      ["f","What is the difference between save() and saveAndFlush()?"],
+      ["f","What is the difference between findById() and getReferenceById()?"],
+      ["c","What is a DataSource and a connection pool? Which pool does Spring Boot use by default?"],
+      ["s","You need paginated and sorted results for a large table exposed through an API. How do you implement it?"],
+      ["s","A findAll() on a five-million-row table brought the service down. What went wrong and what do you do instead?"]
+    ]},
+    { name:"8. Validation and exception handling", day:2, prio:"core", qs:[
+      ["c","How does Bean Validation work in Spring and what does @Valid trigger?"],
+      ["f","Name the common validation annotations and show how to write a custom validator."],
+      ["c","What is the difference between @Valid and @Validated?"],
+      ["f","What does @ExceptionHandler do and where can it be placed?"],
+      ["c","What are @ControllerAdvice and @RestControllerAdvice used for?"],
+      ["f","How do you return a consistent error response body across an entire API?"],
+      ["c","What is ResponseStatusException and when is it a good fit?"],
+      ["f","What is ProblemDetail and RFC 7807 support in Spring 6?"],
+      ["s","Validation failures currently return HTTP 500 with a stack trace to the client. Redesign the error handling."],
+      ["s","A downstream service returns 400 and your service converts it into a 500. How should errors be mapped and propagated?"]
+    ]},
+    { name:"9. Logging and first tests", day:2, prio:"core", qs:[
+      ["c","Which logging setup does Spring Boot use by default and what is SLF4J?"],
+      ["f","How do you change the log level for one package, including at runtime?"],
+      ["f","What does @SpringBootTest do and what does it cost?"],
+      ["c","What is the difference between a unit test and an integration test in a Spring application?"],
+      ["f","What are @WebMvcTest, @DataJpaTest and @MockBean used for?"],
+      ["c","What is MockMvc and what does it let you test without a running server?"],
+      ["f","Compare MockMvc, TestRestTemplate and WebTestClient."],
+      ["s","Your test suite takes twenty minutes because every test boots the full application context. How do you speed it up?"]
+    ]},
+    { name:"10. Microservices fundamentals", day:2, prio:"core", qs:[
+      ["c","What are microservices? Define them in terms of boundaries, ownership and deployability."],
+      ["f","Compare monolith and microservices architectures, with honest pros and cons of each."],
+      ["c","What is a bounded context and why does it matter when splitting services?"],
+      ["f","What are the core principles or characteristics of a microservice architecture?"],
+      ["c","What is the difference between microservices and SOA?"],
+      ["f","When should you not use microservices?"],
+      ["c","What is service discovery and why is it needed?"],
+      ["f","What is an API gateway and which problems does it solve?"],
+      ["c","What is a configuration server and why centralise configuration?"],
+      ["f","What is the difference between synchronous and asynchronous inter-service communication?"],
+      ["c","What is the database-per-service pattern and why is it recommended?"],
+      ["c","What is the twelve-factor app methodology? Name the factors that matter most for Spring services."],
+      ["f","Why is statelessness critical for horizontal scaling?"],
+      ["c","What is the difference between horizontal and vertical scaling?"],
+      ["s","A four-engineer startup wants to launch with twelve microservices. What is your advice and your reasoning?"],
+      ["s","Two microservices need the same customer data. How do you avoid a shared database?"]
+    ]}
+  ]
+},
+{
+  id:"level-2", tag:"Level 2", title:"Intermediate — AOP, transactions, security, Spring Cloud",
+  goal:"Where most interviews are actually won or lost. Target: explain the mechanism, not just the annotation.",
+  sections:[
+    { name:"1. Advanced DI and container behaviour", day:3, prio:"core", qs:[
+      ["c","How does Spring resolve circular dependencies, and what are the limits of that support?"],
+      ["c","What is a BeanPostProcessor and what is it typically used for?"],
+      ["c","What is a BeanFactoryPostProcessor and how does it differ from a BeanPostProcessor?"],
+      ["f","What does @DependsOn do?"],
+      ["c","What are ObjectProvider and ObjectFactory used for?"],
+      ["f","How do you inject every implementation of an interface as a List or Map?"],
+      ["c","What is a FactoryBean and when would you write one?"],
+      ["c","Why are ApplicationContextAware and manual bean lookup considered a design smell?"],
+      ["c","What are ApplicationEvent and @EventListener? Compare synchronous and asynchronous events."],
+      ["f","What is @TransactionalEventListener and which problem does it solve?"],
+      ["c","Explain @Conditional, @ConditionalOnProperty, @ConditionalOnBean and @ConditionalOnMissingBean."],
+      ["s","You must pick an implementation at runtime based on a request header. Design that with DI and the strategy pattern."],
+      ["s","You get BeanCurrentlyInCreationException on startup. Walk through the likely causes and the fixes."],
+      ["s","A library bean must be overridable by application code. How do you design the library so that works?"]
+    ]},
+    { name:"2. Spring AOP", day:3, prio:"core", qs:[
+      ["c","What is AOP and which problems does it solve that OOP handles poorly?"],
+      ["f","Define join point, pointcut, advice, aspect, target, weaving and proxy."],
+      ["c","What advice types exist and when do you need @Around instead of @Before?"],
+      ["c","How does Spring AOP work internally? Compare JDK dynamic proxies and CGLIB."],
+      ["f","When does Spring choose CGLIB rather than a JDK dynamic proxy?"],
+      ["c","What is the difference between Spring AOP and AspectJ, and when do you need AspectJ?"],
+      ["f","Write a pointcut expression that matches all public methods in the service package."],
+      ["c","How do you control the order when several aspects apply to the same method?"],
+      ["f","Can Spring AOP advise final classes or final methods? Explain why."],
+      ["s","@Transactional on a private method does nothing at all. Explain exactly why."],
+      ["s","A @Cacheable method called from another method in the same class bypasses the cache. Explain self-invocation and give three fixes."],
+      ["s","You must audit every state-changing service call with user, arguments and duration without touching business code. Design it."]
+    ]},
+    { name:"3. Transaction management", day:3, prio:"core", qs:[
+      ["c","What is a transaction and what does ACID mean in practice?"],
+      ["f","How does @Transactional work under the hood?"],
+      ["c","Explain the propagation levels: REQUIRED, REQUIRES_NEW, NESTED, SUPPORTS, MANDATORY, NEVER, NOT_SUPPORTED."],
+      ["c","Explain the isolation levels and which anomaly each prevents: dirty read, non-repeatable read, phantom read."],
+      ["f","What is the default rollback behaviour of @Transactional and how do you roll back on a checked exception?"],
+      ["f","What does readOnly = true actually do, for both Spring and Hibernate?"],
+      ["c","What is TransactionTemplate and when do you use programmatic transactions?"],
+      ["f","What is the difference between optimistic and pessimistic locking, and how do you implement each in JPA?"],
+      ["c","What does @Version do and how does it prevent lost updates?"],
+      ["f","What is a transaction timeout and why should you always set one?"],
+      ["c","Why should you avoid long transactions and remote calls inside a transaction?"],
+      ["s","A @Transactional method calls another @Transactional method in the same class and the inner propagation is ignored. Explain why."],
+      ["s","An audit record must be committed even when the outer business transaction rolls back. How do you achieve that?"],
+      ["s","Two concurrent users update the same row and one silently overwrites the other. Diagnose and fix it."],
+      ["s","A transaction holds a database lock while calling a slow external REST API. What is the risk and what is the fix?"]
+    ]},
+    { name:"4. JPA performance and mapping", day:4, prio:"core", qs:[
+      ["c","What is the persistence context and how does it act as a first-level cache?"],
+      ["c","Explain the entity states: transient, persistent, detached and removed."],
+      ["c","What are dirty checking and flush ordering in Hibernate?"],
+      ["c","What is the N+1 select problem? How do you detect it and how do you fix it?"],
+      ["f","Compare JOIN FETCH, @EntityGraph and batch fetching, with trade-offs."],
+      ["f","What causes LazyInitializationException and what are the correct fixes, avoiding open-session-in-view?"],
+      ["c","What is the second-level cache and when is it actually worth enabling?"],
+      ["f","What is the difference between orphanRemoval and CascadeType.REMOVE?"],
+      ["c","What are the cascade types and what are the risks of cascading carelessly?"],
+      ["c","Compare @MappedSuperclass, @Embeddable and the inheritance strategies SINGLE_TABLE, JOINED and TABLE_PER_CLASS."],
+      ["f","How do you map an enum safely, and why is EnumType.ORDINAL dangerous?"],
+      ["c","What are Spring Data projections: interface-based, class-based and dynamic?"],
+      ["f","How do you perform bulk updates efficiently, and what are the caveats of @Modifying?"],
+      ["c","What are Specifications and the Criteria API used for?"],
+      ["f","What is keyset or cursor pagination and why is it better than offset for deep pages?"],
+      ["c","What are Flyway and Liquibase, and why should you never use ddl-auto=update in production?"],
+      ["s","A @ManyToMany join table is fully deleted and re-inserted on every save. Why, and how do you fix the mapping?"],
+      ["s","An API returns entities directly, causing recursive JSON and massive over-fetching. Redesign it with DTOs and projections."],
+      ["s","A search screen has twelve optional filters. How do you build the query without writing twelve repository methods?"]
+    ]},
+    { name:"5. REST API design and documentation", day:4, prio:"core", qs:[
+      ["c","What are the levels of the Richardson maturity model?"],
+      ["f","How do you version an API? Compare URI, header and media-type versioning."],
+      ["c","What is HATEOAS and do you actually need it?"],
+      ["f","What makes a good resource URI, and what are the common mistakes?"],
+      ["c","Which status codes are correct for create, update, delete, validation error, conflict and rate limiting?"],
+      ["f","What is idempotency and how do you implement an idempotent POST?"],
+      ["c","How do you document an API with OpenAPI in Spring Boot, and how do you keep docs honest?"],
+      ["f","Compare RestTemplate, WebClient and RestClient. Which should new code use?"],
+      ["c","How do you set connect and read timeouts on an HTTP client, and why must you always set both?"],
+      ["f","What is a DTO and why should you not expose entities over the wire?"],
+      ["c","What are the trade-offs of MapStruct versus hand-written mappers?"],
+      ["f","How do you design pagination metadata, and what is the cost of returning a total count?"],
+      ["s","A client retried a payment POST after a timeout and got double-charged. Design the fix end to end."],
+      ["s","One slow downstream dependency exhausted every Tomcat worker thread. Explain the mechanism and the mitigations."],
+      ["s","You must add a required field to a response consumed by eight teams. How do you evolve it without breaking them?"]
+    ]},
+    { name:"6. Spring Security essentials", day:5, prio:"core", qs:[
+      ["c","What is the difference between authentication and authorisation?"],
+      ["c","Explain the Spring Security filter chain and how a request flows through it."],
+      ["f","What is SecurityFilterChain and how has configuration changed since WebSecurityConfigurerAdapter was deprecated?"],
+      ["c","What are AuthenticationManager, AuthenticationProvider and UserDetailsService?"],
+      ["f","How should passwords be stored? Explain PasswordEncoder, BCrypt and salting."],
+      ["c","What are SecurityContext and SecurityContextHolder, and how are they bound to a thread?"],
+      ["c","What is CSRF, how does the attack work, and when is it safe to disable protection?"],
+      ["f","What is a JWT? Describe its three parts and how a resource server validates it."],
+      ["c","Compare stateless JWT authentication with server-side sessions."],
+      ["f","How do you revoke a JWT before it expires?"],
+      ["c","What is method-level security? Compare @PreAuthorize, @PostAuthorize and @Secured."],
+      ["f","What is the difference between a role and an authority, and what does the ROLE_ prefix mean?"],
+      ["c","Which OWASP Top 10 risks are most relevant to a REST API and what does Spring give you for each?"],
+      ["f","How do you secure Actuator endpoints properly?"],
+      ["s","SecurityContext is empty inside an @Async method. Why, and how do you fix it?"],
+      ["s","Access tokens live for 24 hours and a user was just deprovisioned. What is the security gap and how do you close it?"],
+      ["s","How do you propagate the caller identity across four internal service hops without trusting the client blindly?"]
+    ]},
+    { name:"7. Caching", day:5, prio:"core", qs:[
+      ["c","What is the Spring Cache abstraction and what does it decouple you from?"],
+      ["f","What do @Cacheable, @CachePut, @CacheEvict and @Caching each do?"],
+      ["c","How is a cache key generated and how do you customise the KeyGenerator?"],
+      ["f","Which cache providers integrate with Spring? Compare Caffeine and Redis."],
+      ["c","Explain TTL, eviction policies such as LRU and LFU, and maximum size."],
+      ["c","Compare cache-aside, read-through, write-through and write-behind."],
+      ["f","How do you invalidate a cache consistently across many service instances?"],
+      ["c","What are the risks of caching in a multi-tenant application?"],
+      ["f","Should you cache null or negative results, and how do you do it safely?"],
+      ["s","A cache stampede sends ten thousand simultaneous misses to the database. How do you prevent it?"],
+      ["s","Users report stale data after an update. Diagnose the caching bug and describe the fix."]
+    ]},
+    { name:"8. Async, scheduling and concurrency", day:5, prio:"core", qs:[
+      ["c","What is @Async and what must be in place for it to work at all?"],
+      ["f","Why must an @Async method return void or a Future? What happens to thrown exceptions?"],
+      ["c","How do you configure a custom TaskExecutor, and what do core size, max size and queue capacity mean?"],
+      ["c","What is @Scheduled? Compare fixedRate, fixedDelay and cron."],
+      ["f","What is ShedLock or Quartz clustering used for?"],
+      ["c","What is CompletableFuture and how do you compose several parallel downstream calls?"],
+      ["f","What are virtual threads in Java 21 and how does Spring Boot support them?"],
+      ["c","How do you propagate MDC and trace context onto async threads?"],
+      ["f","What are the dangers of combining @Async with @Transactional?"],
+      ["s","You set a very large queue capacity and maxPoolSize is never reached. Explain ThreadPoolExecutor behaviour."],
+      ["s","A @Scheduled job runs on all five instances and duplicates work. Give three different solutions."],
+      ["s","A request makes six independent downstream calls sequentially, totalling 1.2 seconds. Optimise it."]
+    ]},
+    { name:"9. Actuator, metrics and health", day:5, prio:"core", qs:[
+      ["c","What is Spring Boot Actuator and which endpoints matter most in production?"],
+      ["f","What is the difference between a liveness probe and a readiness probe?"],
+      ["c","How do you write a custom HealthIndicator and what should it not do?"],
+      ["f","What is Micrometer and how does it relate to Prometheus?"],
+      ["c","Explain counters, gauges, timers and distribution summaries, with an example of each."],
+      ["c","Which Actuator endpoints are dangerous to expose, and why?"],
+      ["f","How do you expose Actuator on a separate management port?"],
+      ["c","What is graceful shutdown in Spring Boot and how do you configure it?"],
+      ["s","You need p99 latency per endpoint per tenant. How do you instrument that without a cardinality explosion?"],
+      ["s","Kubernetes keeps restarting your pod during startup. Which probe is misconfigured and how do you fix it?"]
+    ]},
+    { name:"10. Inter-service communication", day:6, prio:"core", qs:[
+      ["c","Compare synchronous and asynchronous communication and give a rule for choosing between them."],
+      ["f","What is OpenFeign and how does declarative REST work?"],
+      ["c","How do you configure Feign timeouts, retries and error decoders?"],
+      ["f","What is the difference between client-side and server-side load balancing? What replaced Ribbon?"],
+      ["c","What is Spring Cloud LoadBalancer and what does @LoadBalanced do?"],
+      ["c","What is gRPC and when would you choose it over REST?"],
+      ["f","Compare JSON, Protobuf and Avro for service-to-service payloads."],
+      ["c","How do services authenticate each other? Compare mTLS and service tokens."],
+      ["f","What is a correlation ID and how do you propagate one across services?"],
+      ["c","What is the difference between orchestration and choreography?"],
+      ["s","Service A calls B which calls C, and C becomes slow. Describe the cascading failure and every layer of protection."],
+      ["s","A downstream service is down for ten minutes. How do you avoid losing customer requests?"]
+    ]},
+    { name:"11. Service discovery, config server and gateway", day:6, prio:"core", qs:[
+      ["c","How does client-side service discovery work with Eureka or Consul?"],
+      ["f","What are heartbeats, lease renewal and self-preservation mode in Eureka?"],
+      ["c","What is Spring Cloud Config Server and how do clients pick up changes?"],
+      ["f","What does @RefreshScope do and what are its limitations?"],
+      ["c","What is Spring Cloud Bus used for?"],
+      ["f","What is Spring Cloud Gateway and how does it differ from Zuul 1?"],
+      ["c","What are predicates and filters in Spring Cloud Gateway?"],
+      ["f","How do you implement rate limiting at the gateway using Redis?"],
+      ["c","What is a service mesh and which concerns does it move out of your application?"],
+      ["f","On Kubernetes you already have DNS-based discovery. Do you still need Eureka? Justify it."],
+      ["s","Authentication, rate limiting and request logging are needed for twenty services. Where do you implement them and why?"],
+      ["s","You must route five percent of traffic to a new version for a canary test. How do you do it?"]
+    ]},
+    { name:"12. Messaging basics", day:6, prio:"core", qs:[
+      ["c","What is a message broker and what does it buy you architecturally?"],
+      ["f","Compare queue and topic, point-to-point and publish-subscribe."],
+      ["c","Compare Kafka and RabbitMQ at the model level, and say when you would use each."],
+      ["f","What are Kafka topics, partitions, offsets and consumer groups?"],
+      ["c","Explain at-most-once, at-least-once and exactly-once delivery."],
+      ["c","What is a dead letter queue and what is a retry topic?"],
+      ["f","How does Kafka guarantee ordering, and what breaks that guarantee?"],
+      ["c","What do @KafkaListener and @RabbitListener do, and when do you use manual acknowledgement?"],
+      ["s","Consumers process the same message twice after a rebalance. How do you make the consumer idempotent?"],
+      ["s","A producer commits to the database and then fails to publish the event. How do you avoid losing that event?"]
+    ]},
+    { name:"13. Containerisation basics", day:null, prio:"stretch", qs:[
+      ["c","Why containerise a Spring Boot service, and what does the container guarantee?"],
+      ["f","What is a multi-stage Dockerfile and why does it matter for Java images?"],
+      ["c","What are layered JARs and how do they improve image build and pull times?"],
+      ["f","Why prefer a slim JRE or distroless base image?"],
+      ["c","How do you pass configuration and secrets into a container correctly?"],
+      ["f","What are Cloud Native Buildpacks and bootBuildImage?"],
+      ["c","Why should a container run as a non-root user?"],
+      ["s","Your container is OOMKilled while the JVM heap looks healthy. What is happening and how do you size it?"]
+    ]}
+  ]
+},
+{
+  id:"level-3", tag:"Level 3", title:"Advanced — internals, reactive, resilience, distributed data, observability",
+  goal:"Senior-level depth. Target: reason about trade-offs and failure modes, and defend your choice.",
+  sections:[
+    { name:"1. Spring Boot internals and extensibility", day:null, prio:"stretch", qs:[
+      ["c","Walk through everything that happens from main() to a fully started application context."],
+      ["c","How does auto-configuration really work? Explain @EnableAutoConfiguration, AutoConfigurationImportSelector and the AutoConfiguration.imports file."],
+      ["f","How do you write a custom Spring Boot starter, and what belongs in the autoconfigure module?"],
+      ["c","What replaced spring.factories in Spring Boot 3 and why?"],
+      ["c","How do @AutoConfigureBefore, @AutoConfigureAfter and @ConditionalOnMissingBean control ordering?"],
+      ["f","Compare ApplicationContextInitializer, CommandLineRunner, ApplicationRunner and SmartLifecycle."],
+      ["c","How does Spring create proxies, and what behaviour breaks once a bean is proxied?"],
+      ["f","What does proxyBeanMethods = false do and why do Boot's own configurations use it?"],
+      ["c","What are Environment and PropertySource? How do you add a custom property source such as Vault?"],
+      ["f","How do you write a FailureAnalyzer to turn a cryptic startup error into a useful message?"],
+      ["c","What is AOT processing and GraalVM native image support in Spring Boot 3, and what are the limitations?"],
+      ["c","What are the trade-offs of enabling global lazy initialisation?"],
+      ["f","What changed between Spring Boot 2 and 3: Jakarta namespace, Java baseline, observability?"],
+      ["s","A @Configuration class calls another @Bean method directly and still gets a singleton. Explain how CGLIB enhancement makes that work."],
+      ["s","Startup takes forty seconds but autoscaling needs under five. Which levers do you pull, in order?"]
+    ]},
+    { name:"2. Reactive Spring and WebFlux", day:null, prio:"optional", qs:[
+      ["c","What is reactive programming and which specific problem does it solve?"],
+      ["f","Compare thread-per-request with an event loop model. Where does each break down?"],
+      ["c","What is the difference between Mono and Flux, and between cold and hot publishers?"],
+      ["c","What is backpressure and how does Reactive Streams implement it?"],
+      ["f","When should you not use WebFlux?"],
+      ["c","What do publishOn and subscribeOn do, and how do Reactor schedulers work?"],
+      ["f","What is R2DBC and how does it compare with JPA in maturity and features?"],
+      ["c","How do you handle errors reactively with onErrorResume, retryWhen and timeout?"],
+      ["f","How does Reactor Context differ from ThreadLocal, and why does that matter for tracing?"],
+      ["c","Do virtual threads make WebFlux obsolete? Argue both sides."],
+      ["f","How do you configure WebClient connection pooling and timeouts properly?"],
+      ["c","What is Server-Sent Events and when do you choose it over WebSocket?"],
+      ["s","A blocking JDBC call sits inside a WebFlux handler. What happens under load and how do you fix it?"],
+      ["s","You must fan out one hundred downstream calls with a concurrency limit of ten. How do you write that?"]
+    ]},
+    { name:"3. Advanced security: OAuth2 and OIDC", day:7, prio:"core", qs:[
+      ["c","Explain the OAuth2 roles: resource owner, client, authorisation server and resource server."],
+      ["f","Compare the grant types: authorisation code with PKCE, client credentials and device code. Why were implicit and password deprecated?"],
+      ["c","What does OIDC add on top of OAuth2?"],
+      ["f","What is the difference between an access token, a refresh token and an ID token?"],
+      ["c","How do you configure a Spring resource server to validate JWTs, including issuer, audience and JWK set?"],
+      ["f","What are opaque tokens and token introspection, and when do you prefer them?"],
+      ["c","How do you map JWT claims and scopes onto Spring authorities?"],
+      ["f","What is token relay and how do you propagate a token between services?"],
+      ["c","What is mTLS and how does it complement token-based authentication?"],
+      ["f","How do you rotate signing keys with no downtime for existing tokens?"],
+      ["c","How do you model multi-tenancy in the security layer so tenants cannot see each other's data?"],
+      ["f","How do you implement object-level permissions with @PreAuthorize and a permission evaluator?"],
+      ["s","Design authentication for a system with a web SPA, a mobile app and twelve internal services."],
+      ["s","An internal service must call another both on behalf of a user and on its own behalf. How do you model both flows?"],
+      ["s","Tokens are leaking into application logs and URLs. How do you find every occurrence and remediate it?"]
+    ]},
+    { name:"4. Resilience and fault tolerance", day:6, prio:"core", qs:[
+      ["c","Explain the circuit breaker pattern, the closed, open and half-open states, and the key configuration knobs."],
+      ["f","Why did Hystrix die and what does Resilience4j do differently?"],
+      ["c","What is bulkhead isolation? Compare thread-pool and semaphore bulkheads."],
+      ["c","What is a rate limiter and where in the stack should it live?"],
+      ["f","What is exponential backoff with jitter, and why is the jitter essential?"],
+      ["c","Which operations are safe to retry, and how does idempotency interact with retries?"],
+      ["f","What separates a good fallback from a dangerous one?"],
+      ["c","How do you set a coherent timeout budget across client, server, database and load balancer?"],
+      ["c","What are load shedding and graceful degradation, and how do you decide what to shed first?"],
+      ["f","What is the difference between fail-fast and fail-safe behaviour?"],
+      ["c","How do you test resilience? Explain fault injection and chaos engineering."],
+      ["f","What is the thundering herd problem after a mass restart and how do you mitigate it?"],
+      ["s","Retries turned a partial outage into a total outage. Explain retry amplification and how to prevent it."],
+      ["s","A shared dependency has a 30 second timeout but your SLA is 500 ms. Design the interaction."],
+      ["s","A downstream service is up but failing twenty percent of requests. Should the circuit open? Discuss thresholds."]
+    ]},
+    { name:"5. Distributed data and transactions", day:7, prio:"core", qs:[
+      ["c","Why is two-phase commit impractical across microservices? Describe its failure modes."],
+      ["c","What is the CAP theorem and how does PACELC refine it for real systems?"],
+      ["f","What is eventual consistency, and how do you explain it to a product owner?"],
+      ["c","Explain the Saga pattern, comparing orchestration and choreography, including compensation."],
+      ["c","What is the transactional outbox pattern and why is it necessary?"],
+      ["f","What is change data capture with Debezium and how does it relate to the outbox pattern?"],
+      ["c","What is CQRS? When is it justified and what does it cost you?"],
+      ["f","What is event sourcing? How do you handle replay, snapshots and schema evolution?"],
+      ["c","How do you design an idempotency key and where do you store it?"],
+      ["c","Compare API composition and a CQRS read model for cross-service queries."],
+      ["f","How do you enforce a globally unique constraint, such as unique email, across services?"],
+      ["c","Why is data duplication acceptable in microservices, and what is a shared kernel?"],
+      ["f","How do you maintain referential integrity without foreign keys across service boundaries?"],
+      ["s","An order spans payment, inventory and shipping. Design the saga with compensations and failure handling."],
+      ["s","Two services disagree about the state of an order. How do you detect and reconcile the drift?"],
+      ["s","You need a report joining data from five services. What are your options and their trade-offs?"],
+      ["s","Design how you would split a monolithic database into per-service databases with zero downtime."]
+    ]},
+    { name:"6. Event-driven architecture at scale", day:7, prio:"core", qs:[
+      ["c","What guarantees does Kafka actually give you? Be precise about ordering, durability and acknowledgement."],
+      ["f","What do acks, min.insync.replicas, retries and enable.idempotence control?"],
+      ["c","How do Kafka transactions implement exactly-once semantics, and what are the constraints?"],
+      ["c","How do you choose a partition key, and what happens when a partition becomes hot?"],
+      ["f","What is consumer lag? How do you monitor it and how do you reduce it?"],
+      ["c","What is a consumer rebalance and what does the cooperative sticky assignor improve?"],
+      ["f","How can max.poll.records and max.poll.interval.ms cause an endless rebalance loop?"],
+      ["c","How do you version and evolve event schemas? Explain schema registry compatibility modes."],
+      ["c","Compare event notification, event-carried state transfer and a shared read model."],
+      ["f","What is the difference between a command, an event and a query, and why does the naming matter?"],
+      ["c","What is a poison message and how do you handle it without blocking the partition?"],
+      ["f","How do you safely replay events into a live production system?"],
+      ["s","One tenant saturates a single partition. How do you rebalance without breaking ordering guarantees?"],
+      ["s","You must add a field to an event consumed by six teams on different release schedules. Plan the rollout."],
+      ["s","Events are being processed out of order and corrupting state. What are your options?"],
+      ["s","A bug produced two million bad events that downstream services already consumed. What now?"]
+    ]},
+    { name:"7. Observability and distributed tracing", day:7, prio:"core", qs:[
+      ["c","What are the three pillars of observability, and why are logs alone insufficient?"],
+      ["c","What is distributed tracing? Explain trace, span, parent span and W3C traceparent propagation."],
+      ["f","What is Micrometer Tracing, formerly Sleuth, and how does it integrate with OpenTelemetry?"],
+      ["c","What is sampling? Compare head-based and tail-based sampling and say what you lose at one percent."],
+      ["f","How do you correlate logs with traces, and what belongs in the MDC?"],
+      ["c","What is structured logging and why does it matter at scale?"],
+      ["f","Define SLI, SLO and SLA, and pick sensible SLIs for a payment API."],
+      ["c","What is an error budget and how should it drive release decisions?"],
+      ["c","What are the four golden signals, and what do RED and USE add?"],
+      ["f","How do you avoid a metric cardinality explosion?"],
+      ["c","How do you design alerting on symptoms rather than causes so people are not paged needlessly?"],
+      ["s","A user reports a slow checkout. Trace it end to end across six services and describe what you look at."],
+      ["s","p50 latency is healthy but p99 is terrible. How do you investigate?"],
+      ["s","You have no tracing and an intermittent five second latency spike. How do you find it?"]
+    ]},
+    { name:"8. Gateway, service mesh and traffic management", day:null, prio:"optional", qs:[
+      ["c","Which responsibilities belong in the gateway, in the service, and in the mesh?"],
+      ["c","How do you implement authentication at the gateway and propagate trusted identity inward?"],
+      ["f","How does Spring Cloud Gateway handle backpressure, given it is reactive?"],
+      ["c","What is a sidecar proxy and how does mesh mTLS work without application changes?"],
+      ["f","What are traffic shifting, request mirroring and fault injection in a mesh?"],
+      ["c","What is a backend-for-frontend and when is it justified?"],
+      ["f","How do you centrally handle CORS, compression and request size limits?"],
+      ["c","How can a gateway become a distributed monolith or a single bottleneck, and how do you avoid it?"],
+      ["s","Design multi-tenant routing where each tenant has a dedicated backend pool."],
+      ["s","You must move one endpoint from a legacy monolith to a new service transparently. Design it as a strangler fig at the gateway."]
+    ]},
+    { name:"9. Kubernetes and cloud-native Spring", day:null, prio:"stretch", qs:[
+      ["c","How does a Spring Boot app map onto Deployment, Service, Ingress, ConfigMap and Secret?"],
+      ["f","How do CPU and memory requests and limits interact with the JVM, and what should you set?"],
+      ["c","What is the Horizontal Pod Autoscaler and which metric should drive scaling for a Spring service?"],
+      ["c","Compare liveness, readiness and startup probes, and describe the failure mode of misconfiguring each."],
+      ["f","Where should database migrations run: init container, Job, or application startup? Defend your choice."],
+      ["c","How do you manage secrets properly with External Secrets, Sealed Secrets or Vault?"],
+      ["f","Would you run your primary database on Kubernetes? What does a StatefulSet change?"],
+      ["c","What are service accounts, RBAC and the pod security context?"],
+      ["f","How do you reload configuration from a ConfigMap in a running Spring app?"],
+      ["c","How does autoscaling interact with JVM warmup and JIT compilation?"],
+      ["s","During a rolling update in-flight requests are dropped. Explain graceful shutdown, preStop hooks and readiness gating."],
+      ["s","A pod passes readiness but the first requests fail because pools are cold. How do you fix it?"],
+      ["s","How do you deploy with zero downtime when the release also requires a schema change?"]
+    ]},
+    { name:"10. Advanced testing strategy", day:null, prio:"optional", qs:[
+      ["c","How does the test pyramid change in a microservices setup?"],
+      ["f","What is Testcontainers and why is it better than H2 for integration tests?"],
+      ["c","What is consumer-driven contract testing and which specific problem does it solve?"],
+      ["c","How does Spring test context caching work and how do you maximise reuse?"],
+      ["f","How do you test transactional rollback, and why can @Transactional on a test be misleading?"],
+      ["c","How do you test asynchronous and event-driven flows deterministically?"],
+      ["f","How do you stub external HTTP dependencies with WireMock, MockWebServer or @MockBean?"],
+      ["c","What is mutation testing and what does line coverage really tell you?"],
+      ["f","What is synthetic monitoring or a production smoke test?"],
+      ["s","A provider renamed a field and broke three consumers in production. How do you prevent a repeat?"],
+      ["s","How do you test a saga including its compensation paths?"],
+      ["s","How do you performance test a single microservice and find its saturation point?"]
+    ]},
+    { name:"11. Architecture, design and domain modelling", day:8, prio:"core", qs:[
+      ["c","What is Domain-Driven Design? Explain aggregate, entity, value object, repository and domain service."],
+      ["f","How do you identify service boundaries, and which signals tell you a boundary is wrong?"],
+      ["c","What is hexagonal or ports-and-adapters architecture and how does it map to Spring packages?"],
+      ["c","What is a distributed monolith and how do you recognise one you already own?"],
+      ["f","What is Conway's law and how does it shape your architecture whether you like it or not?"],
+      ["c","How do you choose between a shared library, a shared service and deliberate duplication?"],
+      ["f","What is the strangler fig pattern, in concrete steps?"],
+      ["c","What are architecture decision records and why write them?"],
+      ["f","Which microservices anti-patterns have you seen, and what did they cost?"],
+      ["c","How do you handle cross-cutting concerns without creating a shared-library nightmare?"],
+      ["s","Two services always change together and chat constantly over synchronous calls. What does that tell you and what do you do?"],
+      ["s","A common JAR is used by fifteen services and every change forces fifteen releases. How do you fix this?"],
+      ["s","Design a high-traffic system such as a URL shortener, ticket booking or payment gateway for ten thousand requests per second."]
+    ]}
+  ]
+},
+{
+  id:"level-4", tag:"Level 4", title:"Production & expert — performance, incidents, migration, judgement",
+  goal:"Staff-level and production-support questions. Target: a repeatable method plus at least one real story per topic.",
+  sections:[
+    { name:"1. Performance engineering and JVM tuning", day:8, prio:"core", qs:[
+      ["c","How do you approach a vague report that the service is slow? Describe your method."],
+      ["f","What are the usual bottlenecks in a Spring Boot service, ranked by how often they are the cause?"],
+      ["c","How do you size a Tomcat thread pool? Relate threads, latency and throughput using Little's law."],
+      ["f","What do server.tomcat.threads.max and accept-count do, and what happens when both fill up?"],
+      ["c","How do you profile a running JVM in production with acceptable overhead?"],
+      ["f","What is JDK Flight Recorder and how do you use it during an incident?"],
+      ["c","How do you distinguish a hot method from lock contention in a profile?"],
+      ["f","What are the common Jackson serialisation performance mistakes and their fixes?"],
+      ["c","How does JIT warmup affect the first minutes after a deployment, and how do you handle it?"],
+      ["f","What is connection pre-warming and why does it matter when autoscaling?"],
+      ["s","CPU sits at thirty percent, latency is high and throughput is capped. What is your hypothesis?"],
+      ["s","Response time grows linearly with traffic but the database is idle. Where do you look next?"],
+      ["s","One endpoint's p99 spikes at exactly five minute intervals. What causes periodic spikes?"]
+    ]},
+    { name:"2. Memory, garbage collection and leak diagnosis", day:8, prio:"core", qs:[
+      ["c","Explain the JVM memory areas: heap, metaspace, thread stacks, code cache and direct buffers."],
+      ["f","Which garbage collector would you choose between G1, ZGC and Parallel, and why?"],
+      ["c","Which GC metrics do you monitor and what values indicate a real problem?"],
+      ["f","How do you capture and analyse a heap dump, and what do you look for first?"],
+      ["c","What are the common memory leak sources in Spring apps: unbounded caches, ThreadLocals, classloader leaks, unremoved listeners?"],
+      ["c","Why can a container be OOMKilled while heap usage is far below Xmx?"],
+      ["f","What is MaxRAMPercentage and how do you size a JVM inside a container?"],
+      ["c","What causes metaspace growth and how do you diagnose it?"],
+      ["f","How do long GC pauses show up as failed health checks and cascading restarts?"],
+      ["s","Production throws OutOfMemoryError: Java heap space. Walk through your full diagnosis."],
+      ["s","Memory grows steadily and a restart buys three days. How do you find the leak?"],
+      ["s","You hit OutOfMemoryError: unable to create new native thread. What does it mean and how do you fix it?"]
+    ]},
+    { name:"3. Database and connection pools at scale", day:8, prio:"core", qs:[
+      ["c","How do you size a HikariCP pool in relation to database limits and instance count?"],
+      ["f","How do you diagnose Connection is not available, request timed out, and detect connection leaks?"],
+      ["c","How do you route reads to replicas safely in a Spring application?"],
+      ["f","What is replication lag and how does it break read-after-write consistency?"],
+      ["c","What is sharding and what does it force you to change in application code?"],
+      ["f","How do you find and fix a slow query? How do you read an execution plan?"],
+      ["c","Which indexes would you add for a given query, and what do they cost on writes?"],
+      ["c","How do you run large data backfills in production without hurting live traffic?"],
+      ["f","What is a deadlock, how do you detect one, and how do you prevent them by design?"],
+      ["c","When would you introduce a NoSQL store and what do you give up?"],
+      ["s","Twenty pods with twenty connections each exceed the database connection limit. How do you solve it structurally?"],
+      ["s","A user updates a profile and immediately reads stale data. Explain the cause and the fixes."],
+      ["s","A nightly batch job locks tables and causes API timeouts. Redesign it."],
+      ["s","You see intermittent lock wait timeouts on one table. How do you investigate?"]
+    ]},
+    { name:"4. Release engineering and zero-downtime delivery", day:null, prio:"stretch", qs:[
+      ["c","Compare rolling, blue-green and canary deployments with their trade-offs."],
+      ["f","What are feature flags and how do they decouple deployment from release?"],
+      ["c","How do you make a database change backward compatible? Explain expand and contract."],
+      ["c","How do you handle a breaking API change across independently deployed services?"],
+      ["f","What is your rollback strategy when the schema has already changed?"],
+      ["c","How do you version and deprecate an API responsibly, including client communication?"],
+      ["f","What belongs in CI versus CD for a microservice, and which gates do you enforce?"],
+      ["c","How do you manage shared library versions across many services?"],
+      ["f","How strictly should you follow semantic versioning for internal libraries?"],
+      ["s","You must rename a column used by a running service with zero downtime. Give the full step sequence."],
+      ["s","A canary shows a two percent error increase. Walk through your decision process."],
+      ["s","Fifteen services must be released together for one feature. What is wrong and how do you decouple them?"]
+    ]},
+    { name:"5. Production incident debugging", day:8, prio:"core", qs:[
+      ["s","You are paged at 3 am: the 5xx rate jumped to forty percent. Describe your first ten minutes."],
+      ["s","Every dashboard is green but users report failures. Where is the observability gap?"],
+      ["s","Latency rose right after a deployment that only changed configuration. How do you confirm the cause?"],
+      ["s","One pod out of ten is slow while the rest are fine. How do you approach it?"],
+      ["s","All pods restart at the same time every night at 2 am. What do you suspect and how do you confirm?"],
+      ["s","Kafka consumer lag is growing by one hundred thousand per minute. What do you do right now, and what do you fix afterwards?"],
+      ["s","A small number of customers are being charged twice. How do you investigate and stop the bleeding?"],
+      ["s","Two services are stuck in an infinite retry loop saturating the network. Give immediate mitigation and the permanent fix."],
+      ["s","Logs show intermittent connection reset by peer between two internal services. How do you diagnose it?"],
+      ["s","You have a memory leak that will exhaust heap in four hours. What do you do now and what later?"],
+      ["s","A configuration change cannot be reverted because a secret was rotated. How do you recover?"],
+      ["s","You suspect a thread pool deadlock. How do you confirm it from a thread dump?"],
+      ["s","One tenant's traffic spike degrades every other tenant. How do you isolate blast radius now and structurally?"],
+      ["s","Traffic doubled and autoscaling made things worse. Explain how that is possible."],
+      ["s","A downstream team deployed, your errors rose, but their dashboards are green. How do you build a shared picture?"],
+      ["c","What is a blameless postmortem and what makes one genuinely useful?"],
+      ["f","What are the essential elements of an incident timeline and root cause analysis?"]
+    ]},
+    { name:"6. Reliability, capacity and cost", day:null, prio:"optional", qs:[
+      ["c","How do you calculate the availability of a chain of dependent services?"],
+      ["f","What is the difference between availability and reliability?"],
+      ["c","How do you do capacity planning for a service and which inputs do you need?"],
+      ["c","What is graceful degradation, and what would you switch off first under extreme load?"],
+      ["f","What is the queue-based load levelling pattern and when does it save you?"],
+      ["c","How do you design for multi-AZ and multi-region? What does active-active really cost?"],
+      ["f","What are RTO and RPO, and how do they drive design decisions?"],
+      ["c","How do you reduce cloud cost without hurting reliability?"],
+      ["f","How do you balance over-provisioning against autoscaling reaction time?"],
+      ["s","You must survive a ten times Black Friday spike. Walk through your preparation plan."],
+      ["s","An entire region goes down. What is your failover plan and what data could you lose?"],
+      ["s","Your service costs four times what it should. How do you find the waste?"]
+    ]},
+    { name:"7. Security hardening and compliance", day:null, prio:"stretch", qs:[
+      ["c","How do you manage secrets end to end: creation, storage, rotation and revocation?"],
+      ["f","What is wrong with secrets in environment variables or Git, and what are the alternatives?"],
+      ["c","How do you handle PII: encryption in transit and at rest, tokenisation and log masking?"],
+      ["c","What is PCI-DSS scope reduction and how does tokenisation help achieve it?"],
+      ["f","How do you keep dependencies patched? Explain SCA, SBOM and automated update tooling."],
+      ["c","How do you enforce security in CI with SAST, DAST, secret scanning and image scanning?"],
+      ["f","What does least privilege look like in practice for a database user, an IAM role and Kubernetes RBAC?"],
+      ["c","How do you audit who accessed what, and which records must be immutable?"],
+      ["f","What is defence in depth applied to a single Spring microservice?"],
+      ["c","How do you protect against replay attacks and request tampering between services?"],
+      ["s","Card data appeared in application logs. What is your immediate response and your long-term fix?"],
+      ["s","A critical CVE lands in a transitive dependency used by thirty services. How do you respond within 24 hours?"],
+      ["s","An auditor asks you to prove only three people can read production customer data. How do you prove it?"]
+    ]},
+    { name:"8. Data migration and legacy modernisation", day:null, prio:"optional", qs:[
+      ["c","How do you plan a monolith-to-microservices migration and what do you extract first?"],
+      ["c","How do you run dual writes and shadow reads safely during a migration?"],
+      ["f","What is data reconciliation and how do you verify a migration was correct?"],
+      ["c","How do you roll back after data has already been written to the new store?"],
+      ["f","What are the main hazards of a Java 8 to 17 or 21 upgrade, including the Jakarta namespace change?"],
+      ["c","How do you handle a library that no longer exists or changed drastically in the new version?"],
+      ["s","Design the extraction of an authentication module from a monolith with two hundred endpoints."],
+      ["s","You must migrate five hundred million rows to a new schema with no downtime. Plan it."],
+      ["s","You must upgrade twenty services from Spring Boot 2.7 to 3.x. Design the programme of work."],
+      ["s","A shared logging library pins an old vulnerable log4j version. How do you upgrade it safely across every service?"]
+    ]},
+    { name:"9. Judgement, trade-offs and design review", day:null, prio:"optional", qs:[
+      ["c","How do you decide between making it work now and making it right?"],
+      ["c","How do you review a design document? What do you check first?"],
+      ["f","How do you communicate architecture to a mixed audience of engineers and product people?"],
+      ["c","How do you set architecture standards across teams without becoming the bottleneck?"],
+      ["f","How do you estimate and de-risk a large technical migration?"],
+      ["c","How do you measure the health of a service portfolio? Explain the DORA metrics."],
+      ["c","How do you coach a team on microservices without encouraging over-engineering?"],
+      ["s","You are asked to build a feature that would create a distributed transaction. How do you push back with alternatives?"],
+      ["s","A teammate's pull request adds a synchronous call in a hot path. How do you handle that review conversation?"],
+      ["s","Product wants a deadline that requires skipping tests and observability. How do you respond?"],
+      ["s","You inherit a service with no tests, no documentation and frequent incidents. What is your ninety day plan?"],
+      ["f","What is the most valuable production lesson you have learned? Have a specific story ready."]
+    ]}
+  ]
+}
+];
+
+/* ------------------------------------------------------------------
+   State + persistence
+-------------------------------------------------------------------*/
+var KEY = "springMsaPrep.v1";
+var TYPE_META = { c:{label:"Concept", cls:"b-c"}, f:{label:"FAQ", cls:"b-f"}, s:{label:"Scenario", cls:"b-s"} };
+var state = { done:{}, theme:"dark", open:{} };
+
+/* ------------------------------------------------------------------
+   Answers: question text -> <template> from #answerBank.
+   Deliberately NOT persisted: every answer starts collapsed on load.
+-------------------------------------------------------------------*/
+var ANSWERS = Object.create(null);
+var ANS_USED = Object.create(null);
+(function collectAnswers(){
+  var tpls = document.querySelectorAll("#answerBank template[data-q]");
+  for(var i=0;i<tpls.length;i++){
+    var q = (tpls[i].getAttribute("data-q") || "").trim();
+    if(!q) continue;
+    if(ANSWERS[q]) console.warn("Duplicate answer for question: " + q);
+    ANSWERS[q] = tpls[i];
+  }
+})();
+
+function load(){
+  try{
+    var raw = localStorage.getItem(KEY);
+    if(raw){
+      var p = JSON.parse(raw);
+      if(p && typeof p === "object"){
+        state.done  = (p.done  && typeof p.done  === "object") ? p.done  : {};
+        state.open  = (p.open  && typeof p.open  === "object") ? p.open  : {};
+        state.theme = p.theme === "light" ? "light" : "dark";
+      }
+    }
+  }catch(e){ console.warn("Could not read saved progress:", e); }
+}
+var saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try{ localStorage.setItem(KEY, JSON.stringify(state)); }
+    catch(e){ toast("Could not save progress: storage unavailable"); }
+  }, 120);
+}
+
+/* stable id from question text, so reordering never loses progress */
+function hash(str){
+  var h = 5381;
+  for(var i=0;i<str.length;i++){ h = ((h<<5) + h + str.charCodeAt(i)) | 0; }
+  return (h>>>0).toString(36);
+}
+
+function toast(msg){
+  var t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(function(){ t.classList.remove("show"); }, 2400);
+}
+
+/* ------------------------------------------------------------------
+   Render
+-------------------------------------------------------------------*/
+var ALL = [];            /* {id, li, cb, type, text, sectionEl, levelEl} */
+var seen = Object.create(null);
+var TOTAL = 0;
+
+function render(){
+  var main = document.getElementById("content");
+  var nav  = document.getElementById("levelNav");
+  var n = 0;
+
+  DATA.forEach(function(level, li){
+    var lvlNum = li + 1;
+
+    var sec = document.createElement("section");
+    sec.className = "level";
+    sec.id = level.id;
+
+    var head = document.createElement("div");
+    head.className = "level-head";
+    var tag = document.createElement("span");
+    tag.className = "tag lvl-" + lvlNum;
+    tag.textContent = level.tag;
+    var h2 = document.createElement("h2");
+    h2.appendChild(tag);
+    h2.appendChild(document.createTextNode("  " + level.title));
+    var goal = document.createElement("p");
+    goal.className = "goal";
+    goal.textContent = level.goal;
+
+    var prog = document.createElement("div");
+    prog.className = "overall";
+    var pct = document.createElement("span");
+    pct.className = "pct";
+    pct.id = level.id + "-pct";
+    var bar = document.createElement("span");
+    bar.className = "bar";
+    bar.setAttribute("role","progressbar");
+    bar.setAttribute("aria-labelledby", pct.id);
+    bar.setAttribute("aria-valuemin","0");
+    bar.setAttribute("aria-valuemax","100");
+    var barI = document.createElement("i");
+    bar.appendChild(barI);
+    prog.appendChild(pct); prog.appendChild(bar);
+
+    head.appendChild(h2); head.appendChild(goal); head.appendChild(prog);
+    sec.appendChild(head);
+
+    sec._pct = pct; sec._bar = barI; sec._barWrap = bar; sec._items = [];
+
+    level.sections.forEach(function(block){
+      var det = document.createElement("details");
+      det.className = "concept";
+      var openKey = hash(level.id + "|" + block.name);
+      det.open = state.open[openKey] !== false;   /* default open */
+      det.addEventListener("toggle", function(){
+        state.open[openKey] = det.open; save();
+      });
+
+      var sum = document.createElement("summary");
+      var dtag = document.createElement("span");
+      if(block.day){ dtag.className = "daytag d-core"; dtag.textContent = "Day " + block.day; }
+      else if(block.prio === "stretch"){ dtag.className = "daytag d-stretch"; dtag.textContent = "Stretch"; }
+      else { dtag.className = "daytag d-optional"; dtag.textContent = "Optional"; }
+      dtag.title = block.day ? "Scheduled for day " + block.day + " of the 8-day plan"
+                 : (block.prio === "stretch" ? "Not in the 8-day plan; pick up first if you have spare time"
+                                             : "Not in the 8-day plan; only if your stack or role needs it");
+      var nm = document.createElement("span");
+      nm.textContent = block.name;
+      var st = document.createElement("span");
+      st.className = "st";
+      var ck = document.createElement("span");
+      ck.className = "ck";
+      var sBar = document.createElement("span");
+      sBar.className = "bar mini";
+      var sBarI = document.createElement("i");
+      sBar.appendChild(sBarI);
+      st.appendChild(ck); st.appendChild(sBar);
+      sum.appendChild(dtag); sum.appendChild(nm); sum.appendChild(st);
+      det.appendChild(sum);
+      det.dataset.day  = block.day ? String(block.day) : "";
+      det.dataset.prio = block.prio;
+
+      var ol = document.createElement("ol");
+      ol.className = "qs";
+
+      var items = [];
+      block.qs.forEach(function(pair){
+        var type = pair[0], text = pair[1];
+        var id = hash(text);
+        if(seen[id]){ id = hash(block.name + "|" + text); }   /* collision / duplicate guard */
+        seen[id] = true;
+        n++;
+
+        var liEl = document.createElement("li");
+        liEl.className = "q";
+        liEl.dataset.type = type;
+        liEl.dataset.text = (text + " " + block.name + " " + TYPE_META[type].label).toLowerCase();
+
+        var row = document.createElement("div");
+        row.className = "qrow";
+
+        var cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.id = "q-" + id;
+        cb.checked = !!state.done[id];
+
+        var lab = document.createElement("label");
+        lab.setAttribute("for", cb.id);
+        var num = document.createElement("span");
+        num.className = "num";
+        num.textContent = n + ".";
+        var badge = document.createElement("span");
+        badge.className = "badge " + TYPE_META[type].cls;
+        badge.textContent = TYPE_META[type].label;
+        var txt = document.createElement("span");
+        txt.className = "txt";
+        txt.appendChild(num); txt.appendChild(badge);
+        txt.appendChild(document.createTextNode(text));
+        lab.appendChild(txt);
+
+        row.appendChild(cb); row.appendChild(lab);
+        liEl.appendChild(row);
+        if(cb.checked) liEl.classList.add("done");
+
+        /* my answer, if I have written one — always starts closed */
+        var tpl = ANSWERS[text], ansText = "";
+        if(tpl){
+          ANS_USED[text] = 1;
+          var aDet = document.createElement("details");
+          aDet.className = "ans";
+          var aSum = document.createElement("summary");
+          var chip = document.createElement("span");
+          chip.className = "anschip";
+          chip.textContent = "Answer";
+          var hint = document.createElement("span");
+          hint.className = "anshint";
+          hint.textContent = "show my notes";
+          aSum.appendChild(chip); aSum.appendChild(hint);
+          var aBody = document.createElement("div");
+          aBody.className = "ansbody";
+          aBody.appendChild(tpl.content.cloneNode(true));
+          aDet.appendChild(aSum); aDet.appendChild(aBody);
+          aDet.addEventListener("toggle", function(){
+            hint.textContent = aDet.open ? "hide" : "show my notes";
+          });
+          liEl.appendChild(aDet);
+          liEl.classList.add("hasAns");
+          ansText = (aBody.textContent || "").toLowerCase();
+        }
+
+        var rec = { id:id, li:liEl, cb:cb, type:type, det:det, sec:sec, day:block.day, prio:block.prio,
+                    hasAns:!!tpl, ansText:ansText };
+        cb.addEventListener("change", function(){
+          if(cb.checked){ state.done[id] = 1; liEl.classList.add("done"); }
+          else { delete state.done[id]; liEl.classList.remove("done"); }
+          save(); recount(); applyFilters(true);
+        });
+
+        ol.appendChild(liEl);
+        items.push(rec); ALL.push(rec); sec._items.push(rec);
+      });
+
+      var empty = document.createElement("p");
+      empty.className = "empty";
+      empty.textContent = "No questions match the current filters in this topic.";
+      det.appendChild(ol); det.appendChild(empty);
+
+      det._items = items; det._ck = ck; det._bar = sBarI; det._sum = sum; det._empty = empty;
+      sec.appendChild(det);
+    });
+
+    main.appendChild(sec);
+
+    var a = document.createElement("a");
+    a.href = "#" + level.id;
+    a.textContent = level.tag + " · " + level.title.split("—")[0].trim();
+    nav.appendChild(a);
+  });
+
+  TOTAL = n;
+}
+
+/* ------------------------------------------------------------------
+   Counting
+-------------------------------------------------------------------*/
+function recount(){
+  var doneAll = 0;
+  ALL.forEach(function(r){ if(r.cb.checked) doneAll++; });
+
+  var pctAll = TOTAL ? Math.round(doneAll * 100 / TOTAL) : 0;
+  document.getElementById("overallPct").textContent = doneAll + " of " + TOTAL + " done · " + pctAll + "%";
+  document.getElementById("overallBar").style.width = pctAll + "%";
+  document.querySelector(".overall .bar").setAttribute("aria-valuenow", String(pctAll));
+
+  DATA.forEach(function(level){
+    var sec = document.getElementById(level.id);
+    var items = sec._items, d = 0;
+    items.forEach(function(r){ if(r.cb.checked) d++; });
+    var p = items.length ? Math.round(d * 100 / items.length) : 0;
+    sec._pct.textContent = level.tag + ": " + d + " / " + items.length + " · " + p + "%";
+    sec._bar.style.width = p + "%";
+    sec._barWrap.setAttribute("aria-valuenow", String(p));
+
+    sec.querySelectorAll("details.concept").forEach(function(det){
+      var d2 = 0;
+      det._items.forEach(function(r){ if(r.cb.checked) d2++; });
+      var p2 = det._items.length ? Math.round(d2 * 100 / det._items.length) : 0;
+      det._ck.textContent = d2 + " / " + det._items.length;
+      det._bar.style.width = p2 + "%";
+      det._sum.classList.toggle("allDone", d2 === det._items.length && det._items.length > 0);
+    });
+  });
+
+  if(planRows.length) recountPlan();
+}
+
+/* ------------------------------------------------------------------
+   Filters
+-------------------------------------------------------------------*/
+function applyFilters(keepOpen){
+  var term = document.getElementById("q").value.trim().toLowerCase();
+  var ft = document.getElementById("fType").value;
+  var fs = document.getElementById("fStat").value;
+  var fp = document.getElementById("fPlan").value;
+  var fa = document.getElementById("fAns").value;
+  var filtering = !!term || ft !== "all" || fs !== "all" || fp !== "all" || fa !== "all";
+
+  ALL.forEach(function(r){
+    var ok = true;
+    if(ft !== "all" && r.type !== ft) ok = false;
+    if(ok && fs === "done" && !r.cb.checked) ok = false;
+    if(ok && fs === "todo" &&  r.cb.checked) ok = false;
+    if(ok && fa === "yes" && !r.hasAns) ok = false;
+    if(ok && fa === "no"  &&  r.hasAns) ok = false;
+    if(ok && fp !== "all"){
+      if(fp === "core")          ok = r.prio === "core";
+      else if(fp === "stretch")  ok = r.prio === "stretch";
+      else if(fp === "optional") ok = r.prio === "optional";
+      else                       ok = String(r.day) === fp.slice(1);
+    }
+    /* search matches the question text or anything inside my answer */
+    if(ok && term){
+      ok = r.li.dataset.text.indexOf(term) !== -1 || (!!r.ansText && r.ansText.indexOf(term) !== -1);
+    }
+    r.li.classList.toggle("hidden", !ok);
+  });
+
+  DATA.forEach(function(level){
+    var sec = document.getElementById(level.id);
+    var anyLevel = 0;
+    sec.querySelectorAll("details.concept").forEach(function(det){
+      var vis = det._items.filter(function(r){ return !r.li.classList.contains("hidden"); }).length;
+      anyLevel += vis;
+      det.classList.toggle("hidden", filtering && vis === 0);
+      det._empty.style.display = (vis === 0 && !filtering) ? "block" : "none";
+      if(filtering && vis > 0 && !keepOpen) det.open = true;
+    });
+    sec.classList.toggle("hidden", filtering && anyLevel === 0);
+  });
+}
+
+/* ------------------------------------------------------------------
+   8-day plan panel
+-------------------------------------------------------------------*/
+var DAY_LABEL = {
+  1:"Spring core, beans, configuration, Boot, profiles",
+  2:"MVC & REST, Spring Data JPA, validation, tests, microservices intro",
+  3:"Container depth, AOP, transaction management",
+  4:"JPA performance & mapping, REST API design",
+  5:"Security, caching, async & scheduling, actuator",
+  6:"Inter-service calls, discovery & gateway, messaging, resilience",
+  7:"OAuth2/OIDC, distributed data & saga, event-driven, observability",
+  8:"Architecture & DDD, performance, memory/GC, DB pools, incident drills"
+};
+var planRows = [];
+function buildPlan(){
+  var tb = document.getElementById("planRows");
+  for(var d = 1; d <= 8; d++){
+    var items = ALL.filter(function(r){ return r.day === d; });
+    var tr = document.createElement("tr");
+    tr.className = "dayrow";
+    tr.tabIndex = 0;
+    tr.title = "Show only day " + d;
+
+    var td1 = document.createElement("td");
+    td1.className = "dcell";
+    var bdg = document.createElement("span");
+    bdg.className = "daytag d-core";
+    bdg.textContent = "Day " + d;
+    td1.appendChild(bdg);
+
+    var td2 = document.createElement("td");
+    td2.textContent = DAY_LABEL[d];
+
+    var td3 = document.createElement("td");
+    td3.className = "n";
+    td3.textContent = items.length;
+
+    var td4 = document.createElement("td");
+    td4.className = "n";
+
+    var td5 = document.createElement("td");
+    td5.className = "pcell";
+    var bar = document.createElement("span");
+    bar.className = "bar mini";
+    var barI = document.createElement("i");
+    bar.appendChild(barI);
+    td5.appendChild(bar);
+
+    tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3); tr.appendChild(td4); tr.appendChild(td5);
+    tb.appendChild(tr);
+
+    (function(day){
+      function go(){
+        document.getElementById("fPlan").value = "d" + day;
+        document.getElementById("q").value = "";
+        document.getElementById("fType").value = "all";
+        document.getElementById("fStat").value = "all";
+        applyFilters(false);
+        var c = document.getElementById("content");
+        if(c && typeof c.scrollIntoView === "function"){
+          c.scrollIntoView({behavior:"smooth", block:"start"});
+        }
+        toast("Showing day " + day + " only — " + DAY_LABEL[day]);
+      }
+      tr.addEventListener("click", go);
+      tr.addEventListener("keydown", function(e){
+        if(e.key === "Enter" || e.key === " "){ e.preventDefault(); go(); }
+      });
+    })(d);
+
+    planRows.push({ day:d, items:items, doneCell:td4, bar:barI });
+  }
+}
+function recountPlan(){
+  planRows.forEach(function(row){
+    var d = row.items.filter(function(r){ return r.cb.checked; }).length;
+    var p = row.items.length ? Math.round(d * 100 / row.items.length) : 0;
+    row.doneCell.textContent = d + " (" + p + "%)";
+    row.bar.style.width = p + "%";
+  });
+}
+
+/* ------------------------------------------------------------------
+   Controls
+-------------------------------------------------------------------*/
+function applyTheme(){ document.documentElement.setAttribute("data-theme", state.theme); }
+
+function wire(){
+  document.getElementById("q").addEventListener("input", function(){ applyFilters(false); });
+  document.getElementById("fType").addEventListener("change", function(){ applyFilters(false); });
+  document.getElementById("fStat").addEventListener("change", function(){ applyFilters(false); });
+  document.getElementById("fPlan").addEventListener("change", function(){ applyFilters(false); });
+  document.getElementById("fAns").addEventListener("change", function(){ applyFilters(false); });
+
+  document.getElementById("btnExpand").addEventListener("click", function(){
+    document.querySelectorAll("details.concept").forEach(function(d){ d.open = true; });
+  });
+  document.getElementById("btnCollapse").addEventListener("click", function(){
+    document.querySelectorAll("details.concept").forEach(function(d){ d.open = false; });
+    document.querySelectorAll("details.ans").forEach(function(d){ d.open = false; });
+  });
+
+  document.getElementById("btnTheme").addEventListener("click", function(){
+    state.theme = state.theme === "dark" ? "light" : "dark";
+    applyTheme(); save();
+  });
+
+  document.getElementById("btnExport").addEventListener("click", function(){
+    var payload = { app:"spring-msa-interview-prep", version:1, exportedAt:new Date().toISOString(), done:state.done };
+    var blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "spring-msa-prep-progress.json";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+    toast("Progress exported");
+  });
+
+  var file = document.getElementById("fileImport");
+  document.getElementById("btnImport").addEventListener("click", function(){ file.click(); });
+  file.addEventListener("change", function(){
+    var f = file.files && file.files[0];
+    if(!f) return;
+    var rd = new FileReader();
+    rd.onload = function(){
+      try{
+        var p = JSON.parse(String(rd.result));
+        var done = p && p.done;
+        if(!done || typeof done !== "object") throw new Error("no done map");
+        state.done = {};
+        Object.keys(done).forEach(function(k){ if(done[k]) state.done[k] = 1; });
+        ALL.forEach(function(r){
+          r.cb.checked = !!state.done[r.id];
+          r.li.classList.toggle("done", r.cb.checked);
+        });
+        save(); recount(); applyFilters(true);
+        toast("Progress imported");
+      }catch(e){ toast("That file is not a valid progress export"); }
+      file.value = "";
+    };
+    rd.readAsText(f);
+  });
+
+  document.getElementById("btnReset").addEventListener("click", function(){
+    var d = 0;
+    ALL.forEach(function(r){ if(r.cb.checked) d++; });
+    if(d === 0){ toast("Nothing to reset"); return; }
+    if(!confirm("Clear all " + d + " completed questions? Export first if you want a backup.")) return;
+    state.done = {};
+    ALL.forEach(function(r){ r.cb.checked = false; r.li.classList.remove("done"); });
+    save(); recount(); applyFilters(true);
+    toast("Progress cleared");
+  });
+
+  /* "/" focuses search */
+  document.addEventListener("keydown", function(e){
+    if(e.key === "/" && !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)){
+      e.preventDefault(); document.getElementById("q").focus();
+    }
+  });
+
+  /* keep multiple tabs in sync */
+  window.addEventListener("storage", function(e){
+    if(e.key !== KEY) return;
+    load(); applyTheme();
+    ALL.forEach(function(r){
+      r.cb.checked = !!state.done[r.id];
+      r.li.classList.toggle("done", r.cb.checked);
+    });
+    recount();
+  });
+}
+
+/* ------------------------------------------------------------------
+   Boot
+-------------------------------------------------------------------*/
+load();
+applyTheme();
+render();
+buildPlan();
+recount();
+wire();
+applyFilters(true);
+console.log("Loaded " + TOTAL + " questions across " + DATA.length + " levels.");
+
+/* answer-bank sanity check: a data-q that matches nothing is a typo */
+(function checkAnswers(){
+  var keys = Object.keys(ANSWERS), used = Object.keys(ANS_USED), orphan = [];
+  keys.forEach(function(k){ if(!ANS_USED[k]) orphan.push(k); });
+  console.log("Answers attached: " + used.length + " of " + keys.length + " in the answer bank.");
+  if(orphan.length){
+    console.warn("These answer keys match no question (check the text exactly):", orphan);
+    toast(orphan.length + " answer(s) did not match a question — see console");
+  }
+})();
+</script>
+<script>
+/* ------------------------------------------------------------------
+   Shy header — once you scroll away from the top, the sticky header
+   slides out of the way and stays out, so the content keeps the full
+   screen. Scrolling back up does NOT pull it in: it only returns when
+   you are actually back at the top of the page.
+-------------------------------------------------------------------*/
+(function shyHeader(){
+  var root = document.documentElement;
+  var hdr  = document.querySelector("header");
+  if(!hdr || !("requestAnimationFrame" in window)) return;
+
+  var TOP = 90;          /* the only zone where the header is shown */
+  var ticking = false;
+
+  function update(){
+    var y = window.pageYOffset || 0;
+    root.classList.toggle("hdr-hidden", y > TOP);
+  }
+
+  window.addEventListener("scroll", function(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){ update(); ticking = false; });
+  }, {passive:true});
+
+  /* a focused control must never stay off-screen (e.g. "/" to search),
+     so jump back to the top instead of revealing a floating header */
+  hdr.addEventListener("focusin", function(){
+    if((window.pageYOffset || 0) > TOP) window.scrollTo(0, 0);
+  });
+
+  update();   /* handles a reload that restores a mid-page position */
+})();
+</script>
+</body>
+</html>

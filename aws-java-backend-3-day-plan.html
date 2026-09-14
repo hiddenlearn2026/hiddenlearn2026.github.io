@@ -1,0 +1,841 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3-Day Interview Prep — Java Backend / AWS, Kubernetes, Docker</title>
+<style>
+:root{
+  --bg:#f6f7f9; --card:#fff; --ink:#12181f; --muted:#5b6673; --line:#e3e7ec;
+  --accent:#0b5fff; --accent-soft:#e8f0ff; --ok:#0f8a5f; --ok-soft:#e6f6ef;
+  --warn:#a15c00; --warn-soft:#fff4e0; --hard:#8b1d4a; --hard-soft:#fdeaf2;
+  --radius:10px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--accent)}
+header.top{position:sticky;top:0;z-index:20;background:#0d1420;color:#fff;
+  padding:14px 20px;box-shadow:0 1px 0 rgba(0,0,0,.15)}
+header.top h1{margin:0;font-size:18px;letter-spacing:.2px}
+header.top p{margin:4px 0 0;font-size:13px;color:#9fb0c6}
+.topgrid{display:flex;gap:18px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.overall{min-width:260px;flex:1}
+.bar{height:9px;background:#26303f;border-radius:99px;overflow:hidden}
+.bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#2ee6a8,#0b5fff);transition:width .25s}
+.overall .lbl{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;color:#c9d6e6}
+.controls{display:flex;gap:8px;flex-wrap:wrap;padding:14px 20px 0;max-width:1080px;margin:0 auto}
+.controls input[type=search]{flex:1;min-width:200px;padding:9px 12px;border:1px solid var(--line);
+  border-radius:var(--radius);background:#fff;font-size:14px}
+button{font:inherit;font-size:13px;padding:9px 13px;border:1px solid var(--line);background:#fff;
+  border-radius:var(--radius);cursor:pointer;color:var(--ink)}
+button:hover{border-color:#c3ccd8}
+button:focus-visible,input:focus-visible,summary:focus-visible,label:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.toggle{display:inline-flex;align-items:center;gap:7px;padding:9px 13px;border:1px solid var(--line);
+  background:#fff;border-radius:var(--radius);font-size:13px;cursor:pointer}
+main{max-width:1080px;margin:0 auto;padding:18px 20px 70px}
+.howto{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin:14px 0 22px}
+.howto h2{margin:0 0 8px;font-size:15px}
+.howto ul{margin:8px 0 0;padding-left:20px;font-size:14px;color:var(--muted)}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.day{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  margin-bottom:22px;overflow:hidden}
+.day>.head{padding:16px 18px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fbfcfe,#f4f6f9)}
+.day>.head h2{margin:0;font-size:18px}
+.day>.head .meta{font-size:13px;color:var(--muted);margin-top:4px}
+.day>.head .barwrap{margin-top:12px}
+.day>.head .bar{background:#e6eaf0}
+.sec{border-bottom:1px solid var(--line)}
+.sec:last-child{border-bottom:0}
+.sec>summary{cursor:pointer;padding:13px 18px;display:flex;gap:10px;align-items:center;
+  font-weight:600;font-size:15px;list-style:none}
+.sec>summary::-webkit-details-marker{display:none}
+.sec>summary::before{content:"▸";color:var(--muted);font-weight:400;transition:transform .15s}
+.sec[open]>summary::before{content:"▾"}
+.sec>summary:hover{background:#fafbfd}
+.sec .count{margin-left:auto;font-weight:500;font-size:12px;color:var(--muted);
+  background:#f1f4f8;border-radius:99px;padding:3px 9px;white-space:nowrap}
+.sec .lvl{font-weight:500;font-size:11px;letter-spacing:.4px;text-transform:uppercase;
+  color:var(--accent);background:var(--accent-soft);border-radius:4px;padding:2px 7px}
+ol.qs{margin:0;padding:4px 18px 16px 18px;list-style:none}
+li.q{display:flex;gap:11px;padding:8px 0;border-top:1px dashed #edf0f4;align-items:flex-start}
+li.q:first-child{border-top:0}
+li.q input[type=checkbox]{margin:4px 0 0;width:17px;height:17px;flex:0 0 auto;accent-color:var(--accent);cursor:pointer}
+li.q .body{flex:1;min-width:0}
+li.q .txt{cursor:pointer;display:block}
+li.q.done .txt{color:var(--muted);text-decoration:line-through}
+.num{color:var(--muted);font-variant-numeric:tabular-nums;font-size:13px;margin-right:6px}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.4px;border-radius:4px;
+  padding:1px 6px;margin-left:7px;vertical-align:1px;white-space:nowrap}
+.tag.hf{color:var(--warn);background:var(--warn-soft)}
+.tag.sc{color:var(--accent);background:var(--accent-soft)}
+.tag.hard{color:var(--hard);background:var(--hard-soft)}
+details.hint{margin-top:5px}
+details.hint>summary{cursor:pointer;font-size:12.5px;color:var(--accent);list-style:none;display:inline-block}
+details.hint>summary::-webkit-details-marker{display:none}
+details.hint>summary::before{content:"＋ key points";}
+details.hint[open]>summary::before{content:"－ key points";}
+details.hint .hintbox{margin-top:6px;font-size:14px;color:#33404f;background:#f7f9fc;
+  border-left:3px solid var(--accent);border-radius:0 6px 6px 0;padding:9px 12px}
+.hide{display:none !important}
+footer.foot{max-width:1080px;margin:0 auto;padding:0 20px 40px;font-size:13px;color:var(--muted)}
+.empty{padding:24px 18px;color:var(--muted);font-size:14px}
+@media print{
+  header.top{position:static;background:#fff;color:#000}
+  header.top p,.controls,.bar{display:none}
+  .sec>summary{background:#fff}
+  details.hint{display:none}
+  .day,.sec,.howto{border-color:#bbb;break-inside:avoid}
+  li.q input[type=checkbox]{-webkit-appearance:none;appearance:none;border:1px solid #444;border-radius:3px}
+}
+
+  /* ================= shared navbar across the 3 prep pages ================= */
+  .pnav{
+    --pn-fg:rgba(255,255,255,.72); --pn-fg-on:#fff;
+    --pn-bg:rgba(255,255,255,.06); --pn-bg-on:rgba(255,255,255,.14);
+    --pn-bd:rgba(255,255,255,.16);
+    display:flex; align-items:center; gap:8px;
+    margin:0; padding:8px 0 10px; max-width:100%; list-style:none;
+    overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch;
+    scrollbar-width:none; scroll-snap-type:x proximity;
+  }
+  .pnav::-webkit-scrollbar{display:none}
+  .pnav a{
+    --pn-dot:#8aa0b8;
+    flex:0 0 auto; scroll-snap-align:start;
+    display:inline-flex; align-items:center; gap:8px;
+    min-height:40px; padding:0 14px;
+    border:1px solid var(--pn-bd); border-radius:99px;
+    background:var(--pn-bg); color:var(--pn-fg);
+    font-size:13px; font-weight:600; line-height:1; white-space:nowrap; text-decoration:none;
+    -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .pnav a:hover{background:var(--pn-bg-on); color:var(--pn-fg-on); border-color:var(--pn-dot)}
+  .pnav a:active{background:var(--pn-bg-on); color:var(--pn-fg-on)}
+  .pnav a:focus-visible{outline:2px solid var(--pn-dot); outline-offset:2px}
+  .pnav a[aria-current="page"]{
+    color:var(--pn-fg-on); background:var(--pn-bg-on);
+    border-color:var(--pn-dot); box-shadow:inset 0 0 0 1px var(--pn-dot); cursor:default;
+  }
+  .pnav .pn-dot{width:8px; height:8px; border-radius:50%; background:var(--pn-dot); flex:none}
+  .pnav .pn-meta{font-weight:500; font-size:11.5px; opacity:.75}
+  .pnav .pn-spring{--pn-dot:#4fd1c5}
+  .pnav .pn-lld{--pn-dot:#a78bfa}
+  .pnav .pn-aws{--pn-dot:#4c9aff}
+  /* light theme (Spring page theme toggle) */
+  html[data-theme="light"] .pnav{
+    --pn-fg:rgba(18,24,31,.68); --pn-fg-on:#12181f;
+    --pn-bg:rgba(18,24,31,.05); --pn-bg-on:rgba(18,24,31,.1);
+    --pn-bd:rgba(18,24,31,.16);
+  }
+  @media (max-width:520px){ .pnav .pn-meta{display:none} }
+  @media print{ .pnav{display:none !important} }
+
+  /* ===== shy header: hidden as soon as you leave the top, back only at the top ===== */
+  header{transition:transform .22s ease; will-change:transform}
+  html.hdr-hidden header{transform:translateY(-102%)}
+  @media (prefers-reduced-motion:reduce){ header{transition:none} }
+  @media print{ header{transform:none !important} }
+</style>
+</head>
+<body>
+<header class="top">
+  <nav class="pnav" aria-label="Interview prep pages">
+    <a class="pn-spring" href="spring-microservices-interview-prep.html" title="Spring &amp; Microservices question bank — Level 1 to Level 4"><span class="pn-dot" aria-hidden="true"></span>Spring &amp; MSA<span class="pn-meta">Level 1–4</span></a>
+    <a class="pn-lld" href="java-lld-5-day-plan.html" title="Low-Level Design prep — 5-day plan"><span class="pn-dot" aria-hidden="true"></span>Java LLD<span class="pn-meta">5-day plan</span></a>
+    <a class="pn-aws" href="aws-java-backend-3-day-plan.html" aria-current="page" title="AWS, Kubernetes and Docker prep — 3-day plan"><span class="pn-dot" aria-hidden="true"></span>AWS · K8s · Docker<span class="pn-meta">3-day plan</span></a>
+  </nav>
+  <div class="topgrid">
+    <div>
+      <h1>3-Day Interview Prep — Java Backend Developer</h1>
+      <p>Primary: AWS &nbsp;·&nbsp; Secondary: Kubernetes &amp; Docker &nbsp;·&nbsp; Fundamentals → Intermediate → Advanced → Production</p>
+    </div>
+    <div class="overall">
+      <div class="lbl"><span>Overall progress</span><span id="ovText">0 / 0</span></div>
+      <div class="bar"><i id="ovBar"></i></div>
+    </div>
+  </div>
+</header>
+
+<div class="controls">
+  <input type="search" id="search" placeholder="Search questions (e.g. probe, SQS, OOMKilled, IRSA)" aria-label="Search questions">
+  <label class="toggle"><input type="checkbox" id="hideDone"> Hide completed</label>
+  <button type="button" id="expandAll">Expand all</button>
+  <button type="button" id="collapseAll">Collapse all</button>
+  <button type="button" id="print">Print</button>
+  <button type="button" id="reset">Reset progress</button>
+</div>
+
+<main>
+  <section class="howto">
+    <h2>How to use this plan</h2>
+    <p style="margin:0;font-size:14px;color:var(--muted)">
+      Four difficulty levels are spread across three days: <strong>Day 1 = fundamentals</strong>,
+      <strong>Day 2 = intermediate</strong>, <strong>Day 3 = advanced + production/scenario</strong>.
+      Progress is saved in this browser automatically.
+    </p>
+    <ul>
+      <li>Answer out loud in 60–90 seconds before ticking a box. Recognising an answer is not the same as being able to say it.</li>
+      <li>Open <em>key points</em> only after you have attempted the answer, then compare.</li>
+      <li>Anything still unticked by the evening of Day 3 becomes your final revision list.</li>
+      <li>For every scenario question, structure the answer as: clarify → observe (metrics/logs) → hypothesis → verify → mitigate → prevent.</li>
+    </ul>
+    <div class="legend">
+      <span class="tag hf">HIGH FREQ</span><span style="font-size:13px;color:var(--muted)">asked in almost every round</span>
+      <span class="tag sc">SCENARIO</span><span style="font-size:13px;color:var(--muted)">situational / design</span>
+      <span class="tag hard">DEEP</span><span style="font-size:13px;color:var(--muted)">separates senior from mid-level</span>
+    </div>
+  </section>
+  <div id="plan"></div>
+  <div class="empty hide" id="noResults">No questions match your search.</div>
+</main>
+
+<footer class="foot">
+  Progress is stored locally in your browser (localStorage). Clearing site data or using a different browser resets it.
+</footer>
+
+<script>
+const PLAN = [
+{
+  day: "Day 1",
+  title: "Fundamentals — AWS core, Docker basics, Kubernetes basics",
+  meta: "Level 1 · Target 6–7 hrs · AWS 3.5 hrs, Docker 1.5 hrs, K8s 1.5 hrs. Goal: no gaps in vocabulary. You should be able to define every term without hesitating.",
+  sections: [
+  { name: "AWS — Global infrastructure & account basics", level: "Fundamentals", items: [
+    { q: "Difference between a Region, an Availability Zone, a Local Zone and an Edge Location?", tags:["hf"] },
+    { q: "How do you choose a Region for a new service?", hint: "Latency to users, data-residency/compliance, service availability in that Region, and price differences per Region." },
+    { q: "Explain the AWS Shared Responsibility Model. Give examples for EC2 vs S3 vs RDS.", tags:["hf"], hint: "AWS secures OF the cloud (hardware, hypervisor, managed service internals); you secure IN the cloud (OS patching on EC2, IAM, bucket policies, encryption choices, app code). The line moves right as the service becomes more managed." },
+    { q: "Compare On-Demand, Reserved Instances, Savings Plans and Spot pricing.", tags:["hf"], hint: "On-Demand = flexibility, highest price. RI/Savings Plans = 1–3 yr commitment, up to ~70% off. Spot = up to ~90% off but can be reclaimed in 2 min, so use for stateless/batch/CI workers." },
+    { q: "What is an AWS Organization, and why do teams use multiple accounts instead of one?" },
+    { q: "Difference between the Console, CLI, SDK, CloudFormation and CDK/Terraform?" },
+    { q: "What is a Service Control Policy (SCP) at a high level?" },
+    { q: "What does 'eventually consistent' mean, and name one AWS service where you must design for it.", tags:["hf"] }
+  ]},
+  { name: "AWS — IAM & security fundamentals", level: "Fundamentals", items: [
+    { q: "Explain IAM Users, Groups, Roles and Policies, and how they relate.", tags:["hf"] },
+    { q: "Identity-based policy vs resource-based policy — give an example of each.", tags:["hf"], hint: "Identity-based attaches to a user/role (what this principal may do). Resource-based attaches to the resource (S3 bucket policy, SQS queue policy, KMS key policy) and can grant cross-account access without AssumeRole." },
+    { q: "Why is an IAM Role preferred over long-lived access keys for an application?", tags:["hf","hard"], hint: "Roles give short-lived, automatically rotated STS credentials, so nothing to leak or rotate manually. EC2 → instance profile, ECS → task role, EKS → IRSA / Pod Identity, Lambda → execution role." },
+    { q: "What is an instance profile and how does the SDK pick up its credentials?", hint: "Instance profile wraps a role and attaches it to EC2; the default credential provider chain resolves it from IMDSv2 (169.254.169.254) with no config in code." },
+    { q: "Explain IAM policy evaluation: explicit deny, explicit allow, implicit deny.", tags:["hf"], hint: "Default is deny. An explicit Deny anywhere (identity policy, resource policy, SCP, permission boundary, session policy) always wins over any Allow." },
+    { q: "What are the elements of a policy document (Version, Statement, Effect, Action, Resource, Condition, Principal)?" },
+    { q: "How do you apply least privilege in practice on a real service?", hint: "Start from generated policies / Access Analyzer, scope Resource ARNs (never *), add Conditions (aws:SourceVpce, aws:PrincipalTag), review with IAM Access Advisor for unused permissions." },
+    { q: "What is AWS STS and when do you call AssumeRole?", tags:["hf"] },
+    { q: "Where should MFA be enforced, and what is the root account rule?" }
+  ]},
+  { name: "AWS — Networking fundamentals (VPC)", level: "Fundamentals", items: [
+    { q: "What are the core components of a VPC?", tags:["hf"], hint: "CIDR block, subnets per AZ, route tables, Internet Gateway, NAT Gateway, security groups, NACLs, and optionally VPC endpoints and peering/TGW attachments." },
+    { q: "Public subnet vs private subnet — what actually makes a subnet public?", tags:["hf"], hint: "A route table entry 0.0.0.0/0 → Internet Gateway. Nothing else. Plus the instance needs a public IP to be reachable inbound." },
+    { q: "Internet Gateway vs NAT Gateway.", tags:["hf"] },
+    { q: "Security Group vs Network ACL — give at least four differences.", tags:["hf"], hint: "SG: stateful, instance/ENI level, allow rules only, evaluates all rules. NACL: stateless (need explicit return rules), subnet level, allow and deny, evaluated in numbered order." },
+    { q: "Can an EC2 instance in a private subnet reach the internet? How?", tags:["hf"] },
+    { q: "How many usable IP addresses does a /24 subnet give you in AWS, and why not 256?", hint: "251. AWS reserves 5: network address, VPC router, DNS, future use, and broadcast." },
+    { q: "What is a route table, and what is the local route?" },
+    { q: "How do you get shell access to an instance in a private subnet without a bastion?", hint: "SSM Session Manager over the SSM agent — no inbound ports, no SSH keys, fully audited in CloudTrail." },
+    { q: "What is an ENI, and why do Pods in EKS consume VPC IPs?" }
+  ]},
+  { name: "AWS — Compute & storage fundamentals (EC2, S3, EBS)", level: "Fundamentals", items: [
+    { q: "What is an AMI and what does it contain?" },
+    { q: "How do you pick an EC2 instance family for a JVM service?", tags:["hf"], hint: "m-family for balanced app servers, c-family for CPU-bound, r-family for large heaps/caches, t-family (burstable) only for dev — CPU credits will bite a steady-load JVM. Graviton (m7g/c7g) for ~20–40% better price-performance if your image is multi-arch." },
+    { q: "EBS vs Instance Store vs EFS — when do you use each?", tags:["hf"] },
+    { q: "EBS volume types (gp3, io2, st1, sc1) — how do you choose?", hint: "gp3 default (IOPS and throughput are configurable independently of size), io2 Block Express for high-IOPS databases, st1/sc1 for sequential/cold throughput workloads." },
+    { q: "What is EC2 user data vs instance metadata? What is IMDSv2 and why is it safer?", tags:["hf"] },
+    { q: "What is Amazon S3 and what consistency guarantee does it give today?", tags:["hf"], hint: "Strong read-after-write consistency for PUTs, DELETEs and LISTs since Dec 2020 — the old 'eventual consistency for overwrites' answer is outdated." },
+    { q: "Walk through the S3 storage classes and when you would transition between them.", tags:["hf"] },
+    { q: "What is S3 versioning and how does it protect against accidental deletes?", tags:["hf"], hint: "Deletes add a delete marker rather than removing data; combine with MFA delete and lifecycle rules to expire noncurrent versions." },
+    { q: "What is a presigned URL and what is the classic Java backend use case?", tags:["hf"], hint: "Time-limited signed URL so the client uploads/downloads directly to S3, keeping large payloads out of your service. Signed with the caller's credentials, so the role must have the underlying permission." },
+    { q: "How is S3 encryption configured: SSE-S3, SSE-KMS, DSSE-KMS, SSE-C, client-side?", tags:["hf"] },
+    { q: "Object vs block vs file storage — map each to an AWS service." },
+    { q: "How do you make a bucket private and keep it private?", hint: "Block Public Access at account and bucket level, no public ACLs, bucket policy with aws:SecureTransport condition, and access only through IAM roles or presigned URLs." }
+  ]},
+  { name: "AWS — Database fundamentals", level: "Fundamentals", items: [
+    { q: "What does Amazon RDS manage for you, and what stays your responsibility?", tags:["hf"] },
+    { q: "RDS vs running the database yourself on EC2 — trade-offs." },
+    { q: "Is RDS Multi-AZ for high availability or for scaling reads? Explain the failover.", tags:["hf"], hint: "HA only. Synchronous standby in another AZ, DNS CNAME flips on failover (typically 60–120s). The standby serves no traffic — read replicas are the scaling answer." },
+    { q: "What is a read replica and how does a Java service use one?", tags:["hf"], hint: "Asynchronous copy for read scaling and reporting. In Spring you route reads via a separate DataSource / @Transactional(readOnly=true) with a routing DataSource — and you must tolerate replica lag." },
+    { q: "When would you pick DynamoDB over RDS?", tags:["hf"], hint: "Known, simple access patterns; need single-digit ms at any scale; unbounded growth; no joins/ad-hoc queries. Pick RDS when you need transactions across entities, joins, or evolving query patterns." },
+    { q: "What is Amazon Aurora and how does it differ from standard RDS MySQL/PostgreSQL?", tags:["hf"] },
+    { q: "What is ElastiCache, and explain the cache-aside pattern.", tags:["hf"], hint: "Cache-aside: read cache → miss → read DB → populate cache with a TTL. On write, update DB then invalidate the key. Redis vs Memcached: Redis for data structures, persistence, replication, pub/sub." },
+    { q: "What is connection pooling, and why is it critical when the app runs in containers?", tags:["hf"] },
+    { q: "What is the difference between vertical scaling and horizontal scaling for a database?" }
+  ]},
+  { name: "Docker — Fundamentals", level: "Fundamentals", items: [
+    { q: "What problem does Docker solve? Container vs virtual machine.", tags:["hf"], hint: "Containers share the host kernel and isolate with namespaces (view) and cgroups (resources) — MBs and milliseconds. VMs virtualise hardware with their own kernel — GBs and seconds." },
+    { q: "Difference between an image, a container and a registry.", tags:["hf"] },
+    { q: "Explain the main Dockerfile instructions: FROM, WORKDIR, COPY, RUN, ENV, ARG, EXPOSE, USER, ENTRYPOINT, CMD.", tags:["hf"] },
+    { q: "ENTRYPOINT vs CMD — explain with an example.", tags:["hf"], hint: "ENTRYPOINT is the fixed executable, CMD supplies default arguments that the user can override at docker run. Prefer exec form (JSON array) so the JVM gets PID 1 and receives SIGTERM." },
+    { q: "COPY vs ADD — which should you default to and why?" },
+    { q: "What are image layers, and how does the build cache decide what to rebuild?", tags:["hf"], hint: "Each instruction is a layer; the cache invalidates from the first changed instruction downward. So copy pom.xml and resolve dependencies before copying source code." },
+    { q: "How do you persist data? Volumes vs bind mounts vs tmpfs.", tags:["hf"] },
+    { q: "How does port publishing (-p 8080:8080) work, and what does EXPOSE actually do?", tags:["hf"] },
+    { q: "Which Docker CLI commands do you use daily? (build, run, ps, logs, exec, inspect, cp, stats, prune)" },
+    { q: "Default network drivers: bridge, host, none, overlay, macvlan — and how do two containers on a user-defined bridge resolve each other?", tags:["hf"] },
+    { q: "What is Docker Compose and when do you use it as a backend developer?", tags:["hf"], hint: "Local dev and integration tests: app plus Postgres, Redis, LocalStack in one file. In CI, Testcontainers is often the better fit." },
+    { q: "Docker Hub vs Amazon ECR — how does authentication to ECR work?", tags:["hf"] },
+    { q: "Write a working Dockerfile for a Spring Boot fat jar from memory.", tags:["hf"], hint: "FROM eclipse-temurin:21-jre-alpine, WORKDIR /app, COPY target/app.jar app.jar, RUN adduser + USER, EXPOSE 8080, ENTRYPOINT [\"java\",\"-XX:MaxRAMPercentage=75\",\"-jar\",\"app.jar\"]. Mention that you would make it multi-stage." },
+    { q: "What is the difference between docker stop and docker kill?" }
+  ]},
+  { name: "Kubernetes — Fundamentals", level: "Fundamentals", items: [
+    { q: "What does Kubernetes give you that plain Docker or Compose does not?", tags:["hf"], hint: "Declarative desired state with reconciliation, scheduling across nodes, self-healing, service discovery and load balancing, rolling updates and rollback, autoscaling, config/secret management." },
+    { q: "Draw the architecture: control plane and node components.", tags:["hf"], hint: "Control plane: kube-apiserver, etcd, scheduler, controller-manager, cloud-controller-manager. Node: kubelet, container runtime (containerd), kube-proxy. Plus CoreDNS as an add-on." },
+    { q: "What is etcd and why is it the most critical component?" },
+    { q: "What is a Pod, and why is it the smallest unit instead of a container?", tags:["hf"], hint: "A Pod is one or more containers sharing network namespace (same IP and localhost), IPC and volumes — which is what makes sidecars and initContainers possible." },
+    { q: "Pod vs ReplicaSet vs Deployment — who owns whom?", tags:["hf"] },
+    { q: "If every Pod has an IP, why do you still need a Service?", tags:["hf"], hint: "Pod IPs are ephemeral and change on every restart/rescheduling. A Service gives a stable virtual IP and DNS name plus load balancing over the ready endpoints selected by labels." },
+    { q: "Explain labels, selectors and annotations, and how a Service finds its Pods.", tags:["hf"] },
+    { q: "What are Namespaces used for, and which resources are NOT namespaced?", tags:["hf"] },
+    { q: "ConfigMap vs Secret — and are Secrets encrypted by default?", tags:["hf","hard"], hint: "Secrets are only base64-encoded in etcd by default. You need encryption at rest (KMS provider), RBAC to restrict get/list, and ideally external secret managers." },
+    { q: "The kubectl commands you must know cold: get, describe, logs, exec, apply, diff, rollout, port-forward, top, events.", tags:["hf"] },
+    { q: "kubectl apply vs create vs replace — what is declarative vs imperative here?", tags:["hf"] },
+    { q: "What are the four top-level fields of every manifest, and what goes in spec vs status?" },
+    { q: "Walk through what happens from kubectl apply -f deployment.yaml to a running Pod.", tags:["hf","hard"], hint: "kubectl → API server (auth, authz, admission, validation) → stored in etcd → Deployment controller creates ReplicaSet → ReplicaSet creates Pods (unscheduled) → scheduler binds to a node → kubelet pulls image and starts containers via CRI → probes pass → Pod becomes Ready → endpoint added to Service." },
+    { q: "What is the difference between a Pod's restart and a Pod's recreation? What does restartPolicy control?" },
+    { q: "What are Pod phases (Pending, Running, Succeeded, Failed, Unknown) and common container states (Waiting, Running, Terminated)?", tags:["hf"] }
+  ]},
+  { name: "Java backend on cloud — Fundamentals", level: "Fundamentals", items: [
+    { q: "Which 12-Factor principles matter most for containerised deployments?", tags:["hf"], hint: "Config in the environment, backing services as attached resources, stateless disposable processes, logs to stdout as event streams, dev/prod parity, explicit dependencies, and fast startup/graceful shutdown." },
+    { q: "Why must a cloud-native service be stateless, and where does session state go instead?", tags:["hf"] },
+    { q: "How do you externalise configuration in Spring Boot across dev/stage/prod?", tags:["hf"], hint: "Profiles plus environment variables (SPRING_DATASOURCE_URL style relaxed binding), ConfigMaps for non-secrets, Secrets Manager/Parameter Store for secrets. Same image everywhere, config injected at runtime." },
+    { q: "Which Actuator endpoints do you expose in production, and how do they map to Kubernetes probes?", tags:["hf"], hint: "/actuator/health/liveness and /health/readiness (Spring Boot exposes these when probes are enabled), /metrics via Micrometer + Prometheus, /info. Never expose /env, /heapdump or /shutdown publicly." },
+    { q: "Why should logs go to stdout as JSON rather than to a file inside the container?", tags:["hf"] },
+    { q: "How do you pass a database password to a Spring Boot Pod without baking it into the image?", tags:["hf"] },
+    { q: "What is a graceful shutdown in Spring Boot and why does it matter in Kubernetes?", tags:["hf"], hint: "server.shutdown=graceful plus spring.lifecycle.timeout-per-shutdown-phase lets in-flight requests finish after SIGTERM instead of dropping connections." }
+  ]}
+  ]
+},
+{
+  day: "Day 2",
+  title: "Intermediate — scaling, messaging, data, observability, container tuning",
+  meta: "Level 2 · Target 7–8 hrs · AWS 4 hrs, Docker 1.5 hrs, K8s 2 hrs. Goal: explain trade-offs and defend a choice, not just define terms. This is where most Java backend rounds actually live.",
+  sections: [
+  { name: "AWS — Load balancing, autoscaling & compute choice", level: "Intermediate", items: [
+    { q: "ALB vs NLB vs Gateway Load Balancer vs classic ELB — differences and when to use each.", tags:["hf"], hint: "ALB = L7, HTTP routing, path/host rules, WAF integration, native gRPC/HTTP2. NLB = L4, static IP, ultra low latency, TLS passthrough, millions of connections. GWLB = inline appliance inspection." },
+    { q: "How does an ALB route a request? Explain listeners, rules, target groups and targets.", tags:["hf"] },
+    { q: "What is a target group health check, what happens when it fails, and which knobs matter?", tags:["hf"], hint: "Path, interval, timeout, healthy/unhealthy threshold. Failing targets are removed from rotation, not terminated (unless ASG health check type is ELB). Point it at the readiness endpoint, not a heavy path." },
+    { q: "What is connection draining / deregistration delay and what breaks if it is too short?", tags:["hf"] },
+    { q: "How do sticky sessions work on an ALB, and why are they an anti-pattern?", tags:["hf"] },
+    { q: "What is an Auto Scaling Group? Explain min/desired/max and health check replacement.", tags:["hf"] },
+    { q: "Compare target tracking, step, simple and scheduled scaling policies.", tags:["hf"] },
+    { q: "What is a warm-up / cooldown period and why does a JVM app need one?", tags:["hard"], hint: "JIT warm-up and connection pool fill mean a fresh instance is slow for the first 30–60s; without warm-up the scaler sees high latency and over-scales, or sends traffic too early." },
+    { q: "EC2 vs ECS vs EKS vs Fargate vs Lambda for a Java microservice — how do you choose?", tags:["hf","hard"], hint: "Lambda for spiky/event-driven with short work; ECS+Fargate for simple containerised services with a small ops team; EKS when you need the K8s ecosystem, multi-tenancy, service mesh or portability; EC2 only for special OS/licensing needs." },
+    { q: "ECS on EC2 vs ECS on Fargate — what do you give up and gain?", tags:["hf"] },
+    { q: "What is an ECS task definition and how does it compare to a Pod spec?" },
+    { q: "When is Lambda a poor fit for a Java service?", tags:["hf"], hint: "Long-running or steady high-throughput work (cost), heavy Spring context and cold starts, needs persistent connections/connection pools, >15 min runtime, or WebSockets/streaming state." },
+    { q: "What is API Gateway, and when do you use it instead of an ALB?", tags:["hf"] },
+    { q: "What does 'scale out' vs 'scale up' mean, and which does Kubernetes prefer?" }
+  ]},
+  { name: "AWS — Messaging & event-driven", level: "Intermediate", items: [
+    { q: "SQS vs SNS vs EventBridge vs Kinesis vs MSK — one line each, then pick one for a given scenario.", tags:["hf","hard"], hint: "SQS = point-to-point work queue, pull, per-message delete. SNS = pub/sub fan-out, push. EventBridge = event bus with content filtering, routing and schema registry. Kinesis = ordered, replayable shard-based stream. MSK = managed Kafka for high-throughput, long retention, consumer groups." },
+    { q: "SQS Standard vs FIFO — throughput, ordering and deduplication.", tags:["hf"] },
+    { q: "What is visibility timeout and what problem does it solve? What if processing takes longer?", tags:["hf","hard"], hint: "After receive, the message is hidden so other consumers do not process it. If your handler may exceed it, extend with ChangeMessageVisibility (heartbeat) rather than setting a huge global timeout, which delays retries on crash." },
+    { q: "What is a Dead Letter Queue, how does maxReceiveCount work, and how do you redrive?", tags:["hf"] },
+    { q: "Long polling vs short polling — and what is the correct WaitTimeSeconds?", tags:["hf"] },
+    { q: "How do you make an SQS consumer idempotent in Java?", tags:["hf","hard"], hint: "SQS Standard is at-least-once, so idempotency is your job: dedupe on a business key or messageId in a DynamoDB/Redis table with TTL, or use conditional writes / unique constraints so replays are no-ops." },
+    { q: "Explain the SNS → SQS fan-out pattern and why you would not have SNS call services directly.", tags:["hf"] },
+    { q: "Kinesis Data Streams vs Firehose. How do shards and partition keys affect ordering and throughput?", tags:["hf"] },
+    { q: "How do you preserve ordering when you also want parallel consumers?", tags:["hard"], hint: "Order per key, not globally: FIFO message group ID, Kinesis partition key, or Kafka key → partition. Parallelism becomes number of groups/partitions." },
+    { q: "How do you handle a poison-pill message that always fails?" },
+    { q: "How does SQS pricing and long polling affect cost at high volume?" }
+  ]},
+  { name: "AWS — Data layer, intermediate", level: "Intermediate", items: [
+    { q: "DynamoDB core concepts: table, item, partition key, sort key, on-demand vs provisioned capacity, RCU/WCU.", tags:["hf"] },
+    { q: "How do you design a partition key to avoid hot partitions?", tags:["hf","hard"], hint: "High-cardinality, evenly accessed key; avoid status flags or dates as the sole PK. Techniques: composite keys, write sharding with a suffix, and moving time into the sort key." },
+    { q: "Query vs Scan — why is Scan discouraged and when is it acceptable?", tags:["hf"] },
+    { q: "GSI vs LSI — differences and hard limits.", tags:["hf"], hint: "LSI: same PK, different SK, created only at table creation, shares the 10 GB item-collection limit, supports strongly consistent reads. GSI: different PK/SK, added anytime, its own capacity, eventually consistent only." },
+    { q: "What are DynamoDB Streams and a real use case?" },
+    { q: "Strongly consistent vs eventually consistent reads — cost and availability trade-off." },
+    { q: "What is RDS Proxy and which container-specific problem does it solve?", tags:["hf","hard"], hint: "Pooling and multiplexing in front of RDS so many short-lived Pods/Lambdas do not exhaust max_connections; it also holds connections through a failover, cutting failover impact." },
+    { q: "How do you size a HikariCP pool for RDS? Give a formula and the key timeouts.", tags:["hf","hard"], hint: "Total connections across all replicas must stay under max_connections. Rough sizing: pool ≈ cores × 2 + effective spindles, usually 10–20 per instance, not 100. Set connectionTimeout, maxLifetime below any LB/DB idle timeout, and validationTimeout." },
+    { q: "What are S3 lifecycle policies, and how do you move cold data to Glacier classes?" },
+    { q: "How do you upload a 5 GB file to S3 from Java efficiently?", tags:["hf"], hint: "Multipart upload / S3 Transfer Manager: parallel parts, retry per part, resumable, required above 5 GB single-PUT limit." },
+    { q: "How do you paginate an API backed by DynamoDB vs backed by SQL?", tags:["hard"], hint: "DynamoDB: opaque cursor built from LastEvaluatedKey. SQL: keyset/seek pagination on an indexed column beats OFFSET, which degrades linearly." },
+    { q: "What is read/write amplification from an ORM, and how do you spot N+1 queries?" },
+    { q: "What is Amazon Athena / Redshift at a high level, and when is a data warehouse the right answer instead of your OLTP DB?" }
+  ]},
+  { name: "AWS — Config, secrets & encryption", level: "Intermediate", items: [
+    { q: "Secrets Manager vs SSM Parameter Store — features, rotation and cost.", tags:["hf"], hint: "Secrets Manager: native rotation with Lambda, cross-region replication, per-secret monthly cost. Parameter Store: free standard tier, SecureString via KMS, no built-in rotation; good for plain config." },
+    { q: "What is KMS, and explain envelope encryption.", tags:["hf","hard"], hint: "KMS holds the CMK and never releases it. You ask for a data key, get plaintext + encrypted copy, encrypt data locally with the plaintext key, discard it, and store the encrypted key next to the ciphertext. Decrypt = send the encrypted key back to KMS." },
+    { q: "AWS managed key vs customer managed key vs KMS key policy vs grant." },
+    { q: "How do you enforce encryption in transit and at rest for RDS and S3?", tags:["hf"] },
+    { q: "How do you rotate a database credential with zero downtime?", tags:["hard"], hint: "Two-user alternating strategy or dual-secret: create the new credential, deploy so the app can use either, switch, verify, then retire the old one. Refresh the pool without a restart, or roll Pods with the new secret version." },
+    { q: "How does an app running in EKS get AWS credentials without any keys in the image?", tags:["hf"] },
+    { q: "What is AWS AppConfig / feature-flag configuration, and why not just redeploy?" }
+  ]},
+  { name: "AWS — Observability", level: "Intermediate", items: [
+    { q: "CloudWatch Metrics vs Logs vs Alarms vs Logs Insights vs CloudWatch Events — what is each for?", tags:["hf"] },
+    { q: "How do container logs reach CloudWatch?", tags:["hf"], hint: "stdout → container runtime → log driver (awslogs on ECS) or a node agent (Fluent Bit / CloudWatch agent DaemonSet on EKS) → log group per app, stream per Pod." },
+    { q: "How do you publish a custom application metric from Java?", tags:["hf"], hint: "Micrometer with a CloudWatch or Prometheus registry; counters/timers/gauges. Prefer Prometheus + AMP on EKS to avoid per-metric CloudWatch cost." },
+    { q: "What is AWS X-Ray, and how does distributed tracing find a latency problem?", tags:["hf"] },
+    { q: "CloudTrail vs CloudWatch — which one tells you who deleted the bucket?", tags:["hf"] },
+    { q: "What is a correlation ID and how do you propagate it across HTTP and SQS boundaries?", tags:["hf","hard"], hint: "W3C traceparent header, put it in MDC for logging, propagate via SQS message attributes for async hops. Otherwise async work is untraceable." },
+    { q: "Define the four golden signals and the RED/USE methods." },
+    { q: "What is the difference between a metric, a log and a trace, and when do you reach for each in an incident?", tags:["hf"] },
+    { q: "What should and should not go into an alarm? What makes an alert actionable?" }
+  ]},
+  { name: "Docker — Intermediate, Java-focused", level: "Intermediate", items: [
+    { q: "What is a multi-stage build and why is it essential for Java?", tags:["hf"], hint: "Build stage has Maven/Gradle and the JDK; the final stage copies only the artifact onto a JRE base. Cuts image from ~700 MB to ~200 MB and removes build tools and source from the attack surface." },
+    { q: "Write an optimised multi-stage Dockerfile for a Spring Boot app from memory.", tags:["hf","hard"], hint: "Stage 1: maven:3.9-eclipse-temurin-21, COPY pom.xml, RUN mvn -B dependency:go-offline, COPY src, RUN mvn package -DskipTests. Stage 2: eclipse-temurin:21-jre-alpine, non-root USER, COPY --from=build /app/target/*.jar app.jar, ENTRYPOINT exec form with MaxRAMPercentage." },
+    { q: "What is a Spring Boot layered jar and how does it improve caching?", tags:["hf","hard"], hint: "layertools/paketo splits the jar into dependencies, spring-boot-loader, snapshot-dependencies and application layers, so a code-only change re-pushes a few MB instead of the whole fat jar." },
+    { q: "Which base image do you pick: temurin JDK, temurin JRE, alpine, distroless, or Amazon Corretto? Trade-offs.", tags:["hf"], hint: "JRE not JDK for runtime. Alpine = musl libc, smallest but watch DNS and native-library edge cases. Distroless = no shell, best security posture but harder to debug (use ephemeral debug containers)." },
+    { q: "Is the JVM container-aware? Explain UseContainerSupport, MaxRAMPercentage and ActiveProcessorCount.", tags:["hf","hard"], hint: "Since JDK 10 the JVM reads cgroup limits, so heap defaults to 25% of the container limit. Set -XX:MaxRAMPercentage=70–75 instead of -Xmx so the same image works at any limit. Available processors come from the CPU limit, which affects GC threads and pool sizes." },
+    { q: "Why does setting -Xmx equal to the container memory limit cause OOMKills?", tags:["hf","hard"], hint: "Total RSS = heap + metaspace + code cache + thread stacks + direct/NIO buffers + GC structures. Leave 25–30% headroom for non-heap, otherwise the kernel kills the container while the heap still looks healthy." },
+    { q: "What does .dockerignore do, and what belongs in it for a Maven project?", tags:["hf"] },
+    { q: "Why run as a non-root user, and how do you do it in a Dockerfile?", tags:["hf"] },
+    { q: "Docker HEALTHCHECK vs a Kubernetes probe — which one wins in K8s?", tags:["hf"] },
+    { q: "How do you take a 700 MB Java image down to under 200 MB?", tags:["hard"], hint: "Multi-stage, JRE or jlink-trimmed runtime, alpine/distroless base, layered jar, .dockerignore, no build cache in the final layer, and remove package manager caches in the same RUN." },
+    { q: "How does PID 1 signal handling affect graceful shutdown in a container?", tags:["hf","hard"], hint: "Shell form (ENTRYPOINT java -jar ...) makes /bin/sh PID 1, which does not forward SIGTERM, so the JVM is SIGKILLed after the grace period. Use exec form, or exec java, or an init like tini." },
+    { q: "How do you debug a container that exits immediately?", tags:["hf"], hint: "docker logs on the exited container, docker inspect for exit code and OOMKilled flag, override the entrypoint with a shell, check file permissions and missing env vars." },
+    { q: "Why is :latest an anti-pattern? What tagging strategy do you use instead?", tags:["hf"], hint: "Not immutable, breaks rollback and reproducibility, and imagePullPolicy interactions get confusing. Tag with semver plus git SHA, and deploy by digest for real immutability." },
+    { q: "ARG vs ENV — build-time vs runtime, and why secrets must not be passed as ARG.", tags:["hf"], hint: "ARG values persist in image history and are visible via docker history. Use BuildKit --mount=type=secret instead." },
+    { q: "What is a JVM-specific concern with CPU limits inside containers, at a basic level?" },
+    { q: "What is Testcontainers and why is it better than a shared test database?", tags:["hf"] }
+  ]},
+  { name: "Kubernetes — Intermediate", level: "Intermediate", items: [
+    { q: "Service types: ClusterIP, NodePort, LoadBalancer, ExternalName, Headless — one use case each.", tags:["hf"] },
+    { q: "How does kube-proxy implement Service load balancing (iptables vs IPVS vs eBPF)?" },
+    { q: "What is an Ingress, and what is the difference between Ingress and an Ingress Controller?", tags:["hf"] },
+    { q: "Ingress vs one Service of type LoadBalancer per service — cost and capability.", tags:["hf"], hint: "One LoadBalancer per service means one ALB/NLB per service and per-hour cost; an Ingress shares one load balancer across many hosts/paths and gives L7 features and central TLS." },
+    { q: "Explain liveness, readiness and startup probes, and what breaks when each is wrong.", tags:["hf","hard"], hint: "Liveness failure restarts the container; readiness failure removes it from Service endpoints; startup probe suspends the other two until the app boots. Pointing liveness at a check that hits the DB creates cluster-wide restart storms during a DB blip." },
+    { q: "Why does a slow-starting Spring Boot app need a startupProbe rather than a long initialDelaySeconds?", tags:["hf"] },
+    { q: "Resource requests vs limits — how do they affect scheduling, throttling and OOMKill?", tags:["hf","hard"], hint: "Requests drive scheduling and are guaranteed; limits are enforced ceilings. Exceeding a memory limit = OOMKilled (SIGKILL, no grace); exceeding a CPU limit = throttled, not killed." },
+    { q: "What are QoS classes (Guaranteed, Burstable, BestEffort) and how do they affect eviction order?", tags:["hard"] },
+    { q: "What is CPU throttling (CFS quota) and why is it especially bad for a JVM?", tags:["hf","hard"], hint: "The cgroup gets a quota per 100 ms period; once used, all threads stall until the next period, which shows up as p99 latency spikes and long GC pauses even though average CPU looks low. Watch container_cpu_cfs_throttled_seconds_total." },
+    { q: "Explain RollingUpdate with maxSurge and maxUnavailable, and what Recreate does.", tags:["hf"] },
+    { q: "How do you check rollout status and roll back a bad deployment?", tags:["hf"], hint: "kubectl rollout status, kubectl rollout history, kubectl rollout undo --to-revision=N. Note that a rollback does not undo a database migration." },
+    { q: "Deployment vs StatefulSet vs DaemonSet vs Job vs CronJob — pick the right one for four workloads.", tags:["hf"] },
+    { q: "What is a Headless Service and why do StatefulSets need one?" },
+    { q: "What is an initContainer? Give a Java use case.", tags:["hf"], hint: "Run Flyway/Liquibase migration, wait for a dependency, fetch config or certs, fix volume permissions. It must complete successfully before app containers start." },
+    { q: "What is a sidecar? Give two real examples and mention native sidecars in modern K8s.", tags:["hf"] },
+    { q: "ConfigMap/Secret as env var vs mounted volume — which one auto-refreshes?", tags:["hf","hard"], hint: "Env vars are fixed at container start and need a restart. Mounted volumes update in place (with kubelet sync delay), but the app must reload — Spring Cloud Kubernetes or a config watcher. Changing a checksum annotation to force a rollout is the common trick." },
+    { q: "What is a ServiceAccount and how does a Pod authenticate to the API server?", tags:["hf"] },
+    { q: "What is HPA, which metrics can it use, and how does it compute the replica count?", tags:["hf"] },
+    { q: "Why is CPU-based HPA unreliable for a JVM service, and what do you scale on instead?", tags:["hf","hard"], hint: "JIT warm-up and GC make CPU noisy, and an I/O-bound service saturates on latency long before CPU. Prefer RPS, in-flight requests, queue depth or p95 latency via custom/external metrics (KEDA, Prometheus adapter)." },
+    { q: "How does DNS work in a cluster? What is the fully qualified Service name?", tags:["hf"], hint: "svc.namespace.svc.cluster.local resolved by CoreDNS. Also know the ndots:5 search-path issue that adds latency to external lookups." },
+    { q: "kubectl logs vs kubectl logs --previous vs kubectl events — when do you use each?", tags:["hf"] },
+    { q: "What is a PV, PVC and StorageClass, and what is dynamic provisioning?", tags:["hf"] },
+    { q: "What does kubectl port-forward do, and what are its limits for debugging?" },
+    { q: "What is Helm, and what problem do values files and templates solve? Helm vs Kustomize.", tags:["hf"] }
+  ]}
+  ]
+},
+{
+  day: "Day 3",
+  title: "Advanced + Production — deep AWS, K8s internals, scenarios & mock",
+  meta: "Levels 3 and 4 · Target 8 hrs · Morning = advanced theory, afternoon = scenarios out loud, evening = mock + revision of everything still unticked. Scenario answers matter more than definitions at this stage.",
+  sections: [
+  { name: "AWS — Advanced identity, multi-account & networking", level: "Advanced", items: [
+    { q: "How does IRSA (IAM Roles for Service Accounts) work on EKS, end to end?", tags:["hf","hard"], hint: "EKS runs an OIDC provider; you trust it in the role's trust policy scoped to system:serviceaccount:ns:name. The Pod gets a projected, short-lived service-account JWT, and the SDK exchanges it via sts:AssumeRoleWithWebIdentity. Per-Pod least privilege instead of node-role permissions." },
+    { q: "EKS Pod Identity vs IRSA — why did AWS add it?", tags:["hard"] },
+    { q: "How do you set up cross-account access, and what is the confused-deputy problem / external ID?", tags:["hf"] },
+    { q: "Permission boundary vs SCP vs session policy — how do they interact?", tags:["hard"] },
+    { q: "How does an ABAC (tag-based) policy work, and when does it beat RBAC?" },
+    { q: "What are VPC endpoints? Gateway vs Interface (PrivateLink), and how do you restrict them?", tags:["hf","hard"], hint: "Gateway endpoints (S3, DynamoDB) are route-table entries and free. Interface endpoints are ENIs in your subnets with private DNS, billed hourly plus data. Use endpoint policies and aws:SourceVpce conditions to keep traffic private and provable." },
+    { q: "Why add an S3 gateway endpoint for an EKS workload?", tags:["hard"], hint: "Traffic to S3 stops traversing the NAT Gateway: removes NAT data-processing cost, cuts latency, and keeps data off the public internet." },
+    { q: "VPC Peering vs Transit Gateway vs PrivateLink — pick one for three scenarios.", tags:["hf"] },
+    { q: "Route 53 routing policies: simple, weighted, latency, failover, geolocation, geoproximity, multivalue.", tags:["hf"] },
+    { q: "What are health checks in Route 53 and how do they enable DNS failover?" },
+    { q: "What is CloudFront, what can it cache, and how do cache keys and invalidations work?", tags:["hf"] },
+    { q: "Where do WAF and Shield sit, and what attacks does each address?" },
+    { q: "What are VPC Flow Logs and what question can they answer that application logs cannot?", tags:["hf"] },
+    { q: "How does DNS resolution work for a private hosted zone from inside a VPC?" },
+    { q: "How would you prove to an auditor that a service's traffic never leaves the VPC?", tags:["hard"] }
+  ]},
+  { name: "AWS — Reliability, DR & Well-Architected", level: "Advanced", items: [
+    { q: "Name the six pillars of the Well-Architected Framework.", tags:["hf"], hint: "Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, Sustainability." },
+    { q: "Define RTO and RPO, then map the four DR strategies to them.", tags:["hf","hard"], hint: "Backup & restore (hours), pilot light (tens of minutes), warm standby (minutes), multi-site active-active (near zero). Cost rises with every step; pick from the business requirement, not from ambition." },
+    { q: "Design a highly available service across AZs — what must be multi-AZ and what must not be in-memory?", tags:["hf"] },
+    { q: "When is multi-region genuinely worth the complexity?", tags:["hard"], hint: "Regulatory requirement, global latency, or an RTO the Region cannot meet. Costs: data replication lag, split-brain risk, doubled infra, much harder testing. Active-passive with DNS failover is the pragmatic default." },
+    { q: "How do you restore RDS to a point in time, and what is the difference between automated backups and snapshots?", tags:["hf"] },
+    { q: "What is AWS Backup and why centralise backup policy?" },
+    { q: "How do you test a DR plan without endangering production?", tags:["hard"] },
+    { q: "How do service quotas cause outages, and how do you get ahead of them?", tags:["hard"], hint: "ENIs/IPs per subnet, Lambda concurrency, EC2 vCPU limits, ELB rules, API TPS. Alarm on quota utilisation via Service Quotas metrics and raise limits before a launch or a failover into a cold Region." },
+    { q: "What is a cell-based / shuffle-sharding architecture and what blast-radius problem does it solve?", tags:["hard"] },
+    { q: "What is chaos engineering and what would you inject first for a Java service on EKS?" }
+  ]},
+  { name: "AWS — Advanced data, serverless & async patterns", level: "Advanced", items: [
+    { q: "DynamoDB single-table design — what is it, and when is it wrong?", tags:["hf","hard"], hint: "Overload PK/SK with entity prefixes and use GSIs to serve each known access pattern in one round trip. Wrong when access patterns are unknown or churn often, or when the team cannot maintain the modelling discipline." },
+    { q: "How do you implement optimistic locking in DynamoDB?", tags:["hard"], hint: "A version attribute plus a ConditionExpression that the stored version equals the one you read; on ConditionalCheckFailedException, reread and retry. Same idea as JPA @Version." },
+    { q: "How do you handle DynamoDB throttling? What is adaptive capacity and what does it not fix?", tags:["hard"] },
+    { q: "What is DAX and when does it actually help?" },
+    { q: "How does Aurora failover behave, and how should a Java client be configured for it?", tags:["hf","hard"], hint: "Writer/reader cluster endpoints, promotion tiers, usually 30s or less. Use the AWS JDBC Driver (or short DNS TTL awareness), cap maxLifetime, keep validation on borrow, and make retries idempotent so in-flight transactions can be replayed." },
+    { q: "What is RDS Blue/Green deployment and how does it change major version upgrades?" },
+    { q: "What caching layers exist end to end, and how do you invalidate safely?", tags:["hard"], hint: "Client → CloudFront → API cache → application/local cache → Redis → DB buffer pool. Write-through or invalidate-on-write, TTL plus jitter to avoid stampede, and single-flight/locking to avoid a thundering herd on a cold key." },
+    { q: "What causes Java Lambda cold starts, and how do you reduce them?", tags:["hf","hard"], hint: "JVM start + classloading + Spring context. Mitigate with SnapStart, provisioned concurrency, a lean framework (Micronaut/Quarkus or plain handler), lazy init, tiered compilation stop-at-level-1, and more memory (which also gives more CPU)." },
+    { q: "What is Lambda SnapStart and what are its limitations?", tags:["hard"] },
+    { q: "Reserved vs provisioned concurrency — what does each protect you from?", tags:["hf"] },
+    { q: "How do you handle partial batch failures for an SQS → Lambda trigger?", tags:["hard"], hint: "ReportBatchItemFailures with the failed message IDs, so only those return to the queue instead of the entire batch being retried." },
+    { q: "What is Step Functions, and when do you orchestrate there rather than in application code?" },
+    { q: "Explain the transactional outbox pattern and why dual writes are unsafe.", tags:["hf","hard"], hint: "Writing to the DB and publishing to a broker in one operation is not atomic. Instead write the event into an outbox table in the same transaction, then a poller or CDC (DMS/Debezium) publishes it — at-least-once delivery with consumer idempotency." },
+    { q: "Explain the Saga pattern, orchestration vs choreography, and compensating transactions.", tags:["hf","hard"] },
+    { q: "Is exactly-once delivery achievable? What is the honest engineering answer?", tags:["hard"], hint: "At-least-once delivery plus idempotent processing gives effectively-once. Broker-level exactly-once (Kafka transactions, FIFO dedup windows) is bounded and does not extend to external side effects." },
+    { q: "How do you back-fill or replay events safely after a consumer bug?", tags:["hard"] }
+  ]},
+  { name: "Kubernetes — Advanced", level: "Advanced", items: [
+    { q: "How does the scheduler place a Pod? Explain filtering and scoring.", tags:["hf"] },
+    { q: "nodeSelector vs node affinity vs pod affinity vs pod anti-affinity — with a real use case each.", tags:["hf","hard"] },
+    { q: "Taints and tolerations — give a real use case beyond 'dedicated nodes'.", tags:["hf"] },
+    { q: "What is topologySpreadConstraints and why is it better than pod anti-affinity for AZ spread?", tags:["hard"], hint: "Anti-affinity is binary and can leave Pods unschedulable; spread constraints express maxSkew across topology keys (zone, hostname) with whenUnsatisfiable=ScheduleAnyway or DoNotSchedule." },
+    { q: "What is a PodDisruptionBudget and what breaks during a node drain without one?", tags:["hf","hard"], hint: "PDB caps voluntary disruptions (drain, cluster upgrade, autoscaler consolidation). Without it, a drain can evict every replica of a Deployment at once. minAvailable set too high blocks upgrades forever, so it needs care." },
+    { q: "Walk through graceful shutdown in Kubernetes in exact order, including the endpoint-removal race.", tags:["hf","hard"], hint: "Pod marked Terminating → in parallel: endpoint removal propagates AND preStop runs, then SIGTERM → app finishes in-flight work → SIGKILL at terminationGracePeriodSeconds. The race is that kube-proxy/ALB may still send traffic, so use a preStop sleep of 5–15s and set the grace period above your longest request." },
+    { q: "Why do you still see 502s during a rolling update even with readiness probes configured?", tags:["hf","hard"], hint: "Readiness only gates adding endpoints, not removing them promptly. Causes: no preStop delay, ALB deregistration delay longer than the grace period, keep-alive connections pinned to a dying Pod, or the app closing the listener before draining." },
+    { q: "Explain RBAC: Role, ClusterRole, RoleBinding, ClusterRoleBinding, and aggregation.", tags:["hf"] },
+    { q: "What are NetworkPolicies, what is the default without them, and what enforces them?", tags:["hf","hard"] },
+    { q: "What is a CRD and an Operator? What does the reconcile loop do?", tags:["hf"] },
+    { q: "Cluster Autoscaler vs Karpenter vs HPA vs VPA — who scales what, and how do they interact?", tags:["hf","hard"], hint: "HPA scales Pods, VPA scales Pod resources, Cluster Autoscaler/Karpenter scale nodes. HPA and VPA on the same metric conflict. Karpenter provisions right-sized nodes directly from pending Pods and consolidates, replacing ASG-based node groups." },
+    { q: "What is KEDA, and how would you scale a consumer on SQS queue depth?", tags:["hf","hard"], hint: "KEDA external metrics with the aws-sqs-queue scaler on ApproximateNumberOfMessages, targeting messages-per-replica, and it can scale to zero — which CPU-based HPA cannot do." },
+    { q: "What does a service mesh give you beyond an Ingress controller, and what does it cost?", tags:["hf"] },
+    { q: "How do you get AWS secrets into Pods: External Secrets Operator vs Secrets Store CSI driver vs init fetch?", tags:["hf"] },
+    { q: "StatefulSet guarantees: stable identity, ordered rollout, volumeClaimTemplates — and what happens on scale-down?", tags:["hard"] },
+    { q: "Why can an EBS-backed PVC not move across AZs, and what do you use when many Pods need shared storage?", tags:["hard"], hint: "EBS is a single-AZ, single-attach (mostly RWO) device, so the Pod is pinned to that AZ. For shared RWX use EFS via the EFS CSI driver." },
+    { q: "What are admission controllers? Validating vs mutating webhooks, and a real policy you would enforce.", tags:["hard"] },
+    { q: "What is Pod Security Admission and how does it replace PodSecurityPolicy?" },
+    { q: "How do you upgrade an EKS cluster with no downtime?", tags:["hf","hard"], hint: "Check deprecated APIs first, upgrade control plane, then add-ons (CNI, CoreDNS, kube-proxy), then node groups via surge/blue-green node groups with cordon and drain honouring PDBs. Verify probes and grace periods before draining." },
+    { q: "How does the AWS VPC CNI assign IPs, and what is IP exhaustion in a large cluster?", tags:["hard"] },
+    { q: "What is etcd resource pressure, and why are huge ConfigMaps or too many Secrets a problem?" },
+    { q: "How do you debug a Pod with no shell (distroless)?", tags:["hard"], hint: "kubectl debug with an ephemeral container sharing the process namespace, or a copy of the Pod with a different image." }
+  ]},
+  { name: "Docker & supply chain — Advanced", level: "Advanced", items: [
+    { q: "What is BuildKit, and how do cache mounts speed up Maven/Gradle builds?", tags:["hard"], hint: "RUN --mount=type=cache,target=/root/.m2 keeps the dependency cache across builds without baking it into a layer; plus parallel stages and --mount=type=secret for build-time credentials." },
+    { q: "How do you keep dependency caches warm across ephemeral CI runners?", tags:["hard"] },
+    { q: "A critical CVE is reported in your base image. Walk through your response.", tags:["hf","hard"], hint: "Confirm reachability (is the vulnerable class actually on the path), rank by exposure, rebuild from a patched base, scan in CI with a blocking gate, redeploy by digest, and verify with an SBOM query across all services. Have a documented emergency-patch path." },
+    { q: "What is an SBOM, and what do image signing and attestation (cosign/Notary) buy you?", tags:["hard"] },
+    { q: "OCI image spec vs runtime spec; containerd vs Docker Engine vs CRI-O — what actually runs your Pod?", tags:["hard"] },
+    { q: "How do you make builds reproducible and deployments immutable?", tags:["hard"], hint: "Pin base images by digest, pin dependency versions and lock files, no :latest, deploy by image digest, and set imagePullPolicy accordingly." },
+    { q: "Linux capabilities, seccomp, AppArmor, read-only root filesystem, no-new-privileges — what would you set on a Java Pod?", tags:["hard"] },
+    { q: "Why is docker-in-docker risky in CI, and what are the alternatives?", tags:["hard"], hint: "Privileged mode gives effective host root and lets one job tamper with another. Use Kaniko, BuildKit rootless, buildah, or a remote builder." },
+    { q: "How do you scan and gate images in a pipeline without blocking every release?" }
+  ]},
+  { name: "Production — deployment & release engineering", level: "Production", items: [
+    { q: "Blue/green vs canary vs rolling vs shadow deployment — trade-offs and rollback speed.", tags:["hf","hard"] },
+    { q: "How do you run a canary release on EKS without a service mesh?", tags:["hard"], hint: "Two Deployments behind one Service with replica ratios, or ALB weighted target groups via the AWS Load Balancer Controller, or Argo Rollouts with metric analysis for automated abort." },
+    { q: "How do you ship a backward-incompatible database migration during a rolling deploy?", tags:["hf","hard"], hint: "Expand/contract: add the new nullable column, dual-write, backfill, switch reads, then drop the old column in a later release. Never in one deploy — old and new Pods run simultaneously, and a rollback must still work against the migrated schema." },
+    { q: "What is the expand/contract (parallel change) pattern in one sentence?", tags:["hf"] },
+    { q: "How do feature flags decouple deployment from release, and what is the hidden cost?", tags:["hf"] },
+    { q: "Design a CI/CD pipeline from commit to production for a Java service on EKS.", tags:["hf","hard"], hint: "Build + unit tests → static analysis and dependency scan → build image once, tag with SHA → integration tests with Testcontainers → push to ECR → image scan gate → deploy to dev/stage via Helm or GitOps → smoke tests → manual or automated gate → canary to prod → automated rollback on SLO breach. Same artifact promoted everywhere." },
+    { q: "What is GitOps (Argo CD / Flux) and how does it change rollback and drift?", tags:["hf"] },
+    { q: "How do you promote the same artifact across environments without rebuilding?", tags:["hard"] },
+    { q: "What belongs in a rollback plan, and when is rollback NOT possible?", tags:["hf","hard"], hint: "Irreversible migrations, published events consumers already acted on, and external side effects (payments, emails). Then you need forward-fix plus compensation, which is why you plan for it before deploying." },
+    { q: "How do you version and deprecate a public API safely?", tags:["hf"] },
+    { q: "What is a deployment freeze / change-management window, and how do you keep shipping safely without one?" }
+  ]},
+  { name: "Scenario — incident response & debugging", level: "Production", items: [
+    { q: "5xx errors jump to 20% two minutes after a deploy. Walk me through your first ten minutes.", tags:["sc","hf","hard"], hint: "Stop the bleed first: halt the rollout and roll back or shift traffic. Then compare the deployed diff, check error class in logs, ALB 5xx vs target 5xx to locate the layer, dependency health, and DB metrics. Communicate status, then do RCA afterwards — mitigation before diagnosis." },
+    { q: "A Pod is in CrashLoopBackOff. Debug it end to end.", tags:["sc","hf","hard"], hint: "kubectl describe pod for events, exit code and reason; kubectl logs --previous for the last crash; check OOMKilled (137) vs app exception (1) vs SIGTERM (143); verify env/secret/ConfigMap presence, probe settings that kill during startup, image entrypoint, and file permissions for non-root." },
+    { q: "Pods are OOMKilled but heap dumps show the heap is mostly free. What is happening?", tags:["sc","hf","hard"], hint: "Non-heap growth: metaspace, thread stacks (thread leak), direct/NIO buffers from HTTP clients, native libraries, or JVM code cache. -Xmx set too close to the limit leaves no headroom. Use Native Memory Tracking, cap MaxDirectMemorySize, bound thread pools, and set MaxRAMPercentage ~70%." },
+    { q: "A Pod is stuck in Pending. List every plausible cause.", tags:["sc","hf","hard"], hint: "Insufficient CPU/memory on any node, no node matching selectors/affinity/taints, unbound PVC or wrong AZ for an EBS volume, exhausted VPC IPs, node group at max, PDB/topology constraints, or a missing scheduler-relevant resource. kubectl describe pod shows the scheduler's reason." },
+    { q: "ImagePullBackOff / ErrImagePull — what do you check?", tags:["sc","hf"], hint: "Wrong tag or digest, private registry without imagePullSecrets, ECR auth or missing node/IRSA permissions, cross-region or NAT/endpoint egress blocked, or a rate limit on Docker Hub." },
+    { q: "p99 latency went from 200 ms to 3 s but CPU and memory look fine. Diagnose.", tags:["sc","hf","hard"], hint: "Look for queueing rather than saturation: CPU throttling (CFS), GC pause time, connection-pool wait time, a slow downstream call, a missing index after data growth, DNS latency, lock contention, or noisy neighbours. Traces plus pool and GC metrics find it faster than CPU graphs." },
+    { q: "Logs show 'HikariPool-1 - Connection is not available, request timed out after 30000ms'. Root cause it.", tags:["sc","hf","hard"], hint: "Demand exceeds pool size because queries got slower, a transaction is held open across a remote call, connections leak (no try-with-resources), or replicas are down. Fix the slow query or the leak; blindly raising pool size usually just moves the queue into the database." },
+    { q: "Your service on EKS cannot connect to RDS. Diagnose layer by layer.", tags:["sc","hf","hard"], hint: "DNS resolves? Security group on RDS allows the node/Pod SG on 5432? Correct subnet route and NACL? Right VPC and not publicly-only accessible? Credentials and secret version? max_connections reached? Test with a debug Pod using nc/psql to separate network from auth from capacity." },
+    { q: "SQS queue depth keeps rising and the DLQ is filling. What do you do?", tags:["sc","hf","hard"], hint: "Check consumer error rate and cause; is it a poison pill or a downstream outage? Scale consumers (KEDA on queue depth), confirm visibility timeout exceeds processing time, check for throttling on the sink, then redrive the DLQ after the fix. Age-of-oldest-message is the alert to use." },
+    { q: "After a deploy, all ALB targets show unhealthy. Where do you look?", tags:["sc","hf"], hint: "Health-check path and port vs container port, readiness gate, security group between LB and targets, app binding to 127.0.0.1 instead of 0.0.0.0, context-path change, and health check timing shorter than startup time." },
+    { q: "A node goes NotReady and some Pods never reschedule. Why?", tags:["sc","hard"], hint: "Pods on the lost node are stuck Terminating until the node object is removed; StatefulSet Pods will not be recreated automatically (identity safety); EBS volumes must detach first; and remaining nodes may lack capacity or violate a PDB or topology constraint." },
+    { q: "Requests intermittently fail with 502 or 504 through the Ingress. Explain the difference and the causes.", tags:["sc","hard"], hint: "502 = upstream closed or returned garbage (Pod terminating, keep-alive mismatch where the backend idle timeout is shorter than the LB's, app crash mid-request). 504 = upstream too slow (timeout at LB or Ingress shorter than the backend's own timeout)." },
+    { q: "Nodes report DiskPressure and Pods are being evicted. What is filling the disk?", tags:["sc"], hint: "Container logs without rotation, image layers from many tags, emptyDir usage, heap dumps written to the container filesystem. Fix rotation, prune images, move dumps to a volume, and set ephemeral-storage requests." },
+    { q: "A rollout is stuck at '1 of 3 updated replicas are available'. Walk through it.", tags:["sc","hard"], hint: "New Pods never become Ready (probe failing, config error), insufficient capacity for maxSurge, PDB blocking eviction of old Pods, or progressDeadlineSeconds hit. Describe the new ReplicaSet and its Pods, not the Deployment." },
+    { q: "Terminated Pods keep receiving traffic for several seconds. Explain and fix.", tags:["sc","hf","hard"], hint: "The endpoint-removal race: kube-proxy and the ALB target group update asynchronously. Add a preStop sleep, enable graceful shutdown in the app, align deregistration delay and terminationGracePeriodSeconds, and use readiness gates with the AWS Load Balancer Controller in IP mode." },
+    { q: "A slow downstream dependency saturates your thread pool and takes the whole service down. Explain the failure mode and the fix.", tags:["sc","hf","hard"], hint: "Cascading failure from unbounded waiting: every thread blocks on the slow call, so unrelated endpoints also fail. Fix with aggressive timeouts, bulkheads per dependency, a circuit breaker, a bounded queue with load shedding, and ideally non-blocking I/O." },
+    { q: "Duplicate charges appear after a client retry storm. How did it happen and how do you prevent it?", tags:["sc","hf","hard"], hint: "Non-idempotent POST plus retries at multiple layers. Fix with an Idempotency-Key header persisted with the response, a unique constraint on the business key, and retries only on idempotent or safely-replayable operations." },
+    { q: "A bug appears only in production containers and involves dates or timezones. What do you check?", tags:["sc"], hint: "Container TZ defaults to UTC while the dev machine is local; store and compute in UTC, use Instant/OffsetDateTime, and set the JVM timezone explicitly rather than relying on the image." },
+    { q: "You must diagnose a memory issue in production with no shell access and cannot restart the Pod. What now?", tags:["sc","hard"], hint: "Metrics and JFR/JMX first, kubectl debug ephemeral container with jcmd/jmap against the shared process namespace, write the dump to a mounted volume, and copy it out. Know that jmap can pause the JVM." },
+    { q: "Two Pods of the same CronJob ran at once and double-processed records. Why, and how do you make it safe?", tags:["sc","hard"], hint: "CronJob guarantees at-least-once; concurrencyPolicy defaults to Allow and a missed schedule can back-fill. Set concurrencyPolicy: Forbid, add startingDeadlineSeconds, and make the job idempotent or take a distributed lock (ShedLock)." },
+    { q: "Latency is fine in one AZ and terrible in another. What would cause that?", tags:["sc","hard"] },
+    { q: "How do you write a blameless postmortem? What must it contain?", tags:["sc","hf"] }
+  ]},
+  { name: "Scenario — performance, capacity & cost", level: "Production", items: [
+    { q: "How do you right-size requests and limits for a JVM service?", tags:["sc","hf","hard"], hint: "Load test to find the knee, then set memory request = limit (Guaranteed) at measured RSS plus ~25–30% headroom; set a CPU request from steady-state usage and be cautious with CPU limits because of throttling. Use VPA in recommendation mode and real percentiles, not guesses." },
+    { q: "Which garbage collector do you pick for a 2 vCPU / 2 GiB container and why?", tags:["sc","hard"], hint: "Below ~2 CPUs the JVM may default to SerialGC, which is usually wrong for a latency-sensitive service — G1 is the safe default; ZGC/Shenandoah for large heaps and strict pause targets; Parallel for throughput batch. Always state the trade-off you are optimising." },
+    { q: "How do you capture a heap dump and thread dump from a running Pod, and what do you look for?", tags:["sc","hf","hard"] },
+    { q: "The monthly AWS bill jumped 40%. How do you find and fix the cause?", tags:["sc","hf","hard"], hint: "Cost Explorer grouped by service, then by usage type and tag, and compare against last month; check Cost Anomaly Detection. Usual suspects: NAT Gateway data processing, cross-AZ traffic, CloudWatch logs ingestion, orphaned EBS/snapshots and idle load balancers, and a runaway autoscaler." },
+    { q: "Give five concrete cost optimisations for a containerised Java platform.", tags:["sc","hf"], hint: "Graviton and right-sizing, Spot/Karpenter for stateless workloads plus Savings Plans for the baseline, S3 gateway endpoint and AZ-aware routing to cut data transfer, log retention and sampling, scale non-prod to zero off-hours, and gp3 instead of gp2." },
+    { q: "Why is cross-AZ traffic expensive, and how do you reduce it without losing HA?", tags:["sc","hard"] },
+    { q: "How do you load test safely against production-like infrastructure?", tags:["sc"] },
+    { q: "How do you do capacity planning for an expected 10x traffic event?", tags:["sc","hard"], hint: "Model from RPS per Pod measured under test, then check every downstream limit: DB connections and CPU, quotas, IP space, ALB pre-warm, and autoscaler reaction time. The bottleneck is almost never the app tier." },
+    { q: "How do you define an SLI, SLO and error budget for your service?", tags:["sc","hf"] }
+  ]},
+  { name: "Scenario — security in production", level: "Production", items: [
+    { q: "An AWS access key was committed to GitHub. What is your response, in order?", tags:["sc","hf","hard"], hint: "Deactivate then delete the key immediately, rotate anything it could reach, review CloudTrail for use, check for created IAM users/roles and running instances, then remove from history and add secret scanning plus pre-commit hooks. Assume compromise, not 'probably fine'." },
+    { q: "A secret was baked into a Docker image layer. How do you remediate?", tags:["sc","hard"], hint: "Rotate the secret first — deleting the image does not help since it may already be pulled. Then rebuild without it, delete affected tags from the registry, and switch to runtime injection with BuildKit secrets for build time." },
+    { q: "An S3 bucket was found publicly readable. Immediate and preventive actions.", tags:["sc","hf"] },
+    { q: "How do you enforce cluster-wide that no container runs as root?", tags:["sc","hard"], hint: "Pod Security Admission at restricted level per namespace, or a policy engine (Kyverno/OPA Gatekeeper) validating runAsNonRoot, plus CI checks on manifests so it fails before the cluster." },
+    { q: "How do you restrict Pod-to-Pod traffic to only what is required?", tags:["sc"] },
+    { q: "Log4Shell-style zero day: 40 services, patch needed today. What is your plan?", tags:["sc","hf","hard"], hint: "Inventory via SBOM/dependency scanning to find affected versions, apply a central parent-POM or BOM bump, prioritise internet-facing services, ship a WAF rule or JVM flag as an interim mitigation, then rebuild and redeploy in waves with verification. This is exactly why one-command dependency bumps and a fast pipeline matter." },
+    { q: "How do you keep an audit trail for a regulated workload?", tags:["sc"] },
+    { q: "Where do you terminate TLS, and how would you get mTLS between internal services?", tags:["sc","hard"], hint: "TLS at ALB/Ingress with ACM for public traffic; for internal mTLS use a service mesh with automatic certificate rotation, or ACM Private CA plus cert-manager. Note the trade-off: mesh sidecars add latency and operational load." },
+    { q: "How do you handle PII in logs, and what does 'encrypt everything' actually mean in practice?", tags:["sc"] },
+    { q: "How would you prevent a developer from deploying an unscanned or unsigned image?", tags:["sc","hard"] }
+  ]},
+  { name: "Scenario — architecture & design", level: "Production", items: [
+    { q: "Design a highly available, autoscaling REST API on AWS for 10k RPS. Name every component and why.", tags:["sc","hf","hard"], hint: "Route 53 → CloudFront/WAF → ALB across 3 AZs → EKS/ECS with HPA and Karpenter → Aurora with read replicas and RDS Proxy → ElastiCache → SQS for async work → Secrets Manager, CloudWatch/Prometheus, X-Ray. Then talk about failure of each component and the cost/latency budget." },
+    { q: "Migrate a monolith to microservices on EKS. Sequence, and where does it usually go wrong?", tags:["sc","hf","hard"], hint: "Strangler fig: put a routing layer in front, carve by bounded context starting with a low-risk edge capability, split the database last with the outbox pattern for events. Failures come from a shared database, distributed transactions, and no observability across the new hops." },
+    { q: "Design an async order-processing pipeline with retries, DLQ and idempotency.", tags:["sc","hf","hard"] },
+    { q: "Two services own separate databases but need consistency. What are your options?", tags:["sc","hf","hard"], hint: "Prefer eventual consistency with the outbox and a saga plus compensation. Alternatives: make one service the owner and the other read a projection, or (rarely) a 2PC/XA transaction with all its availability costs. State the consistency requirement before choosing." },
+    { q: "How do you isolate a noisy tenant in a multi-tenant service?", tags:["sc","hard"] },
+    { q: "Design cross-region active-passive DR for Java + RDS with RPO of 5 minutes.", tags:["sc","hard"], hint: "Aurora Global Database or cross-region read replica for sub-minute lag, infrastructure as code in the standby Region, replicated secrets and images (ECR replication), Route 53 failover with health checks, and a regularly rehearsed promotion runbook. Quotas in the standby Region are the classic trap." },
+    { q: "Choose between synchronous REST and event-driven for a given flow and justify it.", tags:["sc","hf"] },
+    { q: "How do you introduce a cache into an existing flow without creating stale-data bugs?", tags:["sc","hard"] },
+    { q: "Design rate limiting and back-pressure for a public API.", tags:["sc","hard"], hint: "Layered: WAF/API Gateway usage plans and throttling at the edge, token bucket per API key in Redis for distributed counting, 429 with Retry-After, plus concurrency limits and load shedding in the app so you fail fast rather than queue forever." },
+    { q: "How would you design a job that processes 50 million records nightly on AWS?", tags:["sc","hard"] },
+    { q: "How do you decide between EKS and ECS for a new platform, given a small team?", tags:["sc","hf"] }
+  ]},
+  { name: "Resilience patterns for Java services", level: "Production", items: [
+    { q: "Circuit breaker: states, thresholds, and how you configure Resilience4j.", tags:["hf","hard"], hint: "Closed → Open on a failure-rate threshold over a sliding window → Half-Open trial calls → Closed or Open again. Configure failureRateThreshold, slidingWindow, waitDurationInOpenState, permittedCallsInHalfOpenState, and always pair it with a fallback." },
+    { q: "Retry with exponential backoff and jitter — why is jitter not optional?", tags:["hf","hard"], hint: "Without jitter, all clients retry on the same schedule and create synchronised load spikes that keep the dependency down. Also retry only idempotent operations and cap total attempts." },
+    { q: "What is a retry budget, and how do retries cause metastable failure?", tags:["hard"] },
+    { q: "How do you choose timeouts, and why must they be layered from the outside in?", tags:["hf","hard"], hint: "Each inner call must time out before its caller, otherwise the client gives up while your thread stays blocked. Derive from the p99 of the dependency, not from a round number, and always set connect, read and pool-acquire timeouts separately." },
+    { q: "Bulkhead / thread-pool isolation — what does it protect and what does it cost?", tags:["hf"] },
+    { q: "Graceful degradation: give a concrete example from a real service.", tags:["hf"] },
+    { q: "Design an idempotent POST endpoint. What do you store and for how long?", tags:["hf","hard"], hint: "Client sends an Idempotency-Key; store key → request fingerprint → response with a TTL; on replay return the stored response, and use a unique index or conditional write so concurrent duplicates cannot both succeed." },
+    { q: "What is back-pressure, and how do you apply it in a queue consumer or a WebFlux service?", tags:["hard"] },
+    { q: "What is the difference between fail-fast and fail-safe, and when do you want each?" }
+  ]},
+  { name: "Final revision & mock round", level: "Production", items: [
+    { q: "Rapid fire, 60 seconds each: IAM role, VPC endpoint, readiness probe, HPA, visibility timeout, multi-stage build, PDB, IRSA, DLQ, RTO/RPO.", tags:["hf"] },
+    { q: "Whiteboard from memory: full request path client → Route 53 → CloudFront → ALB → Ingress → Service → Pod → RDS, naming what can fail at each hop.", tags:["hard"] },
+    { q: "Whiteboard from memory: kubectl apply → running Pod, every component involved." },
+    { q: "Explain your own project's AWS architecture in three minutes, then defend two design decisions you would now change.", tags:["hf","hard"] },
+    { q: "Prepare three STAR stories: a production incident you fixed, a performance or cost win with numbers, and a technical disagreement you resolved.", tags:["hf"] },
+    { q: "Be ready to justify every line of your own service's Dockerfile, Helm values and IAM policy.", tags:["hard"] },
+    { q: "Prepare five questions to ask the interviewer about their platform, on-call and release process." },
+    { q: "Review every question still unticked in this plan and close those gaps." },
+    { q: "Practise saying 'I have not used that in production, but here is how I would approach it' once, out loud, so it sounds natural.", tags:["hf"] }
+  ]}
+  ]
+}
+];
+
+/* ---------- state ---------- */
+const STORE_KEY = "aws-java-prep-3day-v1";
+let done = {};
+try { done = JSON.parse(localStorage.getItem(STORE_KEY) || "{}") || {}; } catch (e) { done = {}; }
+const save = () => { try { localStorage.setItem(STORE_KEY, JSON.stringify(done)); } catch (e) {} };
+
+const TAG_LABEL = { hf: "HIGH FREQ", sc: "SCENARIO", hard: "DEEP" };
+const planEl = document.getElementById("plan");
+const dayNodes = [];
+
+/* ---------- render ---------- */
+PLAN.forEach((day, di) => {
+  const dayEl = document.createElement("section");
+  dayEl.className = "day";
+
+  const head = document.createElement("div");
+  head.className = "head";
+  const h2 = document.createElement("h2");
+  h2.textContent = day.day + " — " + day.title;
+  const meta = document.createElement("div");
+  meta.className = "meta";
+  meta.textContent = day.meta;
+  const barwrap = document.createElement("div");
+  barwrap.className = "barwrap";
+  const lbl = document.createElement("div");
+  lbl.className = "lbl";
+  lbl.style.cssText = "display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;color:var(--muted)";
+  const lblLeft = document.createElement("span");
+  lblLeft.textContent = "Day progress";
+  const lblRight = document.createElement("span");
+  lbl.append(lblLeft, lblRight);
+  const bar = document.createElement("div");
+  bar.className = "bar";
+  const fill = document.createElement("i");
+  bar.appendChild(fill);
+  barwrap.append(lbl, bar);
+  head.append(h2, meta, barwrap);
+  dayEl.appendChild(head);
+
+  const sectionNodes = [];
+
+  day.sections.forEach((sec, si) => {
+    const det = document.createElement("details");
+    det.className = "sec";
+    det.open = di === 0 && si === 0;
+
+    const sum = document.createElement("summary");
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = sec.name;
+    const lvl = document.createElement("span");
+    lvl.className = "lvl";
+    lvl.textContent = sec.level;
+    const count = document.createElement("span");
+    count.className = "count";
+    sum.append(nameSpan, lvl, count);
+    det.appendChild(sum);
+
+    const ol = document.createElement("ol");
+    ol.className = "qs";
+    const itemNodes = [];
+
+    sec.items.forEach((item, ii) => {
+      const id = "d" + di + "-s" + si + "-i" + ii;
+      const li = document.createElement("li");
+      li.className = "q";
+
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.id = id;
+      cb.checked = !!done[id];
+
+      const body = document.createElement("div");
+      body.className = "body";
+
+      const label = document.createElement("label");
+      label.className = "txt";
+      label.setAttribute("for", id);
+      const num = document.createElement("span");
+      num.className = "num";
+      num.textContent = (ii + 1) + ".";
+      const qtext = document.createElement("span");
+      qtext.textContent = item.q;
+      label.append(num, qtext);
+      (item.tags || []).forEach(t => {
+        const tag = document.createElement("span");
+        tag.className = "tag " + t;
+        tag.textContent = TAG_LABEL[t] || t;
+        label.appendChild(tag);
+      });
+      body.appendChild(label);
+
+      if (item.hint) {
+        const hd = document.createElement("details");
+        hd.className = "hint";
+        const hs = document.createElement("summary");
+        hs.setAttribute("aria-label", "Show key points");
+        const hb = document.createElement("div");
+        hb.className = "hintbox";
+        hb.textContent = item.hint;
+        hd.append(hs, hb);
+        body.appendChild(hd);
+      }
+
+      li.append(cb, body);
+      ol.appendChild(li);
+
+      const node = { id, li, cb, text: (item.q + " " + (item.hint || "") + " " + sec.name).toLowerCase() };
+      if (cb.checked) li.classList.add("done");
+      cb.addEventListener("change", () => {
+        if (cb.checked) { done[id] = 1; li.classList.add("done"); }
+        else { delete done[id]; li.classList.remove("done"); }
+        save();
+        refresh();
+      });
+      itemNodes.push(node);
+    });
+
+    det.appendChild(ol);
+    dayEl.appendChild(det);
+    sectionNodes.push({ det, count, items: itemNodes });
+  });
+
+  planEl.appendChild(dayEl);
+  dayNodes.push({ dayEl, fill, lblRight, sections: sectionNodes });
+});
+
+/* ---------- progress + filtering ---------- */
+const ovBar = document.getElementById("ovBar");
+const ovText = document.getElementById("ovText");
+const searchEl = document.getElementById("search");
+const hideDoneEl = document.getElementById("hideDone");
+const noResults = document.getElementById("noResults");
+
+function refresh() {
+  const term = searchEl.value.trim().toLowerCase();
+  const hidingDone = hideDoneEl.checked;
+  let totalAll = 0, doneAll = 0, visibleAll = 0;
+
+  dayNodes.forEach(day => {
+    let dayTotal = 0, dayDone = 0, dayVisible = 0;
+
+    day.sections.forEach(sec => {
+      let secTotal = 0, secDone = 0, secVisible = 0;
+
+      sec.items.forEach(it => {
+        const isDone = it.cb.checked;
+        secTotal++;
+        if (isDone) secDone++;
+        const matches = !term || it.text.indexOf(term) !== -1;
+        const visible = matches && !(hidingDone && isDone);
+        it.li.classList.toggle("hide", !visible);
+        if (visible) secVisible++;
+      });
+
+      sec.count.textContent = secDone + " / " + secTotal + " done";
+      sec.det.classList.toggle("hide", secVisible === 0);
+      if (term && secVisible > 0) sec.det.open = true;
+
+      secTotal && (dayTotal += secTotal, dayDone += secDone, dayVisible += secVisible);
+    });
+
+    const pct = dayTotal ? Math.round((dayDone / dayTotal) * 100) : 0;
+    day.fill.style.width = pct + "%";
+    day.lblRight.textContent = dayDone + " / " + dayTotal + "  (" + pct + "%)";
+    day.dayEl.classList.toggle("hide", dayVisible === 0);
+
+    totalAll += dayTotal; doneAll += dayDone; visibleAll += dayVisible;
+  });
+
+  const pctAll = totalAll ? Math.round((doneAll / totalAll) * 100) : 0;
+  ovBar.style.width = pctAll + "%";
+  ovText.textContent = doneAll + " / " + totalAll + " questions  (" + pctAll + "%)";
+  noResults.classList.toggle("hide", visibleAll !== 0);
+}
+
+searchEl.addEventListener("input", refresh);
+hideDoneEl.addEventListener("change", refresh);
+document.getElementById("expandAll").addEventListener("click",
+  () => document.querySelectorAll("details.sec").forEach(d => d.open = true));
+document.getElementById("collapseAll").addEventListener("click",
+  () => document.querySelectorAll("details.sec").forEach(d => d.open = false));
+document.getElementById("print").addEventListener("click", () => {
+  document.querySelectorAll("details.sec").forEach(d => d.open = true);
+  window.print();
+});
+document.getElementById("reset").addEventListener("click", () => {
+  if (!confirm("Clear all ticked questions? This cannot be undone.")) return;
+  done = {}; save();
+  document.querySelectorAll("li.q input[type=checkbox]").forEach(cb => {
+    cb.checked = false;
+    cb.closest("li.q").classList.remove("done");
+  });
+  refresh();
+});
+
+refresh();
+</script>
+<script>
+/* ------------------------------------------------------------------
+   Shy header — once you scroll away from the top, the sticky header
+   slides out of the way and stays out, so the content keeps the full
+   screen. Scrolling back up does NOT pull it in: it only returns when
+   you are actually back at the top of the page.
+-------------------------------------------------------------------*/
+(function shyHeader(){
+  var root = document.documentElement;
+  var hdr  = document.querySelector("header");
+  if(!hdr || !("requestAnimationFrame" in window)) return;
+
+  var TOP = 90;          /* the only zone where the header is shown */
+  var ticking = false;
+
+  function update(){
+    var y = window.pageYOffset || 0;
+    root.classList.toggle("hdr-hidden", y > TOP);
+  }
+
+  window.addEventListener("scroll", function(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){ update(); ticking = false; });
+  }, {passive:true});
+
+  /* a focused control must never stay off-screen (e.g. "/" to search),
+     so jump back to the top instead of revealing a floating header */
+  hdr.addEventListener("focusin", function(){
+    if((window.pageYOffset || 0) > TOP) window.scrollTo(0, 0);
+  });
+
+  update();   /* handles a reload that restores a mid-page position */
+})();
+</script>
+</body>
+</html>
