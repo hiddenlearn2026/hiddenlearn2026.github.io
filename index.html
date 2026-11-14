@@ -255,116 +255,276 @@
   html.hdr-hidden header{transform:translateY(-102%)}
   @media (prefers-reduced-motion:reduce){ header{transition:none} }
   @media print{ header{transform:none !important} }
+
+  /* =================== 14-day plan upgrade =================== */
+  .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
+  :root{ --st-p:#d29922; --st-r:#f2789f }
+  html[data-theme="light"]{ --st-p:#9a6b00; --st-r:#c0396b }
+  .level{scroll-margin-top:16px}
+  summary .st{white-space:nowrap}
+  main{padding:0 0 80px}
+  main > .wrap{padding-top:18px}
+  button.primary{background:var(--accent2); border-color:var(--accent); color:#fff; font-weight:600}
+  button:disabled, select:disabled{opacity:.5; cursor:not-allowed}
+  button.linkbtn{background:none; border:0; padding:0; color:var(--accent); text-align:left; font-weight:600; text-decoration:underline; text-underline-offset:2px}
+
+  /* header: tabs and summary */
+  nav.tabs{display:flex; gap:6px; overflow-x:auto; padding:2px 0 8px; scrollbar-width:none}
+  nav.tabs::-webkit-scrollbar{display:none}
+  nav.tabs button{white-space:nowrap; border-radius:99px; padding:7px 14px; font-weight:600; font-size:13px}
+  nav.tabs button[aria-current="page"]{background:var(--accent2); border-color:var(--accent); color:#fff}
+  .count{display:inline-block; min-width:18px; padding:0 5px; margin-left:4px; border-radius:99px; background:var(--s); color:#fff; font-size:11px; text-align:center; line-height:18px}
+  .overall{margin:4px 0 2px}
+  .extras{margin:0 0 8px; font-size:12px; color:var(--fg3)}
+
+  /* filters */
+  details.filters{border:1px solid var(--line); border-radius:var(--radius); background:var(--bg2); margin:0 0 10px}
+  details.filters > summary{padding:8px 12px; font-size:13px}
+  .filtergrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px 10px; padding:4px 12px 12px; align-items:end}
+  .fld{display:flex; flex-direction:column; gap:3px; font-size:11.5px; color:var(--fg3)}
+  .fld.wide{grid-column:1 / -1}
+  .fld select, .fld input[type=search]{width:100%; min-width:0}
+  .fld.btns{flex-direction:row; flex-wrap:wrap; gap:8px; align-items:center; grid-column:1 / -1}
+  .legend{align-items:center}
+  .legend .ptag{margin-right:4px}
+  .resultcount{margin:0 0 10px; font-size:12.5px; color:var(--fg3)}
+  .empty-big{color:var(--fg2); padding:22px 6px; font-size:14px}
+  .revbanner{border:1px solid color-mix(in srgb,var(--s) 50%, var(--line)); background:color-mix(in srgb,var(--s) 8%, var(--bg2)); border-radius:var(--radius); padding:10px 14px; margin:0 0 12px; font-size:13.5px}
+
+  /* question rows */
+  .qrow{flex-wrap:nowrap}
+  .qrow label{flex:1 1 auto; min-width:0}
+  li.q[data-status="p"] > .qrow{box-shadow:inset 3px 0 0 var(--st-p)}
+  li.q[data-status="r"] > .qrow{box-shadow:inset 3px 0 0 var(--st-r)}
+  select.stsel{flex:none; font-size:12px; padding:4px 8px; max-width:150px}
+  li.q[data-status="p"] select.stsel{border-color:var(--st-p)}
+  li.q[data-status="r"] select.stsel{border-color:var(--st-r)}
+  li.q[data-status="done"] select.stsel{border-color:var(--ok)}
+  .ptag{
+    display:inline-block; font-size:10px; font-weight:700; letter-spacing:.4px; text-transform:uppercase; white-space:nowrap;
+    padding:1px 6px; border-radius:5px; margin-right:8px; vertical-align:1.5px; border:1px solid currentColor
+  }
+  .p-core{color:var(--accent)} .p-stretch{color:var(--f)} .p-optional{color:var(--fg3)}
+  .noans{display:inline-block; margin-left:8px; font-size:11.5px; font-style:italic; color:var(--fg3); white-space:nowrap}
+  .rel{margin:0 0 4px 36px; font-size:11.5px; color:var(--fg3)}
+  .optnote{margin:4px 12px 8px; padding:7px 12px; border:1px dashed var(--line); border-radius:8px; font-size:12.5px; color:var(--fg2)}
+  .secname{flex:1 1 auto; min-width:0}
+  details.ans.draft{border-left-color:var(--warn)}
+  .anschip.draft{color:var(--warn)}
+  .draftnote{font-size:12px; color:var(--warn); border:1px dashed var(--warn); border-radius:6px; padding:5px 9px}
+  .ansbody h4:first-of-type{margin-top:0}
+  .ansbody > p:first-child:not(.draftnote){font-size:14px; color:var(--fg)}
+  .ansbody .mem b{text-transform:uppercase; font-size:11px; letter-spacing:.4px; margin-right:6px}
+
+  /* views */
+  .vtitle{margin:0 0 4px; font-size:21px}
+  .vsub{margin:0 0 14px; color:var(--fg2); font-size:13.5px}
+  h3.sh{margin:26px 0 10px; font-size:15px}
+  .note{color:var(--fg3); font-size:12.5px; margin:8px 0 0}
+  .problem{border:1px solid var(--s); color:var(--s); border-radius:8px; padding:10px 14px; margin:0 0 12px; font-size:13px}
+  .next{border:1px solid var(--accent); background:color-mix(in srgb,var(--accent) 8%, var(--bg2)); border-radius:var(--radius); padding:12px 16px; margin:0 0 14px}
+  .next .nl{font-size:11px; text-transform:uppercase; letter-spacing:.5px; color:var(--fg3)}
+  .next .nt{font-size:17px; font-weight:700; margin:2px 0}
+  .next .ns{color:var(--fg2); font-size:13px; margin:0 0 10px}
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px}
+  .cards.two{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .card{border:1px solid var(--line); background:var(--bg2); border-radius:var(--radius); padding:12px 14px}
+  .card.hero{grid-column:span 2; border-color:var(--accent)}
+  .card.warnc{border-color:var(--st-r)}
+  .card .v{font-size:26px; font-weight:700; font-variant-numeric:tabular-nums}
+  .card .l{font-size:12px; color:var(--fg3); margin-bottom:2px}
+  .card .s{font-size:12px; color:var(--fg2); margin:6px 0 8px}
+  .card .bar{display:block; margin:8px 0}
+  .qa{display:flex; gap:8px; flex-wrap:wrap; margin:12px 0 0}
+  .twrap{overflow-x:auto}
+  table.dtbl{width:100%; border-collapse:collapse; font-size:13px}
+  table.dtbl th, table.dtbl td{text-align:left; padding:7px 8px; border-bottom:1px solid color-mix(in srgb,var(--line) 60%, transparent); vertical-align:top}
+  table.dtbl th{color:var(--fg3); font-size:11.5px; text-transform:uppercase; letter-spacing:.4px; font-weight:600}
+  table.dtbl td.n{white-space:nowrap; font-variant-numeric:tabular-nums; color:var(--fg2)}
+  table.dtbl td.pc{width:110px}
+  table.acts td.ac{width:26px}
+  table.acts input[type=checkbox]{width:16px; height:16px; accent-color:var(--accent); margin:2px 0 0}
+  table.acts label{cursor:pointer}
+  table.acts .dot{display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--accent); margin:6px 4px}
+  .topics{display:grid; gap:8px}
+  .trow{display:grid; grid-template-columns:minmax(150px,260px) minmax(80px,1fr) minmax(90px,150px); gap:10px; align-items:center; font-size:13px}
+  .trow .bar{display:block}
+  .tmeta{color:var(--fg2); font-size:12.5px; font-variant-numeric:tabular-nums}
+
+  /* plan view */
+  .daystrip{display:flex; gap:6px; overflow-x:auto; padding:2px 0 10px}
+  .daybtn{display:flex; flex-direction:column; align-items:center; min-width:66px; padding:6px 10px; line-height:1.2; flex:none}
+  .daybtn .dl1{font-weight:700; font-size:13px}
+  .daybtn .dl2{font-size:11px; color:var(--fg3)}
+  .daybtn.mock{border-style:dashed}
+  .daybtn.sel{background:var(--accent2); border-color:var(--accent); color:#fff}
+  .daybtn.sel .dl2{color:#fff}
+  .daybtn.fin:not(.sel){border-color:var(--ok)}
+  article.daycard{border:1px solid var(--line); background:var(--bg2); border-radius:var(--radius); padding:14px 16px 18px}
+  .dayhead h2{margin:0 0 8px; font-size:19px}
+  .daymeta{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+  .daymeta .bar{flex:1 1 200px}
+  .pill{display:inline-block; border:1px solid var(--line); border-radius:99px; padding:2px 10px; font-size:12px; color:var(--fg2)}
+  .pill.weak{border-color:var(--f); color:var(--f)}
+  h3.dh{margin:22px 0 8px; font-size:14px; padding-top:12px; border-top:1px solid var(--line)}
+  h3.dh .dhx{font-weight:400; color:var(--fg3); font-size:12px; margin-left:8px}
+  ul.chips{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+  ul.chips li{border:1px solid var(--line); background:var(--bg3); border-radius:99px; padding:3px 11px; font-size:12.5px}
+  ul.plain{margin:0 0 6px; padding-left:20px; font-size:13.5px}
+  ul.plain li, ol.plain li{margin:3px 0}
+  ol.plain{margin:6px 0 8px; padding-left:22px; font-size:13.5px}
+  .hands{border:1px solid var(--line); border-left:3px solid var(--accent); background:var(--bg3); border-radius:0 8px 8px 0; padding:10px 14px}
+  .hands .ht{font-weight:700; margin-bottom:2px}
+  .hands .hd{font-size:12.5px; color:var(--fg2); margin-top:6px}
+  .pl{margin:12px 0 4px; font-size:12.5px; color:var(--fg3)}
+  ul.check{list-style:none; margin:0; padding:0}
+  ul.check li{display:flex; gap:10px; align-items:flex-start; padding:5px 0; font-size:13.5px}
+  ul.check input{width:16px; height:16px; margin:3px 0 0; accent-color:var(--accent); flex:none}
+  ul.check label{cursor:pointer}
+  ol.qs.plan{padding:0 0 4px}
+  .daynav{display:flex; justify-content:space-between; gap:8px; margin-top:20px}
+
+  .totop{position:fixed; right:14px; bottom:18px; z-index:30; display:none; border-radius:99px; box-shadow:0 2px 10px rgba(0,0,0,.35)}
+  html.hdr-hidden .totop{display:block}
+
+  @media (max-width:640px){
+    .qrow{flex-wrap:wrap}
+    select.stsel{margin-left:26px; max-width:none}
+    .rel{margin-left:6px}
+    .card.hero{grid-column:span 1}
+    .trow{grid-template-columns:1fr 1fr; }
+    .trow .bar{grid-column:1 / -1; order:3}
+    .titlebar .sub{display:none}
+    h1{font-size:16px}
+    .noans{white-space:normal}
+  }
+  @media print{ .totop{display:none !important} #bankTools{display:none !important} nav.tabs{display:none !important} }
 </style>
 </head>
 <body>
-<a class="skip" href="#content">Skip to questions</a>
+<a class="skip" href="#main">Skip to content</a>
 
 <header>
   <div class="wrap">
     <nav class="pnav" aria-label="Interview prep pages">
-      <a class="pn-spring" href="index.html" aria-current="page" title="Spring &amp; Microservices question bank — Level 1 to Level 4"><span class="pn-dot" aria-hidden="true"></span>Spring &amp; MSA<span class="pn-meta">Level 1–4</span></a>
+      <a class="pn-spring" href="index.html" aria-current="page" title="Spring &amp; Microservices question bank and 14-day plan"><span class="pn-dot" aria-hidden="true"></span>Spring &amp; MSA<span class="pn-meta">14-day plan</span></a>
       <a class="pn-lld" href="java-lld-5-day-plan.html" title="Low-Level Design prep — 5-day plan"><span class="pn-dot" aria-hidden="true"></span>Java LLD<span class="pn-meta">5-day plan</span></a>
       <a class="pn-aws" href="aws-java-backend-3-day-plan.html" title="AWS, Kubernetes and Docker prep — 3-day plan"><span class="pn-dot" aria-hidden="true"></span>AWS · K8s · Docker<span class="pn-meta">3-day plan</span></a>
     </nav>
     <div class="titlebar">
       <div>
-        <h1>Spring &amp; Microservices — Interview Question Bank</h1>
-        <p class="sub">Level 1 fundamentals → Level 4 production. Each level ordered concept by concept, mixing concept, frequently-asked and scenario questions.</p>
+        <h1>Spring &amp; Microservices Interview Prep — Level 1 to Level 4</h1>
+        <p class="sub">14 days · 3 hours a day · 42 hours. Core questions are the mandatory plan; Stretch and Optional are extras you can study any time.</p>
       </div>
       <div class="actions">
         <button id="btnTheme" type="button" title="Toggle light/dark">◐ Theme</button>
         <button id="btnExport" type="button" title="Download your progress as JSON">↓ Export</button>
         <button id="btnImport" type="button" title="Restore progress from a JSON file">↑ Import</button>
         <button id="btnReset" type="button" class="btn-danger" title="Clear all saved progress">Reset</button>
-        <input type="file" id="fileImport" accept="application/json,.json" class="hidden">
+        <input type="file" id="fileImport" accept="application/json,.json" class="hidden" aria-label="Import progress file">
       </div>
     </div>
 
+    <nav class="tabs" id="tabs" aria-label="Sections">
+      <button type="button" data-view="dashboard">Dashboard</button>
+      <button type="button" data-view="plan">14-Day Plan</button>
+      <button type="button" data-view="bank">Question Bank</button>
+      <button type="button" data-view="revise">Needs Revision <span class="count" id="reviseCount">0</span></button>
+    </nav>
+
     <div class="overall">
-      <span class="pct" id="overallPct" aria-live="polite">0 of 0 done · 0%</span>
+      <span class="pct" id="overallPct" aria-live="polite">Core: 0 of 0 done · 0%</span>
       <span class="bar" role="progressbar" aria-labelledby="overallPct" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="overallBar"></i></span>
     </div>
+    <p class="extras" id="extraStats"></p>
 
-    <div class="toolbar">
-      <label for="q" class="hidden">Search questions</label>
-      <input type="search" id="q" placeholder="Search questions, e.g. transaction, kafka, circuit breaker…" autocomplete="off">
-      <label for="fType" class="hidden">Filter by question type</label>
-      <select id="fType" title="Filter by question type">
-        <option value="all">All types</option>
-        <option value="c">Concept only</option>
-        <option value="f">Frequently asked only</option>
-        <option value="s">Scenario only</option>
-      </select>
-      <label for="fStat" class="hidden">Filter by status</label>
-      <select id="fStat" title="Filter by completion status">
-        <option value="all">All statuses</option>
-        <option value="todo">Pending only</option>
-        <option value="done">Completed only</option>
-      </select>
-      <label for="fAns" class="hidden">Filter by whether you have written an answer</label>
-      <select id="fAns" title="Filter by whether you have written an answer">
-        <option value="all">All answers</option>
-        <option value="yes">Answer written</option>
-        <option value="no">No answer yet</option>
-      </select>
-      <label for="fPlan" class="hidden">Filter by study plan</label>
-      <select id="fPlan" title="Filter by the 8-day study plan">
-        <option value="all">Whole bank (563)</option>
-        <option value="core">8-day core plan only (432)</option>
-        <option value="d1">Day 1 — Spring core, beans, Boot, config</option>
-        <option value="d2">Day 2 — MVC/REST, JPA, errors, MSA intro</option>
-        <option value="d3">Day 3 — Container depth, AOP, transactions</option>
-        <option value="d4">Day 4 — JPA performance, REST design</option>
-        <option value="d5">Day 5 — Security, caching, async, actuator</option>
-        <option value="d6">Day 6 — Inter-service, gateway, messaging, resilience</option>
-        <option value="d7">Day 7 — OAuth2, distributed data, events, tracing</option>
-        <option value="d8">Day 8 — Architecture, performance, memory, DB, incidents</option>
-        <option value="stretch">Stretch — do if time (61)</option>
-        <option value="optional">Optional — stack dependent (70)</option>
-      </select>
-      <span class="grow"></span>
-      <button id="btnExpand" type="button">Expand all</button>
-      <button id="btnCollapse" type="button">Collapse all</button>
+    <div id="bankTools" class="hidden">
+      <details class="filters" id="filterBox" open>
+        <summary>Search and filters <span id="filterCount"></span></summary>
+        <div class="filtergrid">
+          <label class="fld wide"><span>Search</span><input type="search" id="q" placeholder="Search, e.g. transaction, kafka, circuit breaker, q151…" autocomplete="off"></label>
+          <label class="fld"><span>Priority</span>
+            <select id="fPrio">
+              <option value="all" id="optAllPrio">All priorities</option>
+              <option value="core" id="optCore">Core</option>
+              <option value="stretch" id="optStretch">Stretch</option>
+              <option value="stretch-moved" id="optMoved">Stretch: moved from Core</option>
+              <option value="optional" id="optOptional">Optional</option>
+            </select></label>
+          <label class="fld"><span>Level</span>
+            <select id="fLevel">
+              <option value="all">All levels</option>
+              <option value="1">Level 1 · Foundations</option>
+              <option value="2">Level 2 · Intermediate</option>
+              <option value="3">Level 3 · Advanced</option>
+              <option value="4">Level 4 · Production</option>
+            </select></label>
+          <label class="fld"><span>Topic</span>
+            <select id="fTopic"><option value="all">All topics</option></select></label>
+          <label class="fld"><span>Question type</span>
+            <select id="fType">
+              <option value="all">All types</option>
+              <option value="c">Concept</option>
+              <option value="f">FAQ</option>
+              <option value="s">Scenario</option>
+            </select></label>
+          <label class="fld"><span>Study status</span>
+            <select id="fStat">
+              <option value="all">All statuses</option>
+              <option value="todo">Not started</option>
+              <option value="p">In progress</option>
+              <option value="done">Completed</option>
+              <option value="r">Needs revision</option>
+            </select></label>
+          <label class="fld"><span>Assigned day</span>
+            <select id="fDay"><option value="all">All days</option></select></label>
+          <label class="fld"><span>Answer</span>
+            <select id="fAns">
+              <option value="all">Any</option>
+              <option value="own">Your answer written</option>
+              <option value="draft">Draft answer (verify)</option>
+              <option value="none">Answer not yet added</option>
+            </select></label>
+          <div class="fld btns">
+            <button id="btnClear" type="button">Clear filters</button>
+            <button id="btnExpand" type="button">Expand all</button>
+            <button id="btnCollapse" type="button">Collapse all</button>
+          </div>
+        </div>
+      </details>
+      <div class="legend">
+        <span><span class="badge b-c">Concept</span> understand and explain it</span>
+        <span><span class="badge b-f">FAQ</span> asked in most interviews</span>
+        <span><span class="badge b-s">Scenario</span> applied or debugging question</span>
+        <span><span class="ptag p-core">Core · D3</span> mandatory, assigned to a day</span>
+        <span><span class="ptag p-stretch">Stretch</span> if time permits (↓ = moved from Core)</span>
+        <span><span class="ptag p-optional">Optional</span> only if your role needs it</span>
+      </div>
+      <nav class="levelnav" id="levelNav" aria-label="Jump to level"></nav>
     </div>
-
-    <div class="legend">
-      <span><span class="badge b-c">Concept</span> understand and be able to explain it</span>
-      <span><span class="badge b-f">FAQ</span> asked in most interviews, answer crisply</span>
-      <span><span class="badge b-s">Scenario</span> applied or debugging question, think out loud</span>
-      <span><span class="anschip">Answer</span> your own notes — collapsed on load, click to reveal</span>
-    </div>
-
-    <nav class="levelnav" id="levelNav" aria-label="Jump to level"></nav>
   </div>
 </header>
 
-<div class="wrap">
-  <details class="plan" id="planPanel">
-    <summary><b>8-day sprint plan</b> <span class="planhint">432 core questions · roughly 3–4 focused hours a day · click a day to study just that slice</span></summary>
-    <div class="planbody">
-      <table class="plantable">
-        <caption>Days run in dependency order. Levels 1 and 2 first because everything later assumes them.</caption>
-        <thead><tr><th scope="col">Day</th><th scope="col">Focus</th><th scope="col">Qs</th><th scope="col">Done</th><th scope="col"><span class="hidden">Progress</span></th></tr></thead>
-        <tbody id="planRows"></tbody>
-      </table>
-      <p class="planfoot">
-        <b>Deferred on purpose.</b> Stretch (61 q: Boot internals, Kubernetes, release engineering, security hardening, containerisation)
-        is what to pick up first if you find spare hours. Optional (70 q: WebFlux, service mesh, testing depth, capacity/cost,
-        migration, judgement) only matters if your stack or role calls for it — your services are Spring MVC on Tomcat, so WebFlux is the safest cut.
-      </p>
-    </div>
-  </details>
-</div>
-
 <noscript>This tracker needs JavaScript enabled: the questions are rendered by script and progress is stored in your browser localStorage.</noscript>
 
-<main id="content" class="wrap" tabindex="-1"></main>
+<main id="main" tabindex="-1">
+  <div class="wrap">
+    <section id="view-dashboard" aria-label="Dashboard"></section>
+    <section id="view-plan" class="hidden" aria-label="14-day plan"></section>
+    <section id="view-bank" class="hidden" aria-label="Question bank">
+      <div id="reviseBanner" class="revbanner hidden"><b>Needs Revision</b> — every question you marked Needs revision, across all priorities. Re-answer each one aloud, then set it to Completed when it feels solid.</div>
+      <p class="resultcount" id="resultCount" aria-live="polite"></p>
+      <div id="noResults"></div>
+      <div id="content"></div>
+    </section>
+  </div>
+</main>
 
 <footer class="wrap">
   <p>Progress is saved in this browser only (localStorage key <code>springMsaPrep.v1</code>). Use Export before clearing browser data or switching machines.</p>
 </footer>
 
+<button id="toTop" type="button" class="totop" title="Back to the menu and filters">↑ Menu</button>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <!-- ==================================================================
@@ -1918,6 +2078,536 @@ Valid   → application starts ✅</pre>
   <p class="mem"><b>Remember</b> Missing property must break the <b>startup</b>, not the 3 am shift → @ConfigurationProperties + @Validated + @NotBlank</p>
 </template>
 
+<!-- ============ Draft answers added with the 14-day plan (structured; verify before relying) ============ -->
+<!-- DRAFT ANSWERS: added during the 14-day-plan upgrade. Keyed by question number (data-qn); the build step turns data-qn into the exact question text. -->
+
+<template data-q="How does auto-configuration really work? Explain @EnableAutoConfiguration, AutoConfigurationImportSelector and the AutoConfiguration.imports file." data-draft="1">
+  <h4>Short answer</h4>
+  <p><code>@SpringBootApplication</code> includes <code>@EnableAutoConfiguration</code>, which imports <code>AutoConfigurationImportSelector</code>. It reads candidate class names from <code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code> in every JAR on the classpath, drops the ones whose <code>@Conditional</code> rules fail (class missing, property absent, bean already defined) and registers the rest as ordinary configuration classes, processed after your own beans so your definitions win.</p>
+  <h4>Detailed explanation</h4>
+  <ul>
+    <li><b>Discovery:</b> the <code>.imports</code> file replaced <code>spring.factories</code> for auto-configuration in Boot 3 (supported from 2.7).</li>
+    <li><b>Conditions:</b> <code>@ConditionalOnClass</code>, <code>@ConditionalOnProperty</code>, <code>@ConditionalOnWebApplication</code> decide whether a class applies. <code>@ConditionalOnMissingBean</code> is the "back-off" that lets your own bean replace the default.</li>
+    <li><b>Ordering:</b> auto-configurations are deferred until user configuration is processed; <code>@AutoConfiguration(before/after)</code> orders them against each other.</li>
+    <li><b>Visibility:</b> run with <code>--debug</code> (or <code>debug=true</code>) for the conditions report, or call <code>/actuator/conditions</code>.</li>
+    <li><b>Opt-out:</b> <code>@SpringBootApplication(exclude = X.class)</code> or <code>spring.autoconfigure.exclude</code>.</li>
+  </ul>
+  <h4>Code example</h4>
+  <pre>@AutoConfiguration
+@ConditionalOnClass(AuditClient.class)
+@EnableConfigurationProperties(AuditProperties.class)
+public class AuditAutoConfiguration {
+
+    @Bean
+    @ConditionalOnMissingBean          // back off if the app defines its own
+    AuditClient auditClient(AuditProperties props) {
+        return new AuditClient(props.getUrl());
+    }
+}
+// META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports
+// com.acme.audit.AuditAutoConfiguration</pre>
+  <h4>Real-world example</h4>
+  <p>A shared company starter gives every service the same HTTP client timeouts, Jackson settings and tracing headers. A team that needs a different client defines its own bean and the starter backs off.</p>
+  <h4>Common follow-ups</h4>
+  <ul><li>How do you disable one auto-configuration?</li><li>Starter vs autoconfigure module?</li><li>How would you find out why a bean was or was not created?</li></ul>
+  <h4>Common mistakes</h4>
+  <ul><li>Confusing auto-configuration with component scanning (they are separate mechanisms).</li><li>Putting an auto-configuration class in a component-scanned package, which breaks the ordering and back-off.</li><li>Forgetting to register the class in the <code>.imports</code> file.</li></ul>
+  <p class="mem"><b>Revision summary</b> Auto-configuration = candidates from <code>AutoConfiguration.imports</code>, filtered by conditions, applied after your beans, backing off via <code>@ConditionalOnMissingBean</code>.</p>
+</template>
+
+<template data-q="How does @Transactional work under the hood?" data-draft="1">
+  <h4>Short answer</h4>
+  <p>Spring wraps the bean in a proxy (JDK dynamic or CGLIB). The proxy routes each call through a <code>TransactionInterceptor</code>, which asks the <code>PlatformTransactionManager</code> to begin or join a transaction, binds the connection or <code>EntityManager</code> to the current thread, runs your method, then commits, or rolls back on a <code>RuntimeException</code> or <code>Error</code>. Checked exceptions commit by default.</p>
+  <h4>Detailed explanation</h4>
+  <ul>
+    <li>Only calls that arrive <em>through the proxy</em> are intercepted. A call from another method of the same object skips it.</li>
+    <li>The transaction state is thread-bound (<code>TransactionSynchronizationManager</code>), so it does not follow work into a new thread or an <code>@Async</code> method.</li>
+    <li>With JPA, <code>JpaTransactionManager</code> opens the <code>EntityManager</code>; Hibernate flushes dirty entities at commit.</li>
+    <li>Attributes come from the annotation: propagation, isolation, timeout, <code>readOnly</code>, <code>rollbackFor</code>.</li>
+    <li>Private methods are never proxied. Since Spring 6, protected and package-visible methods work with class-based proxies.</li>
+  </ul>
+  <h4>Code example</h4>
+  <pre>@Service
+public class TransferService {
+
+    @Transactional(rollbackFor = Exception.class, timeout = 5)
+    public void transfer(long from, long to, BigDecimal amount) {
+        accounts.debit(from, amount);
+        accounts.credit(to, amount);   // any failure rolls both back
+    }
+}
+// Effectively: proxy.begin(); try { target.transfer(...); proxy.commit(); }
+//              catch (RuntimeException e) { proxy.rollback(); throw e; }</pre>
+  <h4>Real-world example</h4>
+  <p>An order service saves the order and reserves stock in one transaction, while the audit record uses <code>REQUIRES_NEW</code> so it is kept even if the order rolls back.</p>
+  <h4>Common follow-ups</h4>
+  <ul><li>Propagation levels and a real use for each?</li><li>Why does a call within the same class not start a transaction?</li><li>What does <code>readOnly = true</code> change?</li></ul>
+  <h4>Common mistakes</h4>
+  <ul><li>Catching the exception inside the method, so the transaction commits.</li><li>Expecting a rollback on a checked exception without <code>rollbackFor</code>.</li><li>Keeping the transaction open during a slow remote call.</li></ul>
+  <p class="mem"><b>Revision summary</b> Proxy + interceptor + thread-bound transaction; rolls back on unchecked exceptions; only proxied (external, non-private) calls count.</p>
+</template>
+
+<template data-q="@Transactional on a private method does nothing at all. Explain exactly why." data-draft="1">
+  <h4>Short answer</h4>
+  <p>Spring AOP works through a proxy that wraps the bean. A private method cannot be overridden by a CGLIB subclass and is called on <code>this</code>, not on the proxy, so the transaction interceptor never runs. The same mechanism explains self-invocation: any call from inside the object bypasses the proxy.</p>
+  <h4>Detailed explanation</h4>
+  <ul>
+    <li>Proxy-based advice only fires on calls that cross the proxy boundary.</li>
+    <li>Private methods are never advised; protected and package-visible work with class-based proxies from Spring 6.</li>
+    <li>The same applies to <code>@Cacheable</code>, <code>@Async</code> and custom aspects.</li>
+  </ul>
+  <h4>Code example</h4>
+  <pre>@Service
+class ReportService {
+    public void run() {
+        save();                    // this.save(): no proxy, no transaction
+    }
+    @Transactional
+    void save() { ... }
+}
+
+// Fix 1: move save() to another bean and inject it
+// Fix 2: use TransactionTemplate inside run()
+// Fix 3: @EnableTransactionManagement(mode = AdviceMode.ASPECTJ) (compile or load-time weaving)
+// Fix 4 (last resort): AopContext.currentProxy() with exposeProxy = true</pre>
+  <h4>Real-world example</h4>
+  <p>A nightly job calls a "process one record" method in the same class and expects one transaction per record. Moving that method to its own bean gives each record its own commit and rollback.</p>
+  <h4>Common follow-ups</h4>
+  <ul><li>JDK proxy vs CGLIB?</li><li>Why does <code>@Cacheable</code> fail the same way?</li><li>Why are final methods not advised?</li></ul>
+  <h4>Common mistakes</h4>
+  <ul><li>Adding <code>@Transactional</code> to a private method and trusting it.</li><li>Self-injecting the bean without understanding why it works.</li></ul>
+  <p class="mem"><b>Revision summary</b> No proxy crossing, no advice: private and same-class calls skip <code>@Transactional</code>; fix by moving the method to another bean.</p>
+</template>
+
+<template data-q="What is the N+1 select problem? How do you detect it and how do you fix it?" data-draft="1">
+  <h4>Short answer</h4>
+  <p>N+1 is one query to load N parents followed by one lazy query per parent for a child association. Detect it with SQL logging, Hibernate statistics or tests that count queries. Fix it with <code>JOIN FETCH</code> or <code>@EntityGraph</code> for the use case, batch fetching, or a DTO projection.</p>
+  <h4>Detailed explanation</h4>
+  <ul>
+    <li><b>Detect:</b> <code>org.hibernate.SQL</code> logging, <code>hibernate.generate_statistics</code>, a datasource proxy, or repeated identical queries in an APM trace.</li>
+    <li><b>Fix per use case:</b> <code>@EntityGraph</code> or <code>JOIN FETCH</code>; <code>@BatchSize</code> or <code>hibernate.default_batch_fetch_size</code> turns N queries into N/size; a projection reads only the needed columns.</li>
+    <li><b>Avoid</b> making associations <code>EAGER</code>; it hides the problem and fetches more everywhere.</li>
+    <li><b>Caveats:</b> fetch-joining a collection together with pagination makes Hibernate paginate in memory. Page the ids first, then fetch. Fetching several bags raises <code>MultipleBagFetchException</code>.</li>
+  </ul>
+  <h4>Code example</h4>
+  <pre>public interface OrderRepository extends JpaRepository&lt;Order, Long&gt; {
+
+    @EntityGraph(attributePaths = "items")
+    List&lt;Order&gt; findByCustomerId(Long customerId);
+
+    @Query("select new com.acme.OrderSummary(o.id, o.total) from Order o where o.customerId = :id")
+    List&lt;OrderSummary&gt; summaries(@Param("id") Long id);
+}</pre>
+  <h4>Real-world example</h4>
+  <p>An orders list endpoint ran 1 + 200 queries and took 900 ms. With an entity graph it ran 1 query; with a projection it also stopped loading unused columns.</p>
+  <h4>Common follow-ups</h4>
+  <ul><li>JOIN FETCH vs EntityGraph vs batch size?</li><li>Why is pagination with a fetched collection dangerous?</li><li>How do you stop regressions?</li></ul>
+  <h4>Common mistakes</h4>
+  <ul><li>Switching to <code>EAGER</code>.</li><li>Fixing it in one repository method and leaving other paths untouched.</li><li>Having no query-count assertion in tests.</li></ul>
+  <p class="mem"><b>Revision summary</b> 1 + N lazy loads; detect with SQL logs or statistics; fix with entity graph, batch size or projection; watch pagination.</p>
+</template>
+
+<template data-q="Explain the circuit breaker pattern, the closed, open and half-open states, and the key configuration knobs." data-draft="1">
+  <h4>Short answer</h4>
+  <p>A circuit breaker stops calling a failing dependency. <b>Closed</b>: calls pass and results are measured. When the failure or slow-call rate crosses a threshold it goes <b>Open</b>: calls fail fast. After a wait it goes <b>Half-open</b>: a few trial calls decide whether to close again or re-open.</p>
+  <h4>Detailed explanation</h4>
+  <ul>
+    <li>Key Resilience4j settings: <code>slidingWindowType/Size</code>, <code>minimumNumberOfCalls</code>, <code>failureRateThreshold</code>, <code>slowCallDurationThreshold</code>, <code>slowCallRateThreshold</code>, <code>waitDurationInOpenState</code>, <code>permittedNumberOfCallsInHalfOpenState</code>.</li>
+    <li>Decide what counts as a failure: record server errors and timeouts, ignore business 4xx.</li>
+    <li>Default aspect order: Retry wraps CircuitBreaker, which wraps RateLimiter, TimeLimiter and Bulkhead.</li>
+    <li>It protects threads and the dependency from piling up, and gives you a place for a fallback.</li>
+  </ul>
+  <h4>Code example</h4>
+  <pre>resilience4j.circuitbreaker.instances.inventory:
+  sliding-window-size: 20
+  minimum-number-of-calls: 10
+  failure-rate-threshold: 50
+  slow-call-duration-threshold: 2s
+  slow-call-rate-threshold: 80
+  wait-duration-in-open-state: 30s
+  permitted-number-of-calls-in-half-open-state: 5
+
+@CircuitBreaker(name = "inventory", fallbackMethod = "fromCache")
+public Stock stock(String sku) { return inventoryClient.get(sku); }</pre>
+  <h4>Real-world example</h4>
+  <p>When the pricing service degrades, checkout returns the last cached price with a flag instead of holding every Tomcat thread for 30 seconds.</p>
+  <h4>Common follow-ups</h4>
+  <ul><li>How does it differ from retry and bulkhead?</li><li>How do you choose thresholds?</li><li>What makes a fallback dangerous?</li></ul>
+  <h4>Common mistakes</h4>
+  <ul><li>Counting 4xx business errors as failures.</li><li>One breaker shared across unrelated dependencies.</li><li>No <code>minimumNumberOfCalls</code>, so it opens on three requests.</li><li>A silent fallback that hides the outage.</li></ul>
+  <p class="mem"><b>Revision summary</b> Closed measures, Open fails fast, Half-open probes; tune window, rates and wait time, and choose the exceptions that count.</p>
+</template>
+
+<template data-q="Explain the Saga pattern, comparing orchestration and choreography, including compensation." data-draft="1">
+  <h4>Short answer</h4>
+  <p>A saga replaces a distributed transaction with a sequence of local transactions. Each step commits locally and publishes an event or command. If a step fails, compensating transactions semantically undo the earlier steps (refund, release stock). It gives eventual consistency, not isolation.</p>
+  <h4>Detailed explanation</h4>
+  <ul>
+    <li><b>Orchestration:</b> a coordinator or state machine tells each participant what to do next. Easier to follow and monitor, but it is a central component.</li>
+    <li><b>Choreography:</b> services react to each other's events. Loose coupling, but the flow is implicit and harder to debug as it grows.</li>
+    <li><b>Compensations</b> must be idempotent and retryable, and some steps cannot be undone (a sent email), so order them last.</li>
+    <li>Lack of isolation: use pending states, semantic locks or versioning so others do not act on half-finished data.</li>
+  </ul>
+  <h4>Code example</h4>
+  <pre>enum OrderState { PENDING, PAYMENT_DONE, STOCK_RESERVED, CONFIRMED, CANCELLED }
+
+// orchestrator
+void on(StockFailed e) {
+    payments.refund(e.orderId());      // compensate the earlier step
+    orders.markCancelled(e.orderId());
+}</pre>
+  <h4>Real-world example</h4>
+  <p>Order, payment, inventory, shipping: create the order as PENDING, charge, reserve stock, then confirm. A stock failure triggers a refund and cancellation.</p>
+  <h4>Common follow-ups</h4>
+  <ul><li>What if a compensation fails?</li><li>How do you handle timeouts?</li><li>Why do you need the outbox pattern with sagas?</li></ul>
+  <h4>Common mistakes</h4>
+  <ul><li>Treating a compensation as a rollback.</li><li>Non-idempotent handlers.</li><li>Writing to the database and the broker separately (dual write).</li></ul>
+  <p class="mem"><b>Revision summary</b> Local transactions + compensations; orchestration = central flow, choreography = events; plan for idempotency and no isolation.</p>
+</template>
+
+<template data-q="What is the transactional outbox pattern and why is it necessary?" data-draft="1">
+  <h4>Short answer</h4>
+  <p>The outbox pattern writes the business change and an event row into an <code>outbox</code> table in the <em>same</em> local database transaction. A separate relay (a poller or change data capture such as Debezium) publishes the rows to the broker and marks them sent. It removes the dual-write problem. Delivery is at-least-once, so consumers must be idempotent.</p>
+  <h4>Detailed explanation</h4>
+  <ul>
+    <li>Without it, a crash between "commit" and "publish" loses the event; publishing before commit can announce data that rolls back.</li>
+    <li>Use the aggregate id as the message key to keep per-aggregate ordering.</li>
+    <li>With several relay instances, claim rows with <code>FOR UPDATE SKIP LOCKED</code>.</li>
+    <li>Clean up sent rows on a schedule.</li>
+  </ul>
+  <h4>Code example</h4>
+  <pre>@Transactional
+public void placeOrder(PlaceOrder cmd) {
+    Order order = orders.save(Order.from(cmd));
+    outbox.save(new OutboxEvent(UUID.randomUUID(), "OrderPlaced",
+            order.getId().toString(), json(order)));
+}   // relay: select unsent rows, send to Kafka, mark sent</pre>
+  <h4>Real-world example</h4>
+  <p>An order service guarantees that every committed order eventually produces an <code>OrderPlaced</code> event for payment and shipping, even if the service crashes right after commit.</p>
+  <h4>Common follow-ups</h4>
+  <ul><li>Polling vs CDC?</li><li>How do you keep ordering?</li><li>How do consumers handle duplicates?</li></ul>
+  <h4>Common mistakes</h4>
+  <ul><li>Publishing inside the transaction before commit.</li><li>Relying on an after-commit listener alone (a crash can still lose the event).</li><li>Never cleaning the table.</li></ul>
+  <p class="mem"><b>Revision summary</b> Business row + outbox row in one transaction, a relay publishes later; at-least-once, so make consumers idempotent.</p>
+</template>
+
+<template data-q="What is idempotency and how do you implement an idempotent POST?" data-draft="1">
+  <h4>Short answer</h4>
+  <p>Make POST idempotent with a client-generated <code>Idempotency-Key</code> header. The server stores the key (unique constraint, scoped to the caller), the request fingerprint and the response. A repeat with the same key returns the stored response instead of repeating the side effect.</p>
+  <h4>Detailed explanation</h4>
+  <ul>
+    <li>Insert the key first; the unique constraint settles races so only one request executes.</li>
+    <li>Same key with a different body: reject (for example 422).</li>
+    <li>Keep keys for a limited time (for example 24 hours) and scope them per user or tenant.</li>
+    <li>Pass the key to downstream providers (such as a payment gateway) so their side effect is idempotent too.</li>
+    <li>Alternatives: PUT with a client-chosen id, or a natural unique business key.</li>
+  </ul>
+  <h4>Code example</h4>
+  <pre>@PostMapping("/payments")
+ResponseEntity&lt;PaymentResponse&gt; create(
+        @RequestHeader("Idempotency-Key") String key,
+        @Valid @RequestBody PaymentRequest req) {
+    return idempotency.execute(key, req, () -&gt; payments.charge(req));
+}
+// execute(): INSERT key (unique) -> if inserted: run, store response
+//            else: return the stored response (or 409 while still in progress)</pre>
+  <h4>Real-world example</h4>
+  <p>A mobile app retries a payment after a timeout. The second request carries the same key and receives the original result, so the customer is charged once.</p>
+  <h4>Common follow-ups</h4>
+  <ul><li>What if two identical requests arrive at once?</li><li>Where do you store keys?</li><li>How is this different from deduplicating consumers?</li></ul>
+  <h4>Common mistakes</h4>
+  <ul><li>Check-then-insert races.</li><li>Storing the key but not the response.</li><li>Not scoping keys per user.</li></ul>
+  <p class="mem"><b>Revision summary</b> Idempotency-Key + unique insert + stored response; repeats return the first result.</p>
+</template>
+
+<template data-q="Consumers process the same message twice after a rebalance. How do you make the consumer idempotent?" data-draft="1">
+  <h4>Short answer</h4>
+  <p>Assume at-least-once delivery and make the handler idempotent: record a unique message id (or business key) in the same transaction as the side effect, so a replay is detected and skipped. Prefer naturally idempotent operations (upsert, set state) where you can.</p>
+  <h4>Detailed explanation</h4>
+  <ul>
+    <li>Duplicates come from rebalances, retries, or a crash after processing but before the offset commit.</li>
+    <li>A <code>processed_message</code> table with a unique key, inserted with the business change, gives an atomic check.</li>
+    <li>Version or state checks protect against out-of-order replays.</li>
+    <li>Commit offsets only after the work succeeds; avoid long processing that exceeds <code>max.poll.interval.ms</code>.</li>
+  </ul>
+  <h4>Code example</h4>
+  <pre>@KafkaListener(topics = "orders")
+@Transactional
+public void on(OrderPlaced e) {
+    try {
+        processed.save(new ProcessedMessage(e.messageId()));   // unique key
+    } catch (DataIntegrityViolationException dup) {
+        return;                                                // already handled
+    }
+    shipping.create(e.orderId());
+}</pre>
+  <h4>Real-world example</h4>
+  <p>After a consumer-group rebalance, an <code>OrderPlaced</code> event is delivered twice; the second delivery hits the unique key and is ignored, so only one shipment exists.</p>
+  <h4>Common follow-ups</h4>
+  <ul><li>Why not exactly-once?</li><li>Where do you keep the dedup table and for how long?</li><li>What about side effects outside the database?</li></ul>
+  <h4>Common mistakes</h4>
+  <ul><li>Checking for duplicates in memory only.</li><li>Dedup and side effect in separate transactions.</li></ul>
+  <p class="mem"><b>Revision summary</b> At-least-once + unique message id in the same transaction as the effect = effectively once.</p>
+</template>
+
+<template data-q="What is an API gateway and which problems does it solve?" data-draft="1">
+  <h4>Short answer</h4>
+  <p>An API gateway is the single entry point in front of your services. It handles cross-cutting concerns once: routing, TLS termination, authentication and token validation, rate limiting, CORS, request logging and correlation ids, so services stay focused on business logic.</p>
+  <h4>Detailed explanation</h4>
+  <ul>
+    <li>Spring Cloud Gateway is reactive (Netty) and configured with routes made of an id, a URI, predicates and filters.</li>
+    <li>Keep business rules out of it, or it becomes a distributed monolith and a bottleneck.</li>
+    <li>Run several instances; it is on the critical path.</li>
+    <li>Services still authorise requests (defence in depth); do not trust the network.</li>
+    <li>Set timeouts and a circuit breaker per route.</li>
+  </ul>
+  <h4>Code example</h4>
+  <pre>spring:
+  cloud:
+    gateway:
+      routes:
+        - id: orders
+          uri: lb://order-service
+          predicates:
+            - Path=/api/orders/**
+          filters:
+            - StripPrefix=1
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 20
+                redis-rate-limiter.burstCapacity: 40</pre>
+  <h4>Real-world example</h4>
+  <p>Twenty services share one gateway for JWT validation and rate limiting, instead of twenty slightly different implementations.</p>
+  <h4>Common follow-ups</h4>
+  <ul><li>Gateway vs service mesh?</li><li>Gateway vs backend-for-frontend?</li><li>How do you avoid a single point of failure?</li></ul>
+  <h4>Common mistakes</h4>
+  <ul><li>Putting domain logic in the gateway.</li><li>Skipping authorisation inside services.</li><li>No timeouts on routes.</li></ul>
+  <p class="mem"><b>Revision summary</b> One front door for routing, security, limits and observability, with no business logic and more than one instance.</p>
+</template>
+
+<template data-q="Explain the Spring Security filter chain and how a request flows through it." data-draft="1">
+  <h4>Short answer</h4>
+  <p>Security runs as servlet filters. <code>DelegatingFilterProxy</code> hands the request to <code>FilterChainProxy</code>, which picks the first matching <code>SecurityFilterChain</code> and runs its ordered filters. An authentication filter builds an <code>Authentication</code>, the <code>AuthenticationManager</code> (<code>ProviderManager</code>) delegates to providers, and on success the result is stored in the <code>SecurityContext</code>. <code>AuthorizationFilter</code> then checks access.</p>
+  <h4>Detailed explanation</h4>
+  <ul>
+    <li>Typical order: security context, headers, CORS, CSRF, logout, authentication filter (for example <code>BearerTokenAuthenticationFilter</code>), anonymous, <code>ExceptionTranslationFilter</code>, <code>AuthorizationFilter</code>.</li>
+    <li><code>ExceptionTranslationFilter</code> turns authentication failures into 401 (via the entry point) and access denials into 403.</li>
+    <li>The <code>SecurityContext</code> is held in a thread-local, so it does not follow into new threads automatically.</li>
+    <li>Debug with <code>logging.level.org.springframework.security=DEBUG</code>, which prints the filter list.</li>
+  </ul>
+  <h4>Code example</h4>
+  <pre>@Bean
+SecurityFilterChain api(HttpSecurity http) throws Exception {
+    http.csrf(csrf -&gt; csrf.disable())                       // stateless token API
+        .sessionManagement(s -&gt; s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(a -&gt; a
+            .requestMatchers("/actuator/health/**").permitAll()
+            .anyRequest().authenticated())
+        .oauth2ResourceServer(o -&gt; o.jwt(Customizer.withDefaults()));
+    return http.build();
+}</pre>
+  <h4>Real-world example</h4>
+  <p>Two chains in one app: one for <code>/api/**</code> with JWT and no session, one for the admin UI with form login and CSRF protection.</p>
+  <h4>Common follow-ups</h4>
+  <ul><li>Where does a 401 vs 403 come from?</li><li>How do you add a custom filter and where?</li><li>Why was <code>WebSecurityConfigurerAdapter</code> removed?</li></ul>
+  <h4>Common mistakes</h4>
+  <ul><li>Disabling CSRF on a cookie-session app.</li><li>Order-sensitive <code>requestMatchers</code> with the broad rule first.</li></ul>
+  <p class="mem"><b>Revision summary</b> FilterChainProxy -> matching chain -> authenticate into SecurityContext -> authorise; exceptions become 401 or 403.</p>
+</template>
+
+<template data-q="What is a JWT? Describe its three parts and how a resource server validates it." data-draft="1">
+  <h4>Short answer</h4>
+  <p>A JWT is three base64url parts: header, payload (claims) and signature. A resource server verifies the signature with the issuer's public key, then checks expiry and not-before, the issuer and, if configured, the audience, and maps scopes or roles into authorities. The payload is encoded, not encrypted.</p>
+  <h4>Detailed explanation</h4>
+  <ul>
+    <li>Common claims: <code>iss</code>, <code>sub</code>, <code>aud</code>, <code>exp</code>, <code>nbf</code>, <code>iat</code>, <code>scope</code>.</li>
+    <li>Asymmetric (RS256/ES256) lets services verify with a public key from a JWK set, cached by <code>kid</code>; HS256 shares one secret.</li>
+    <li>Spring Boot validates signature, expiry and issuer; add a validator for audience.</li>
+    <li>Revocation is hard because tokens are self-contained: keep lifetimes short, use refresh tokens, or introspect opaque tokens.</li>
+  </ul>
+  <h4>Code example</h4>
+  <pre>spring.security.oauth2.resourceserver.jwt.issuer-uri: https://idp.example.com/realms/shop
+
+@Bean
+JwtDecoder jwtDecoder(OAuth2TokenValidator&lt;Jwt&gt; audienceValidator) {
+    NimbusJwtDecoder decoder = (NimbusJwtDecoder) JwtDecoders.fromIssuerLocation(issuer);
+    decoder.setJwtValidator(new DelegatingOAuth2TokenValidator&lt;&gt;(
+            JwtValidators.createDefaultWithIssuer(issuer), audienceValidator));
+    return decoder;
+}</pre>
+  <h4>Real-world example</h4>
+  <p>The gateway and every service validate the same issuer's tokens locally, with no call to the identity provider per request.</p>
+  <h4>Common follow-ups</h4>
+  <ul><li>How do you revoke a JWT?</li><li>JWT vs opaque token?</li><li>How do you rotate signing keys?</li></ul>
+  <h4>Common mistakes</h4>
+  <ul><li>Putting secrets or personal data in the payload.</li><li>Long-lived access tokens.</li><li>Skipping audience validation.</li></ul>
+  <p class="mem"><b>Revision summary</b> Signed, not secret: verify signature, exp, issuer and audience; keep tokens short-lived.</p>
+</template>
+
+<template data-q="Walk through the Spring MVC request processing flow from request to response." data-draft="1">
+  <h4>Short answer</h4>
+  <p>The servlet container passes the request through filters to the <code>DispatcherServlet</code>. It asks <code>HandlerMapping</code> for the handler (controller method plus interceptors), invokes it through a <code>HandlerAdapter</code> (resolving arguments and converting the body), then writes the return value with an <code>HttpMessageConverter</code> (REST) or resolves a view. Exceptions go to <code>HandlerExceptionResolver</code>s such as <code>@ExceptionHandler</code>.</p>
+  <h4>Detailed explanation</h4>
+  <pre class="flow">Request -> Servlet filters -> DispatcherServlet
+        -> HandlerMapping (finds handler + interceptors)
+        -> interceptor.preHandle
+        -> HandlerAdapter (argument resolvers, @Valid, message converters)
+        -> controller method
+        -> return value handler (HttpMessageConverter / ViewResolver)
+        -> interceptor.postHandle / afterCompletion
+        -> Response   (exceptions -> HandlerExceptionResolver)</pre>
+  <h4>Code example</h4>
+  <pre>@RestController
+@RequestMapping("/orders")
+class OrderController {
+    @GetMapping("/{id}")
+    OrderDto get(@PathVariable long id) { return service.find(id); }  // body written as JSON
+}</pre>
+  <h4>Real-world example</h4>
+  <p>A correlation-id filter runs before the servlet, an interceptor logs handler timings, and a <code>@RestControllerAdvice</code> shapes all errors.</p>
+  <h4>Common follow-ups</h4>
+  <ul><li>Filter vs interceptor?</li><li>How does content negotiation choose JSON or XML?</li><li>Where does validation happen?</li></ul>
+  <h4>Common mistakes</h4>
+  <ul><li>Mixing up filters (servlet level) and interceptors (MVC level).</li><li>Doing business logic in interceptors.</li></ul>
+  <p class="mem"><b>Revision summary</b> Filters -> DispatcherServlet -> HandlerMapping -> HandlerAdapter -> controller -> converter or view; errors via exception resolvers.</p>
+</template>
+
+<template data-q="How do you return a consistent error response body across an entire API?" data-draft="1">
+  <h4>Short answer</h4>
+  <p>Use one <code>@RestControllerAdvice</code> that maps every exception to the same body shape. In Spring 6 use <code>ProblemDetail</code> (RFC 7807): it carries type, title, status, detail and custom properties. Extend <code>ResponseEntityExceptionHandler</code> so built-in MVC errors follow the same format.</p>
+  <h4>Detailed explanation</h4>
+  <ul>
+    <li>Map domain exceptions to status codes in one place; never leak stack traces.</li>
+    <li>Return field-level errors for validation failures.</li>
+    <li>Add a catch-all <code>Exception</code> handler that logs the cause and returns a generic 500 with a correlation id.</li>
+    <li><code>spring.mvc.problemdetails.enabled=true</code> makes the built-in MVC exceptions return problem details.</li>
+  </ul>
+  <h4>Code example</h4>
+  <pre>@RestControllerAdvice
+class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    ProblemDetail notFound(OrderNotFoundException ex) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        pd.setTitle("Order not found");
+        pd.setProperty("orderId", ex.getOrderId());
+        return pd;
+    }
+
+    @Override
+    protected ResponseEntity&lt;Object&gt; handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+            HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Validation failed");
+        pd.setProperty("errors", ex.getFieldErrors().stream()
+                .map(f -&gt; Map.of("field", f.getField(), "message", String.valueOf(f.getDefaultMessage())))
+                .toList());
+        return ResponseEntity.badRequest().body(pd);
+    }
+}</pre>
+  <h4>Real-world example</h4>
+  <p>Front-end and partner teams parse one error format across all services, which cut support questions about "why 500".</p>
+  <h4>Common follow-ups</h4>
+  <ul><li>ResponseStatusException vs advice?</li><li>How do you propagate a downstream 4xx?</li><li>How do you localise messages?</li></ul>
+  <h4>Common mistakes</h4>
+  <ul><li>Returning 200 with an error body.</li><li>Leaking internal exception messages.</li><li>Different error shapes per controller.</li></ul>
+  <p class="mem"><b>Revision summary</b> One advice class, one ProblemDetail shape, correct status codes, no stack traces to clients.</p>
+</template>
+
+<template data-q="What is service discovery and why is it needed?" data-draft="1">
+  <h4>Short answer</h4>
+  <p>Service discovery lets a client find healthy instances of a service by its logical name instead of a hard-coded host and port, even as instances scale, move or fail. It can be client-side (a registry such as Eureka or Consul plus client load balancing) or platform-provided (Kubernetes Service and DNS).</p>
+  <h4>Detailed explanation</h4>
+  <ul>
+    <li>Instances register and send heartbeats; unhealthy ones are removed after missed heartbeats.</li>
+    <li>Registries are eventually consistent; clients cache, so stale entries exist for a short time. Always use timeouts and retries.</li>
+    <li>On Kubernetes, DNS and Services usually replace Eureka; use a registry only if you also run outside Kubernetes.</li>
+    <li>Spring Cloud LoadBalancer picks an instance for <code>@LoadBalanced</code> clients and Feign.</li>
+  </ul>
+  <h4>Code example</h4>
+  <pre>spring.application.name: order-service
+
+@FeignClient(name = "inventory-service")      // resolved by logical name
+interface InventoryClient {
+    @GetMapping("/stock/{sku}") Stock stock(@PathVariable String sku);
+}</pre>
+  <h4>Real-world example</h4>
+  <p>Order service scales inventory from 2 to 6 pods during a sale; callers use the name <code>inventory-service</code> and spread load without a config change.</p>
+  <h4>Common follow-ups</h4>
+  <ul><li>Client-side vs server-side discovery?</li><li>What is Eureka self-preservation?</li><li>Do you still need Eureka on Kubernetes?</li></ul>
+  <h4>Common mistakes</h4>
+  <ul><li>Hard-coded URLs.</li><li>Assuming the registry is instantly consistent.</li><li>A single registry instance.</li></ul>
+  <p class="mem"><b>Revision summary</b> Look up instances by name; registry or platform DNS; expect staleness, so add timeouts and retries.</p>
+</template>
+
+<template data-q="What is the difference between a liveness probe and a readiness probe?" data-draft="1">
+  <h4>Short answer</h4>
+  <p>Liveness answers "should this process be restarted?" Readiness answers "should it receive traffic right now?" A startup probe protects slow starts. Spring Boot exposes <code>/actuator/health/liveness</code> and <code>/actuator/health/readiness</code>, backed by availability states.</p>
+  <h4>Detailed explanation</h4>
+  <ul>
+    <li>Keep external dependencies (database, other services) out of liveness: a database outage would restart every pod and make things worse.</li>
+    <li>Readiness may include critical dependencies, so a pod that cannot serve is taken out of rotation without being killed.</li>
+    <li>On shutdown readiness flips to refusing traffic while in-flight requests finish (<code>server.shutdown=graceful</code>).</li>
+    <li>Misconfigured probes cause restart loops during startup; use a startup probe or a longer initial delay.</li>
+  </ul>
+  <h4>Code example</h4>
+  <pre>management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: readinessState,db
+server:
+  shutdown: graceful
+spring.lifecycle.timeout-per-shutdown-phase: 30s</pre>
+  <h4>Real-world example</h4>
+  <p>A pod was restarted every few minutes during startup because liveness used the same slow-warming check as readiness. Splitting the probes and adding a startup probe fixed it.</p>
+  <h4>Common follow-ups</h4>
+  <ul><li>What should liveness never check?</li><li>How does graceful shutdown interact with readiness?</li><li>What does a startup probe add?</li></ul>
+  <h4>Common mistakes</h4>
+  <ul><li>Using one endpoint for both probes.</li><li>Putting the database in liveness.</li></ul>
+  <p class="mem"><b>Revision summary</b> Liveness = restart me; readiness = send me traffic; never put external dependencies in liveness.</p>
+</template>
+
+<template data-q="What is a correlation ID and how do you propagate one across services?" data-draft="1">
+  <h4>Short answer</h4>
+  <p>A correlation id is an identifier created at the edge for each business request (or reused if the caller sent one), put into the logging context (MDC), written on every log line and forwarded on every outbound call and message. With Micrometer Tracing the trace id plays this role automatically through the W3C <code>traceparent</code> header.</p>
+  <h4>Detailed explanation</h4>
+  <ul>
+    <li>Create it in a filter or at the gateway; echo it in the response header.</li>
+    <li>Forward it with a Feign <code>RequestInterceptor</code>, a <code>ClientHttpRequestInterceptor</code> and as a Kafka header.</li>
+    <li>MDC is thread-local: copy it to async threads and clear it after the request to avoid leaks in thread pools.</li>
+    <li>Use it for support and debugging, not for security or as an idempotency key.</li>
+  </ul>
+  <h4>Code example</h4>
+  <pre>@Component
+@Order(Ordered.HIGHEST_PRECEDENCE)
+class CorrelationIdFilter extends OncePerRequestFilter {
+    @Override
+    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
+            throws ServletException, IOException {
+        String id = Optional.ofNullable(req.getHeader("X-Correlation-Id"))
+                .filter(s -&gt; !s.isBlank()).orElse(UUID.randomUUID().toString());
+        MDC.put("correlationId", id);
+        res.setHeader("X-Correlation-Id", id);
+        try { chain.doFilter(req, res); } finally { MDC.remove("correlationId"); }
+    }
+}
+
+@Bean
+RequestInterceptor correlationInterceptor() {
+    return t -&gt; { String id = MDC.get("correlationId"); if (id != null) t.header("X-Correlation-Id", id); };
+}</pre>
+  <h4>Real-world example</h4>
+  <p>Support gets a failing order, searches one id in Kibana and sees the gateway, order, payment and inventory logs for that single request.</p>
+  <h4>Common follow-ups</h4>
+  <ul><li>Correlation id vs trace id?</li><li>How do you propagate it through Kafka?</li><li>Why clear the MDC?</li></ul>
+  <h4>Common mistakes</h4>
+  <ul><li>Not clearing the MDC in pooled threads.</li><li>Losing the id in <code>@Async</code> and consumer threads.</li><li>Trusting a client-provided id for anything security related.</li></ul>
+  <p class="mem"><b>Revision summary</b> Create at the edge, store in MDC, forward everywhere, clear after use; tracing gives you this for free.</p>
+</template>
+
 <!-- ANSWERS-END -->
 </div>
 
@@ -2604,21 +3294,401 @@ var DATA = [
 ];
 
 /* ------------------------------------------------------------------
-   State + persistence
+   14-day plan. Question numbers (n) are the position of the question in DATA
+   (1..563) and are shown in the UI as Q001..Q563. Core = every question listed
+   here; everything else is Stretch (was a core section) or Optional.
+   drill = concept + FAQ questions, scen = scenario questions.
+   Activity minutes per day must add up to 180 (validated at load).
+   kind: drill|scen = completed from the question list, check = manual tick,
+         list = completed from the end-of-day checklist.
 -------------------------------------------------------------------*/
-var KEY = "springMsaPrep.v1";
-var TYPE_META = { c:{label:"Concept", cls:"b-c"}, f:{label:"FAQ", cls:"b-f"}, s:{label:"Scenario", cls:"b-s"} };
-var state = { done:{}, theme:"dark", open:{} };
+var PLAN = [
+{ day:1, title:"Spring core: IoC, DI, beans and configuration", weak:false,
+  topics:["IoC container, BeanFactory vs ApplicationContext","Dependency injection styles and why constructor injection wins","Bean scopes, singleton thread safety, lifecycle callbacks","Stereotypes, @Configuration/@Bean, component scanning, @Primary/@Qualifier"],
+  acts:[
+    {id:"setup", label:"Set-up: read the plan, open the bank, pick your answer-aloud method", min:10, kind:"check"},
+    {id:"study", label:"Concept study from your own notes and the answers on this page", min:30, kind:"check"},
+    {id:"drill", label:"Core Q&A drill (concept + FAQ): answer aloud, then set status", min:50, kind:"drill"},
+    {id:"scen",  label:"Scenario practice: talk through each one as if in the interview", min:30, kind:"scen"},
+    {id:"hands", label:"Hands-on lab", min:50, kind:"check"},
+    {id:"rev",   label:"End-of-day revision checklist", min:10, kind:"list"}],
+  drill:[2,3,4,5,7,9,10,15,16,18,19,22,23,28,29,30,31,33,34,36],
+  scen:[11,12,24,25,26,37,38],
+  explain:["Why constructor injection is preferred: immutability, testability, fail-fast on missing dependencies","Singleton scope is not the Singleton pattern, so singleton beans must be stateless or thread safe","Why a prototype injected into a singleton never changes, and the ObjectProvider or scoped-proxy fix","Bean lifecycle order: instantiate, populate, Aware callbacks, BeanPostProcessor, @PostConstruct, ready, @PreDestroy","How Spring resolves NoUniqueBeanDefinitionException: @Primary, @Qualifier, name match, List/Map injection"],
+  hands:{title:"Mini payment module using only DI", steps:["Create two PaymentGateway implementations and inject one by constructor using @Primary, then @Qualifier","Inject Map<String, PaymentGateway> and pick the implementation at runtime (strategy pattern)","Reproduce prototype-in-singleton, then fix it with ObjectProvider","Add @PostConstruct and @PreDestroy logging and watch the order at startup and shutdown","Write a plain JUnit test that builds the service with mocks, with no Spring context"], done:"The service test runs without Spring and you can explain every bean's scope out loud."},
+  prompts:["Explain dependency injection to a junior using a real bug you hit on a project.","Walk me through what happens between starting the ApplicationContext and the first request."],
+  checklist:["I can explain constructor vs setter vs field injection in 60 seconds","I can explain singleton scope vs the Singleton pattern","I can list the bean lifecycle steps in order","I can fix NoUniqueBeanDefinitionException three different ways","I marked every shaky question Needs Revision"]
+},
+{ day:2, title:"Spring Boot essentials: auto-configuration, starters, config, profiles", weak:true,
+  topics:["@SpringBootApplication, starters, starter-parent, embedded servers","Auto-configuration: how it is discovered, ordered and backed off","Externalised configuration, precedence, @ConfigurationProperties validation","Profiles, fat JAR, DevTools, Actuator basics, Boot 2 to 3 changes"],
+  acts:[
+    {id:"warm",  label:"Warm-up: re-answer 5 Day 1 questions you marked Needs Revision", min:10, kind:"check"},
+    {id:"study", label:"Concept study: auto-configuration and configuration precedence", min:25, kind:"check"},
+    {id:"drill", label:"Core Q&A drill (concept + FAQ)", min:60, kind:"drill"},
+    {id:"scen",  label:"Scenario practice", min:15, kind:"scen"},
+    {id:"hands", label:"Hands-on lab", min:60, kind:"check"},
+    {id:"rev",   label:"End-of-day revision checklist", min:10, kind:"list"}],
+  drill:[39,40,41,42,43,44,45,46,47,48,49,50,51,52,54,55,56,57,58,59,60,61,296,297,307],
+  scen:[53,62,63],
+  explain:["Auto-configuration: @EnableAutoConfiguration, the AutoConfiguration.imports file, @Conditional* and @ConditionalOnMissingBean back-off","What a starter is (a dependency descriptor, optionally plus an autoconfigure module)","Configuration precedence: command line, environment variables, profile files, application files, defaults","@ConfigurationProperties with @Validated to fail fast at startup, and why it beats scattered @Value","How one JAR runs everywhere: fat JAR layout, embedded server, profiles per environment","What changed in Boot 3: Jakarta namespace, Java 17 baseline, AutoConfiguration.imports, AOT/native, observability"],
+  hands:{title:"Configurable Boot service with its own auto-configuration", steps:["Generate a Boot 3 project with web, validation, actuator","Add a @ConfigurationProperties record with @Validated and @NotBlank; start without the property and watch startup fail","Add application-dev.yml and application-prod.yml; switch with SPRING_PROFILES_ACTIVE; override the port with --server.port and an environment variable","Run with --debug and read the conditions report; exclude one auto-configuration","Create a tiny auto-configuration class with @ConditionalOnMissingBean and register it in META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports","Expose health and info through Actuator"], done:"You can show the conditions report and explain why your bean backed off or applied."},
+  prompts:["Our service started fine but failed at runtime because a property was missing. How do you prevent that?","Explain what happens when I run my Boot application, without hand-waving 'magic'."],
+  checklist:["I can explain auto-configuration end to end in 2 minutes","I can state the configuration precedence order from memory","I can show fail-fast configuration validation in code","I can list three differences between Boot 2 and Boot 3","I marked every shaky question Needs Revision"]
+},
+{ day:3, title:"Spring MVC and REST: controllers, validation, error handling, API design", weak:true,
+  topics:["DispatcherServlet flow, @RestController, request mapping and binding","HTTP semantics: status codes, idempotency, PUT vs PATCH, CORS","Bean Validation, @ControllerAdvice, ProblemDetail, consistent errors","DTOs, resource design, Boot test slices (@WebMvcTest, MockMvc)"],
+  acts:[
+    {id:"warm",  label:"Warm-up: re-answer Day 2 questions marked Needs Revision", min:10, kind:"check"},
+    {id:"study", label:"Concept study: MVC request flow and error-handling design", min:20, kind:"check"},
+    {id:"drill", label:"Core Q&A drill (concept + FAQ)", min:60, kind:"drill"},
+    {id:"scen",  label:"Scenario practice", min:20, kind:"scen"},
+    {id:"hands", label:"Hands-on lab", min:60, kind:"check"},
+    {id:"rev",   label:"End-of-day revision checklist", min:10, kind:"list"}],
+  drill:[64,65,67,69,70,71,72,73,74,75,76,94,95,96,97,98,99,100,101,191,192,193,197,106,108,109],
+  scen:[78,79,102,103,111],
+  explain:["The Spring MVC request flow from servlet filter to message converter","Safe vs idempotent HTTP methods, and how to make POST idempotent","Which status code for create, update, delete, validation error, conflict","@Valid vs @Validated, and how validation errors become a 400 with a clear body","One global @RestControllerAdvice returning ProblemDetail (RFC 7807)","Why entities must not be exposed: DTOs, over-fetching, recursion, coupling"],
+  hands:{title:"Orders REST API with proper errors and tests", steps:["Build /orders CRUD with record DTOs and Bean Validation","POST returns 201 with a Location header; unknown id returns 404 through a custom exception","Add a @RestControllerAdvice that returns ProblemDetail for 400, 404 and unexpected 500s","Support an Idempotency-Key header on POST (store key and response)","Write @WebMvcTest tests with MockMvc for 201, 400 and 404","Optionally add springdoc-openapi and check the generated contract"], done:"All three MockMvc tests are green and no error path returns a stack trace."},
+  prompts:["Validation failures return HTTP 500 with a stack trace. Redesign the error handling.","A downstream service returns 400 and we turn it into 500. How should errors propagate?"],
+  checklist:["I can draw the MVC request flow from memory","I can map CRUD and failure cases to correct status codes","I can show a global error handler returning ProblemDetail","I can explain how an idempotent POST works","I marked every shaky question Needs Revision"]
+},
+{ day:4, title:"Spring Data JPA and Hibernate performance", weak:false,
+  topics:["Entities, repositories, derived queries, @Query, relationships","Persistence context, entity states, dirty checking","N+1, fetch strategies, projections, pagination","Schema migration with Flyway or Liquibase"],
+  acts:[
+    {id:"warm",  label:"Warm-up: re-answer Day 3 questions marked Needs Revision", min:10, kind:"check"},
+    {id:"study", label:"Concept study: persistence context and fetching", min:25, kind:"check"},
+    {id:"drill", label:"Core Q&A drill (concept + FAQ)", min:50, kind:"drill"},
+    {id:"scen",  label:"Scenario practice", min:20, kind:"scen"},
+    {id:"hands", label:"Hands-on lab", min:65, kind:"check"},
+    {id:"rev",   label:"End-of-day revision checklist", min:10, kind:"list"}],
+  drill:[80,82,83,85,86,87,88,90,91,169,170,171,172,173,174,177,180,182,183,184],
+  scen:[92,93,185,186,187],
+  explain:["Persistence context as a first-level cache and how dirty checking writes changes at flush","LAZY vs EAGER, LazyInitializationException and the correct fixes","The N+1 problem: how to detect it and the fix options with trade-offs","Entity vs DTO projection, and when each is right","Offset vs keyset pagination for big tables","Why ddl-auto=update is unsafe in production and what to use instead"],
+  hands:{title:"Reproduce and fix N+1", steps:["Model Order and OrderItem with a lazy one-to-many","Turn on SQL logging and Hibernate statistics; call the list endpoint and count queries","Fix it with @EntityGraph or JOIN FETCH, then with a DTO projection; compare query counts","Add a Pageable endpoint and a keyset-paginated variant","Create the schema with a Flyway migration instead of ddl-auto","Test against a real database (Testcontainers) or at least H2"], done:"You can show the before and after query counts and explain the pagination caveat of JOIN FETCH on collections."},
+  prompts:["A findAll() on a five-million-row table took the service down. Walk me through the fix.","An API returns entities directly and clients see recursive JSON. Redesign it."],
+  checklist:["I can explain and fix N+1 on a whiteboard","I can explain LAZY vs EAGER and LazyInitializationException fixes","I can describe keyset pagination in 60 seconds","I can explain why migrations beat ddl-auto=update","I marked every shaky question Needs Revision"]
+},
+{ day:5, title:"Transactions, AOP and Spring proxies", weak:false,
+  topics:["@Transactional internals: proxies, propagation, rollback rules, isolation","Optimistic and pessimistic locking","AOP terms, JDK vs CGLIB, self-invocation pitfalls","Container depth: circular dependencies, BeanPostProcessor, conditionals, events"],
+  acts:[
+    {id:"warm",  label:"Warm-up: re-answer Day 4 questions marked Needs Revision", min:10, kind:"check"},
+    {id:"study", label:"Concept study: how a Spring proxy intercepts a call", min:20, kind:"check"},
+    {id:"drill", label:"Core Q&A drill (concept + FAQ)", min:45, kind:"drill"},
+    {id:"scen",  label:"Scenario practice", min:40, kind:"scen"},
+    {id:"hands", label:"Hands-on lab", min:55, kind:"check"},
+    {id:"rev",   label:"End-of-day revision checklist", min:10, kind:"list"}],
+  drill:[142,143,145,155,156,157,158,159,160,161,162,163,164,128,129,133,137,138],
+  scen:[151,152,153,165,166,167,168,139,140],
+  explain:["What the transactional proxy does: begin, invoke, commit or roll back, bound to the thread","Why self-invocation and private methods bypass @Transactional, and three fixes","REQUIRED vs REQUIRES_NEW vs NESTED, with a real use for each","Default rollback rule and how to roll back on a checked exception","Isolation levels and the anomaly each one prevents","Optimistic locking with @Version vs pessimistic locks, and when to use which"],
+  hands:{title:"Prove the proxy pitfalls and fix them", steps:["Write a service where method A calls @Transactional method B in the same class; show the transaction is not applied","Fix it by moving B to another bean; confirm with transaction logging (org.springframework.transaction=TRACE)","Write an audit record with REQUIRES_NEW that survives the outer rollback","Add @Version to an entity and trigger an optimistic-lock failure with two threads","Add an @Around aspect that logs duration, and control its order with @Order"], done:"You can demonstrate each bug, its log evidence and its fix."},
+  prompts:["Two users update the same row and one silently overwrites the other. Diagnose and fix.","A transaction holds a database lock while calling a slow external REST API. What is the risk?"],
+  checklist:["I can explain how @Transactional works under the hood","I can explain and fix self-invocation three ways","I can explain every propagation level I would use at work","I can explain optimistic vs pessimistic locking","I marked every shaky question Needs Revision"]
+},
+{ day:6, title:"Spring Security, JWT and OAuth2", weak:false,
+  topics:["Security filter chain, authentication and authorisation, password storage","JWT validation, revocation, stateless vs session","OAuth2 roles, grant types, OIDC, resource server configuration","Method security and propagating identity across services"],
+  acts:[
+    {id:"warm",  label:"Warm-up: re-answer Day 5 questions marked Needs Revision", min:10, kind:"check"},
+    {id:"study", label:"Concept study: filter chain and OAuth2 flows", min:25, kind:"check"},
+    {id:"drill", label:"Core Q&A drill (concept + FAQ)", min:50, kind:"drill"},
+    {id:"scen",  label:"Scenario practice", min:25, kind:"scen"},
+    {id:"hands", label:"Hands-on lab", min:60, kind:"check"},
+    {id:"rev",   label:"End-of-day revision checklist", min:10, kind:"list"}],
+  drill:[204,205,206,207,208,209,210,211,212,213,214,216,324,325,326,327,328,329,330,331],
+  scen:[217,218,219,336,337],
+  explain:["The request path through the security filter chain and where exceptions become 401 and 403","SecurityFilterChain bean configuration (no WebSecurityConfigurerAdapter)","What a JWT contains and exactly what a resource server verifies","Authorization code with PKCE vs client credentials, and why implicit and password grants are gone","Access token vs refresh token vs ID token","Why SecurityContext is empty in @Async threads and how to propagate it"],
+  hands:{title:"JWT-protected resource server", steps:["Add spring-boot-starter-oauth2-resource-server and configure the issuer or a JWK set (or an HMAC secret for a local lab)","Define a SecurityFilterChain: stateless, authorizeHttpRequests, JWT converter","Map scopes or roles claims to authorities with a JwtAuthenticationConverter","Protect a service method with @PreAuthorize on a scope or role","Write tests with the jwt() request post-processor for 200, 401 and 403","Add a custom audience validator to the decoder"], done:"Three tests prove allowed, unauthenticated and forbidden paths."},
+  prompts:["Access tokens live 24 hours and a user was just deprovisioned. What is the gap and how do you close it?","Design authentication for a web SPA, a mobile app and twelve internal services."],
+  checklist:["I can walk the security filter chain for one request","I can explain what a JWT resource server validates","I can compare auth code + PKCE with client credentials","I can explain how to revoke or shorten token lifetime safely","I marked every shaky question Needs Revision"]
+},
+{ day:7, title:"Microservices foundations: boundaries, communication, discovery, gateway", weak:true,
+  topics:["Microservices vs monolith, bounded contexts, database per service","Sync vs async communication, OpenFeign/RestClient, load balancing","Service discovery, config server, API gateway","Service-to-service authentication, correlation IDs, orchestration vs choreography"],
+  acts:[
+    {id:"warm",  label:"Warm-up: re-answer Day 6 questions marked Needs Revision", min:10, kind:"check"},
+    {id:"study", label:"Concept study: where to draw service boundaries", min:25, kind:"check"},
+    {id:"drill", label:"Core Q&A drill (concept + FAQ)", min:60, kind:"drill"},
+    {id:"scen",  label:"Scenario practice", min:25, kind:"scen"},
+    {id:"hands", label:"Hands-on lab", min:50, kind:"check"},
+    {id:"rev",   label:"End-of-day revision checklist", min:10, kind:"list"}],
+  drill:[112,113,114,115,117,118,119,120,121,122,123,124,254,255,256,260,261,262,265,267,268,270,271,274],
+  scen:[126,127,263,264,275,276],
+  explain:["When microservices are the wrong choice, with honest trade-offs","Bounded context and database per service, and how to share data without a shared database","Client-side vs server-side load balancing and discovery; why Kubernetes DNS may replace Eureka","What belongs in the API gateway and what must not","Why every outbound call needs connect and read timeouts","Correlation ID propagation across HTTP hops"],
+  hands:{title:"Two services behind a gateway", steps:["Create order-service and inventory-service as separate Boot apps","Call inventory from order using OpenFeign or RestClient with explicit connect and read timeouts","Add Spring Cloud Gateway with routes by path and a global filter that creates or forwards X-Correlation-Id","Propagate the header on outbound calls and print it in the log pattern of both services","Externalise configuration (Config Server or ConfigMap/env vars) and reload one value","Kill inventory and observe what order-service does (this feeds Day 8)"], done:"One correlation id appears in the logs of gateway, order and inventory for a single request."},
+  prompts:["A four-engineer startup wants twelve microservices at launch. What is your advice?","Service A calls B which calls C, and C becomes slow. Describe the cascading failure."],
+  checklist:["I can argue for and against microservices in 2 minutes","I can explain database per service and cross-service data access","I can explain discovery, config server and gateway roles","I can explain why timeouts are mandatory on every call","I marked every shaky question Needs Revision"]
+},
+{ day:8, title:"Resilience and messaging: circuit breakers, retries, Kafka basics", weak:true,
+  topics:["Circuit breaker, retry with backoff and jitter, bulkhead, timeout budgets","Fallbacks, retry amplification, load shedding","Queues vs topics, Kafka partitions, offsets, consumer groups, ordering","Delivery semantics, dead-letter topics, idempotent consumers"],
+  acts:[
+    {id:"warm",  label:"Warm-up: re-answer Day 7 questions marked Needs Revision", min:10, kind:"check"},
+    {id:"study", label:"Concept study: failure modes and Kafka delivery guarantees", min:25, kind:"check"},
+    {id:"drill", label:"Core Q&A drill (concept + FAQ)", min:45, kind:"drill"},
+    {id:"scen",  label:"Scenario practice", min:25, kind:"scen"},
+    {id:"hands", label:"Hands-on lab", min:65, kind:"check"},
+    {id:"rev",   label:"End-of-day revision checklist", min:10, kind:"list"}],
+  drill:[339,340,341,342,343,344,345,346,347,348,350,278,279,280,281,282,283,284],
+  scen:[351,352,353,201,285,286],
+  explain:["Circuit breaker states and the settings that matter: window, failure and slow-call rate, wait in open","Which operations are safe to retry, and why backoff needs jitter","How retries multiply load (retry amplification) and how timeouts, budgets and breakers stop it","Kafka basics: topic, partition, offset, consumer group, and where ordering holds","At-most-once vs at-least-once vs exactly-once in practice","Dead-letter and retry topics, and how to make a consumer idempotent"],
+  hands:{title:"Break it on purpose", steps:["Add Resilience4j CircuitBreaker, Retry and TimeLimiter to the Day 7 inventory call; configure in application.yml","Make the fake inventory fail or respond slowly (WireMock or a flag) and watch state transitions in Actuator metrics","Add a fallback that is honest about degraded data","Add a Kafka producer and a @KafkaListener (embedded Kafka or Docker)","Configure DefaultErrorHandler with a dead-letter topic; publish a poison message","Deliver the same message twice and make the consumer ignore the duplicate"], done:"You can trigger open, half-open and closed states and show a duplicate being ignored."},
+  prompts:["Retries turned a partial outage into a total outage. Explain amplification and prevention.","Consumers process the same message twice after a rebalance. How do you make them idempotent?"],
+  checklist:["I can explain circuit breaker states and key settings","I can explain safe retries, backoff and jitter","I can explain Kafka ordering, partitions and consumer groups","I can explain at-least-once delivery and idempotent consumers","I marked every shaky question Needs Revision"]
+},
+{ day:9, title:"Distributed data and event-driven design: saga, outbox, idempotency", weak:true,
+  topics:["Why no two-phase commit; CAP and eventual consistency","Saga orchestration vs choreography with compensation","Transactional outbox, CDC, CQRS, event sourcing basics","Kafka guarantees, partition keys, lag, rebalances, schema evolution, poison messages"],
+  acts:[
+    {id:"warm",  label:"Warm-up: re-answer Day 8 questions marked Needs Revision", min:10, kind:"check"},
+    {id:"study", label:"Concept study: saga and outbox on a whiteboard", min:30, kind:"check"},
+    {id:"drill", label:"Core Q&A drill (concept + FAQ)", min:45, kind:"drill"},
+    {id:"scen",  label:"Scenario practice", min:30, kind:"scen"},
+    {id:"hands", label:"Hands-on lab", min:55, kind:"check"},
+    {id:"rev",   label:"End-of-day revision checklist", min:10, kind:"list"}],
+  drill:[354,355,356,357,358,359,360,361,362,363,371,372,374,375,378,381],
+  scen:[367,368,369,384,385,386,200],
+  explain:["Why distributed transactions fail in practice, and what to use instead","Saga: local transactions plus compensations, orchestration vs choreography","The dual-write problem and how the transactional outbox solves it","Idempotency keys: how to design one and where to store it","What Kafka really guarantees: acks, min.insync.replicas, idempotent producer, ordering per partition","Consumer lag and rebalances: causes and fixes"],
+  hands:{title:"Outbox plus idempotent consumer", steps:["In one @Transactional method save an Order and an outbox row","Add a scheduled relay that publishes unsent rows to Kafka and marks them sent (use FOR UPDATE SKIP LOCKED if you run several instances)","In the consumer insert a processed_message row with a unique message id in the same transaction as the side effect","Sketch the Order, Payment, Inventory saga with compensations; implement the orchestrator as a small state machine","Kill the relay mid-way and prove no event is lost and duplicates are ignored"], done:"Restarting the relay never loses an event and never double-applies one."},
+  prompts:["An order spans payment, inventory and shipping. Design the saga with compensations.","A client retried a payment POST after a timeout and got double-charged. Fix it end to end."],
+  checklist:["I can draw a saga with compensation for a three-step order","I can explain the outbox pattern and why it exists","I can explain idempotency keys and where they are stored","I can explain what Kafka does and does not guarantee","I marked every shaky question Needs Revision"]
+},
+{ day:10, title:"Observability, caching, async and Actuator", weak:true,
+  topics:["Metrics, logs, traces, Micrometer, Prometheus, OpenTelemetry","SLI, SLO, golden signals, alerting on symptoms","Actuator, probes, graceful shutdown","Caching, @Async, thread pools, @Scheduled in clusters, CompletableFuture"],
+  acts:[
+    {id:"warm",  label:"Warm-up: re-answer Day 9 questions marked Needs Revision", min:10, kind:"check"},
+    {id:"study", label:"Concept study: tracing and thread-pool behaviour", min:20, kind:"check"},
+    {id:"drill", label:"Core Q&A drill (concept + FAQ)", min:50, kind:"drill"},
+    {id:"scen",  label:"Scenario practice", min:35, kind:"scen"},
+    {id:"hands", label:"Hands-on lab", min:55, kind:"check"},
+    {id:"rev",   label:"End-of-day revision checklist", min:10, kind:"list"}],
+  drill:[387,388,389,391,393,395,221,223,225,226,231,233,234,235,236,237,239,243,244,246,250],
+  scen:[398,399,229,230,240,241,242,252],
+  explain:["Three pillars of observability and how a trace id links logs to spans","Liveness vs readiness vs startup probes, and what each should check","Cache-aside, TTL, invalidation, stampede protection, stale data causes","How ThreadPoolExecutor really grows: core threads, then queue, then max threads","Why @Scheduled runs on every instance and how ShedLock-style locking fixes it","Propagating MDC and security context to async threads"],
+  hands:{title:"Make a service observable and fast", steps:["Add a Micrometer Timer and Counter around a service method and read them at /actuator/prometheus","Add Micrometer Tracing (or log a trace id through MDC) and follow one request across two services","Configure a ThreadPoolTaskExecutor with a TaskDecorator that copies MDC","Add @Cacheable with Caffeine and measure hit and miss; use sync=true to stop a stampede","Run three downstream calls in parallel with CompletableFuture and compare total latency","Enable probes and graceful shutdown; verify readiness flips on SIGTERM"], done:"You can show a metric, a trace id in logs, a cache hit and a graceful shutdown."},
+  prompts:["p50 is healthy but p99 is terrible. How do you investigate?","A @Scheduled job runs on all five instances and duplicates work. Give three solutions."],
+  checklist:["I can explain metrics vs logs vs traces with an example","I can explain liveness vs readiness correctly","I can explain thread pool queue vs max size behaviour","I can explain cache invalidation and stampede protection","I marked every shaky question Needs Revision"]
+},
+{ day:11, title:"Production performance, JVM, database and architecture", weak:false,
+  topics:["Method for diagnosing slowness; Tomcat and Hikari pool sizing","JVM memory, GC, heap dumps, container OOMKilled","Replicas, slow queries, indexes, deadlocks","DDD, hexagonal architecture, distributed monolith, strangler fig"],
+  acts:[
+    {id:"warm",  label:"Warm-up: re-answer Day 10 questions marked Needs Revision", min:10, kind:"check"},
+    {id:"study", label:"Concept study: Little's law, pools and JVM memory areas", min:20, kind:"check"},
+    {id:"drill", label:"Core Q&A drill (concept + FAQ)", min:50, kind:"drill"},
+    {id:"scen",  label:"Scenario practice", min:35, kind:"scen"},
+    {id:"hands", label:"Hands-on lab", min:55, kind:"check"},
+    {id:"rev",   label:"End-of-day revision checklist", min:10, kind:"list"}],
+  drill:[449,450,451,452,462,463,465,466,467,468,474,475,477,479,480,482,436,437,438,439,442],
+  scen:[459,460,471,472,484,485,446,447],
+  explain:["A structured method for 'the service is slow': measure, locate the bottleneck, change one thing","Sizing thread and connection pools with Little's law and database limits","Heap vs metaspace vs native memory, and why a container is OOMKilled below Xmx","Reading a thread dump and a heap histogram","Replication lag and read-after-write consistency","Signs of a distributed monolith and how a strangler fig migration proceeds"],
+  hands:{title:"Load test, diagnose, tune", steps:["Load test one endpoint with k6, hey or JMeter and watch Actuator metrics","Capture a thread dump (jcmd Thread.print) and a class histogram (jcmd GC.class_histogram) under load","Tune the Hikari pool and observe connection wait time","Run EXPLAIN ANALYZE on the slowest query and add the right index","Sketch a one-page design for an order system: bounded contexts, data ownership, sync and async calls, failure modes"], done:"You have one before/after measurement and a one-page boundary sketch."},
+  prompts:["CPU is at thirty percent, latency is high and throughput is capped. What is your hypothesis?","Two services always change together and call each other synchronously. What does that tell you?"],
+  checklist:["I can state a repeatable method for diagnosing slowness","I can size a connection pool and justify it","I can explain OOMKilled with a healthy heap","I can explain what makes a service boundary wrong","I marked every shaky question Needs Revision"]
+},
+{ day:12, title:"Revision sweep 1 and Mock interview 1 (Spring Boot, REST, JPA, security)", weak:false, mock:true,
+  topics:["Needs Revision sweep: Days 1 to 6","Mock interview 1","Incident-response method and postmortems"],
+  acts:[
+    {id:"sweep", label:"Needs Revision sweep for Days 1 to 6: re-answer each flagged question aloud", min:35, kind:"check"},
+    {id:"mock",  label:"Mock interview 1 (60 min): a friend, a recorder or an AI interviewer asks Boot, REST, JPA, transactions and security questions", min:60, kind:"check"},
+    {id:"debrief", label:"Debrief: write what you hesitated on and mark those questions Needs Revision", min:15, kind:"check"},
+    {id:"drill", label:"Postmortem concepts", min:10, kind:"drill"},
+    {id:"scen",  label:"Production incident drills (first ten minutes, out loud)", min:30, kind:"scen"},
+    {id:"study", label:"Re-study your two weakest topics from the debrief", min:25, kind:"check"},
+    {id:"rev",   label:"End-of-day revision checklist", min:5, kind:"list"}],
+  drill:[515,516],
+  scen:[500,501,503,505,506],
+  revisit:[155,172,204,210,99,41,296,58,193,151,167,92],
+  explain:["Your 2-minute answers for auto-configuration, @Transactional and N+1","How you would structure an answer to 'walk me through your last production incident'"],
+  hands:{title:"Mock interview 1", steps:["Ask for questions only from Days 1 to 6","Answer aloud, time-boxed to 3 minutes each","Record or note every hesitation, then re-study just those items"], done:"A written list of hesitations, each linked to a question marked Needs Revision."},
+  prompts:["Tell me about a bug you fixed that others had given up on.","You are paged at 3 am and the 5xx rate is forty percent. What are your first ten minutes?"],
+  checklist:["Every Needs Revision question from Days 1 to 6 was re-answered","I completed mock interview 1","I wrote down my hesitation list","I can describe my incident-response method in under 2 minutes"]
+},
+{ day:13, title:"Revision sweep 2 and Mock interview 2 (microservices and system design)", weak:false, mock:true,
+  topics:["Needs Revision sweep: Days 7 to 11","Mock interview 2 and one system design","More incident drills"],
+  acts:[
+    {id:"sweep", label:"Needs Revision sweep for Days 7 to 11: re-answer each flagged question aloud", min:35, kind:"check"},
+    {id:"mock",  label:"Mock interview 2 (60 min): microservices, resilience, messaging, saga and one design question", min:60, kind:"check"},
+    {id:"debrief", label:"Debrief: write what you hesitated on and mark those questions Needs Revision", min:15, kind:"check"},
+    {id:"scen",  label:"Incident and system design drills (talk through each out loud)", min:35, kind:"scen"},
+    {id:"study", label:"Re-study your two weakest topics from the debrief", min:30, kind:"check"},
+    {id:"rev",   label:"End-of-day revision checklist", min:5, kind:"list"}],
+  drill:[],
+  scen:[507,509,511,512,513,448],
+  revisit:[339,357,358,285,118,119,262,263,367,398,471,484],
+  explain:["How you would design an order system end to end: boundaries, data ownership, saga, events, resilience, observability","Your answer to 'why microservices, and what went wrong when you used them'"],
+  hands:{title:"Mock interview 2 and a system design", steps:["Ask for questions only from Days 7 to 11","Do one 30-minute design: order processing for ten thousand requests per second","Draw boundaries, data stores, sync and async calls, failure handling and monitoring"], done:"One diagram and a written list of trade-offs you can defend."},
+  prompts:["Design a high-traffic system such as ticket booking or payment gateway for ten thousand requests per second.","Traffic doubled and autoscaling made things worse. How is that possible?"],
+  checklist:["Every Needs Revision question from Days 7 to 11 was re-answered","I completed mock interview 2","I drew and defended one design","I can name three trade-offs in my design"]
+},
+{ day:14, title:"Final mock, weak-area recall and project stories", weak:false, mock:true,
+  topics:["Needs Revision sweep: everything","Full mock interview","Prepare your own project stories"],
+  acts:[
+    {id:"sweep", label:"Needs Revision sweep across all days, hardest first", min:40, kind:"check"},
+    {id:"mock",  label:"Final full mock interview (75 min): Spring Boot, microservices, scenarios and a short behavioural round", min:75, kind:"check"},
+    {id:"debrief", label:"Debrief and last fixes", min:10, kind:"check"},
+    {id:"scen",  label:"Two last incident scenarios, answered out loud", min:10, kind:"scen"},
+    {id:"stories", label:"Prepare your own stories: one project walkthrough and one production lesson (see Q563 in Optional for the prompt)", min:25, kind:"check"},
+    {id:"light", label:"Light review: read the one-line revision summaries of the answers you wrote", min:5, kind:"check"},
+    {id:"rev",   label:"Final checklist", min:15, kind:"list"}],
+  drill:[],
+  scen:[502,514],
+  revisit:[41,296,155,172,210,339,357,358,193,118,244,398],
+  explain:["A 2-minute walkthrough of your best project: problem, design, your contribution, result","A specific production lesson with the situation, the mistake or insight, and what changed afterwards"],
+  hands:{title:"Final mock interview", steps:["Mixed questions from every day, interviewer chooses","Answer in the order: short answer, why, trade-off, example from your project","Stop and note anything still shaky; do not start new topics today"], done:"You finish rested, with a short list of items rather than a long one."},
+  prompts:["What is the most valuable production lesson you have learned? Have a specific story ready.","Describe a time you disagreed with a design decision. What did you do?"],
+  checklist:["The Needs Revision list is empty or I accept the remaining risk","I completed the final mock","My project walkthrough fits in two minutes","I have one production-lesson story ready","I have prepared questions to ask the interviewer"]
+}
+];
 
 /* ------------------------------------------------------------------
-   Answers: question text -> <template> from #answerBank.
-   Deliberately NOT persisted: every answer starts collapsed on load.
+   Constants and reference data
+-------------------------------------------------------------------*/
+var KEY = "springMsaPrep.v1";           /* unchanged, so progress saved by the old page still loads */
+var VIEWS = ["dashboard","plan","bank","revise"];
+var TYPE_META = { c:{label:"Concept", cls:"b-c"}, f:{label:"FAQ", cls:"b-f"}, s:{label:"Scenario", cls:"b-s"} };
+var PRIO_META = {
+  core:    { label:"Core",     full:"Core — Must Prepare" },
+  stretch: { label:"Stretch",  full:"Stretch — Prepare if time permits" },
+  optional:{ label:"Optional", full:"Optional — Study only if required by your target role or project." }
+};
+var OPTIONAL_NOTE = "Optional — Study only if required by your target role or project.";
+var STATUS_META = [["todo","Not started"],["p","In progress"],["done","Completed"],["r","Needs revision"]];
+var STATUS_LABEL = { todo:"Not started", p:"In progress", done:"Completed", r:"Needs revision" };
+var DEMOTED_NOTE = "Moved from Core to Stretch so the 14-day plan fits in 42 hours. Still worth knowing if time permits.";
+var PROMOTED_NOTE = "Promoted from Stretch to Core: commonly asked Spring Boot internals question.";
+
+var TOPICS = [
+  ["core","Spring Core & Beans"], ["boot","Spring Boot & Configuration"], ["rest","REST, MVC & Error Handling"],
+  ["data","JPA & Data Access"], ["tx","AOP & Transactions"], ["sec","Security & OAuth2"],
+  ["ops","Caching, Async & Actuator"], ["test","Testing & Logging"], ["msa","Microservices Architecture & Design"],
+  ["comm","Inter-service, Discovery & Gateway"], ["msg","Messaging & Events (Kafka)"], ["res","Resilience"],
+  ["dist","Distributed Data & Sagas"], ["obs","Observability"], ["perf","Performance, JVM & Database"],
+  ["inc","Production Incidents"], ["cloud","Containers, Kubernetes & Release"], ["adv","Specialised & Judgement"]
+];
+var TOPIC_LABEL = {};
+TOPICS.forEach(function(t){ TOPIC_LABEL[t[0]] = t[1]; });
+/* topic of every section, by level then section position */
+var SECTION_TOPIC = {
+  1:["core","core","core","boot","boot","rest","data","rest","test","msa"],
+  2:["core","tx","tx","data","rest","sec","ops","ops","ops","comm","comm","msg","cloud"],
+  3:["boot","adv","sec","res","dist","msg","obs","comm","cloud","test","msa"],
+  4:["perf","perf","perf","cloud","inc","adv","adv","adv","adv"]
+};
+/* questions that cover the same ground: flagged, never removed */
+var OVERLAPS = [
+  [[151,152,165],"proxy self-invocation"], [[193,200,285,362,506],"idempotency"], [[201,263,351],"cascading failure and thread exhaustion"],
+  [[244,252,414],"liveness and readiness probes"], [[286,358],"transactional outbox"], [[262,357],"orchestration vs choreography"],
+  [[119,270,401],"API gateway"], [[118,265],"service discovery"], [[120,267],"config server"], [[121,253],"sync vs async communication"],
+  [[122,127,363],"data ownership between services"], [[410,442,542],"strangler fig"], [[256,257],"client-side load balancing"],
+  [[195,320],"HTTP clients"], [[294,467,468],"container memory and OOMKilled"], [[477,485],"replica lag and stale reads"],
+  [[251,396],"metric cardinality"], [[250,421],"graceful shutdown"], [[423,490,497],"zero-downtime schema change"],
+  [[261,391],"correlation ids and trace correlation"], [[128,140],"circular dependencies"], [[94,96],"@Valid vs @Validated"],
+  [[5,12],"constructor vs field injection"], [[16,22,24],"singleton scope and thread safety"], [[41,296],"auto-configuration"],
+  [[49,295],"application startup"], [[447,499],"coordinated releases"], [[439,446],"distributed monolith"], [[92,183,199],"pagination"]
+];
+
+/* ------------------------------------------------------------------
+   Small helpers
+-------------------------------------------------------------------*/
+function $(id){ return document.getElementById(id); }
+function el(tag, cls, text){
+  var e = document.createElement(tag);
+  if(cls) e.className = cls;
+  if(text !== undefined && text !== null) e.textContent = text;
+  return e;
+}
+function add(parent){
+  for(var i = 1; i < arguments.length; i++){ if(arguments[i]) parent.appendChild(arguments[i]); }
+  return parent;
+}
+function pad3(n){ return ("00" + n).slice(-3); }
+function obj(x){ return (x && typeof x === "object" && !Array.isArray(x)) ? x : {}; }
+function ratio(a, b){ return b ? a / b : 0; }
+function pctOf(a, b){ return b ? Math.round(a * 100 / b) : 0; }
+function hours(mins){ return (Math.round(mins / 6) / 10).toFixed(1) + " h"; }
+function barEl(pct, mini, label){
+  var b = el("span", "bar" + (mini ? " mini" : ""));
+  var i = el("i");
+  i.style.width = pct + "%";
+  b.appendChild(i);
+  b.setAttribute("role", "progressbar");
+  b.setAttribute("aria-valuemin", "0"); b.setAttribute("aria-valuemax", "100"); b.setAttribute("aria-valuenow", String(pct));
+  if(label) b.setAttribute("aria-label", label);
+  return b;
+}
+function setBar(bar, pct){
+  bar.querySelector("i").style.width = pct + "%";
+  bar.setAttribute("aria-valuenow", String(pct));
+}
+function toast(msg){
+  var t = $("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(function(){ t.classList.remove("show"); }, 2600);
+}
+/* stable storage id from question text (unchanged from the original page, so saved progress still matches) */
+function hash(str){
+  var h = 5381;
+  for(var i = 0; i < str.length; i++){ h = ((h << 5) + h + str.charCodeAt(i)) | 0; }
+  return (h >>> 0).toString(36);
+}
+function dayLabel(days){
+  var s = days.slice().sort(function(a, b){ return a - b; }), out = [], i = 0;
+  while(i < s.length){
+    var j = i;
+    while(j + 1 < s.length && s[j + 1] === s[j] + 1) j++;
+    out.push(j > i ? "D" + s[i] + "–D" + s[j] : "D" + s[i]);
+    i = j + 1;
+  }
+  return out.join(", ");
+}
+
+/* ------------------------------------------------------------------
+   State + persistence
+   done   : { questionId:1 }          completed (same shape the old page saved)
+   status : { questionId:"p"|"r" }    in progress / needs revision
+   act    : { "d3.hands":1, ... }      plan activities and checklist items ticked
+-------------------------------------------------------------------*/
+var state = { done:{}, status:{}, act:{}, theme:"dark", open:{}, view:"dashboard", day:1 };
+var storageWarned = false;
+
+function load(){
+  try{
+    var raw = localStorage.getItem(KEY);
+    if(!raw) return;
+    var p = JSON.parse(raw);
+    if(!p || typeof p !== "object") return;
+    state.done = obj(p.done);
+    var st = obj(p.status), clean = {};
+    Object.keys(st).forEach(function(k){ if(st[k] === "p" || st[k] === "r") clean[k] = st[k]; });
+    state.status = clean;
+    state.act = obj(p.act);
+    state.open = obj(p.open);
+    state.theme = p.theme === "light" ? "light" : "dark";
+    state.view = VIEWS.indexOf(p.view) >= 0 ? p.view : "dashboard";
+    var d = parseInt(p.day, 10);
+    state.day = (d >= 1 && d <= 14) ? d : 1;
+  }catch(e){ console.warn("Could not read saved progress:", e); }
+}
+var saveTimer = null;
+function writeNow(){
+  try{ localStorage.setItem(KEY, JSON.stringify(state)); }
+  catch(e){
+    if(!storageWarned){ storageWarned = true; toast("Could not save progress: browser storage is unavailable. Use Export."); }
+  }
+}
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(writeNow, 120);
+}
+function flushSave(){ clearTimeout(saveTimer); writeNow(); }
+window.addEventListener("pagehide", flushSave);
+document.addEventListener("visibilitychange", function(){ if(document.visibilityState === "hidden") flushSave(); });
+
+/* ------------------------------------------------------------------
+   Answers: question text -> <template> in #answerBank.
+   Never persisted: every answer starts collapsed.
 -------------------------------------------------------------------*/
 var ANSWERS = Object.create(null);
 var ANS_USED = Object.create(null);
 (function collectAnswers(){
   var tpls = document.querySelectorAll("#answerBank template[data-q]");
-  for(var i=0;i<tpls.length;i++){
+  for(var i = 0; i < tpls.length; i++){
     var q = (tpls[i].getAttribute("data-q") || "").trim();
     if(!q) continue;
     if(ANSWERS[q]) console.warn("Duplicate answer for question: " + q);
@@ -2626,385 +3696,843 @@ var ANS_USED = Object.create(null);
   }
 })();
 
-function load(){
-  try{
-    var raw = localStorage.getItem(KEY);
-    if(raw){
-      var p = JSON.parse(raw);
-      if(p && typeof p === "object"){
-        state.done  = (p.done  && typeof p.done  === "object") ? p.done  : {};
-        state.open  = (p.open  && typeof p.open  === "object") ? p.open  : {};
-        state.theme = p.theme === "light" ? "light" : "dark";
-      }
-    }
-  }catch(e){ console.warn("Could not read saved progress:", e); }
-}
-var saveTimer = null;
-function save(){
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(function(){
-    try{ localStorage.setItem(KEY, JSON.stringify(state)); }
-    catch(e){ toast("Could not save progress: storage unavailable"); }
-  }, 120);
+/* ------------------------------------------------------------------
+   Question records
+-------------------------------------------------------------------*/
+var Q = [];              /* index n-1 */
+var BY_ID = Object.create(null);
+var ASSIGNED = Object.create(null);   /* question number -> plan day (Core questions only) */
+
+function buildRecords(){
+  PLAN.forEach(function(d){
+    d.drill.concat(d.scen).forEach(function(n){ ASSIGNED[n] = d.day; });
+  });
+  var n = 0, seen = Object.create(null);
+  DATA.forEach(function(level, li){
+    level.sections.forEach(function(block, si){
+      var topic = SECTION_TOPIC[li + 1][si];
+      block.qs.forEach(function(pair){
+        n++;
+        var type = pair[0], text = pair[1];
+        var id = hash(text);
+        if(seen[id]) id = hash(block.name + "|" + text);   /* collision / duplicate guard, as before */
+        seen[id] = true;
+        var day = ASSIGNED[n] || 0;
+        var prio = day ? "core" : (block.prio === "optional" ? "optional" : "stretch");
+        var tpl = ANSWERS[text];
+        var rec = {
+          n:n, code:"Q" + pad3(n), id:id, type:type, text:text,
+          level:li + 1, sec:si, secName:block.name, topic:topic,
+          origPrio:block.prio, prio:prio, day:day,
+          demoted:!day && block.prio === "core", promoted:!!day && block.prio !== "core",
+          related:[], relLabel:"", tpl:tpl || null, draft:!!(tpl && tpl.hasAttribute("data-draft")), hasAns:!!tpl, ansText:"", li:null
+        };
+        rec.search = (text + " " + block.name + " " + TOPIC_LABEL[topic] + " " + rec.code + " " + TYPE_META[type].label + " " + PRIO_META[prio].label).toLowerCase();
+        Q.push(rec); BY_ID[id] = rec;
+      });
+    });
+  });
+  OVERLAPS.forEach(function(g){
+    g[0].forEach(function(num){
+      var rec = Q[num - 1];
+      if(!rec) return;
+      rec.relLabel = g[1];
+      g[0].forEach(function(o){ if(o !== num && rec.related.indexOf(o) < 0) rec.related.push(o); });
+    });
+  });
 }
 
-/* stable id from question text, so reordering never loses progress */
-function hash(str){
-  var h = 5381;
-  for(var i=0;i<str.length;i++){ h = ((h<<5) + h + str.charCodeAt(i)) | 0; }
-  return (h>>>0).toString(36);
-}
-
-function toast(msg){
-  var t = document.getElementById("toast");
-  t.textContent = msg;
-  t.classList.add("show");
-  clearTimeout(toast._t);
-  toast._t = setTimeout(function(){ t.classList.remove("show"); }, 2400);
+/* a plan is only trusted if it adds up; problems are shown on the dashboard */
+function validatePlan(){
+  var problems = [], seen = {}, total = 0;
+  if(PLAN.length !== 14) problems.push("Plan has " + PLAN.length + " days, expected 14.");
+  PLAN.forEach(function(d){
+    var sum = d.acts.reduce(function(a, x){ return a + x.min; }, 0);
+    total += sum;
+    if(sum !== 180) problems.push("Day " + d.day + " activities add up to " + sum + " minutes, expected 180.");
+    d.drill.concat(d.scen).forEach(function(n){
+      var q = Q[n - 1];
+      if(!q){ problems.push("Day " + d.day + ": question " + n + " does not exist."); return; }
+      if(seen[n]) problems.push("Question " + n + " is assigned to two days.");
+      seen[n] = true;
+      if(q.origPrio === "optional") problems.push("Optional question " + n + " must not be in the mandatory plan.");
+    });
+    d.drill.forEach(function(n){ if(Q[n - 1] && Q[n - 1].type === "s") problems.push("Day " + d.day + ": scenario " + n + " is in the concept/FAQ list."); });
+    d.scen.forEach(function(n){ if(Q[n - 1] && Q[n - 1].type !== "s") problems.push("Day " + d.day + ": question " + n + " is not a scenario."); });
+  });
+  if(total !== 2520) problems.push("Plan totals " + total + " minutes, expected 2520 (42 hours).");
+  return problems;
 }
 
 /* ------------------------------------------------------------------
-   Render
+   Status handling (single source of truth for every checkbox and menu)
 -------------------------------------------------------------------*/
-var ALL = [];            /* {id, li, cb, type, text, sectionEl, levelEl} */
-var seen = Object.create(null);
-var TOTAL = 0;
+var ROWREG = Object.create(null);   /* question id -> [{li, cb, sel}] across bank and plan views */
 
-function render(){
-  var main = document.getElementById("content");
-  var nav  = document.getElementById("levelNav");
-  var n = 0;
+function statusOf(id){ return state.done[id] ? "done" : (state.status[id] || "todo"); }
+function syncRow(id){
+  var s = statusOf(id);
+  (ROWREG[id] || []).forEach(function(r){
+    r.cb.checked = s === "done";
+    r.sel.value = s;
+    r.li.dataset.status = s;
+    r.li.classList.toggle("done", s === "done");
+  });
+}
+function setStatus(id, s){
+  delete state.done[id];
+  delete state.status[id];
+  if(s === "done") state.done[id] = 1;
+  else if(s === "p" || s === "r") state.status[id] = s;
+  syncRow(id);
+  save();
+  refresh();
+}
+function pruneRowReg(){
+  Object.keys(ROWREG).forEach(function(id){
+    ROWREG[id] = ROWREG[id].filter(function(r){ return document.body.contains(r.li); });
+    if(!ROWREG[id].length) delete ROWREG[id];
+  });
+}
+
+/* ------------------------------------------------------------------
+   Question row (shared by the bank and the plan)
+-------------------------------------------------------------------*/
+function prioTag(rec){
+  var t = el("span", "ptag p-" + rec.prio);
+  if(rec.prio === "core"){
+    t.textContent = "Core · D" + rec.day;
+    t.title = PRIO_META.core.full + " — assigned to Day " + rec.day + (rec.promoted ? ". " + PROMOTED_NOTE : "");
+  }else if(rec.prio === "stretch"){
+    t.textContent = rec.demoted ? "Stretch ↓" : "Stretch";
+    t.title = PRIO_META.stretch.full + (rec.demoted ? ". " + DEMOTED_NOTE : "");
+  }else{
+    t.textContent = "Optional";
+    t.title = OPTIONAL_NOTE;
+  }
+  return t;
+}
+
+function buildAnswer(rec){
+  if(!rec.tpl) return null;
+  var aDet = el("details", "ans" + (rec.draft ? " draft" : ""));
+  var aSum = el("summary");
+  var chip = el("span", "anschip" + (rec.draft ? " draft" : ""), rec.draft ? "Draft answer" : "Answer");
+  var closed = rec.draft ? "show draft (verify before relying on it)" : "show my notes";
+  var hint = el("span", "anshint", closed);
+  add(aSum, chip, hint);
+  var aBody = el("div", "ansbody");
+  aBody.appendChild(rec.tpl.content.cloneNode(true));
+  if(rec.draft){
+    var note = el("p", "draftnote", "Added during the 14-day-plan upgrade. It has not been checked against your project or the official docs, so verify before relying on it.");
+    aBody.insertBefore(note, aBody.firstChild);
+  }
+  add(aDet, aSum, aBody);
+  aDet.addEventListener("toggle", function(){ hint.textContent = aDet.open ? "hide" : closed; });
+  ANS_USED[rec.text] = 1;
+  return aDet;
+}
+
+function buildQuestionLi(rec, prefix){
+  var li = el("li", "q");
+  var row = el("div", "qrow");
+
+  var cb = document.createElement("input");
+  cb.type = "checkbox";
+  cb.id = prefix + rec.id;
+  cb.setAttribute("aria-label", "Mark " + rec.code + " completed");
+
+  var lab = document.createElement("label");
+  lab.setAttribute("for", cb.id);
+  var txt = el("span", "txt");
+  var badge = el("span", "badge " + TYPE_META[rec.type].cls, TYPE_META[rec.type].label);
+  add(txt, el("span", "num", rec.code), badge, prioTag(rec), document.createTextNode(rec.text));
+  if(!rec.hasAns) txt.appendChild(el("span", "noans", "Answer not yet added."));
+  lab.appendChild(txt);
+
+  var sel = el("select", "stsel");
+  sel.setAttribute("aria-label", "Study status for " + rec.code);
+  STATUS_META.forEach(function(o){
+    var op = el("option", null, o[1]);
+    op.value = o[0];
+    sel.appendChild(op);
+  });
+
+  add(row, cb, lab, sel);
+  li.appendChild(row);
+
+  if(rec.related.length){
+    var rel = el("div", "rel");
+    rel.textContent = "Related (" + rec.relLabel + "): " + rec.related.map(function(n){ return "Q" + pad3(n); }).join(", ") + ". Study together.";
+    li.appendChild(rel);
+  }
+  var ans = buildAnswer(rec);
+  if(ans){
+    li.appendChild(ans);
+    li.classList.add("hasAns");
+    if(prefix === "q-") rec.ansText = (ans.textContent || "").toLowerCase();
+  }
+
+  cb.addEventListener("change", function(){ setStatus(rec.id, cb.checked ? "done" : "todo"); });
+  sel.addEventListener("change", function(){ setStatus(rec.id, sel.value); });
+
+  (ROWREG[rec.id] = ROWREG[rec.id] || []).push({ li:li, cb:cb, sel:sel });
+  var s = statusOf(rec.id);
+  cb.checked = s === "done"; sel.value = s; li.dataset.status = s;
+  if(s === "done") li.classList.add("done");
+  return li;
+}
+
+/* ------------------------------------------------------------------
+   Question bank (all 563 questions, grouped as in the original)
+-------------------------------------------------------------------*/
+var LEVELS = [];   /* {sec, pct, bar, barWrap, dets:[...]} */
+
+function renderBank(){
+  var main = $("content"), nav = $("levelNav"), n = 0;
 
   DATA.forEach(function(level, li){
-    var lvlNum = li + 1;
-
-    var sec = document.createElement("section");
-    sec.className = "level";
+    var sec = el("section", "level");
     sec.id = level.id;
 
-    var head = document.createElement("div");
-    head.className = "level-head";
-    var tag = document.createElement("span");
-    tag.className = "tag lvl-" + lvlNum;
-    tag.textContent = level.tag;
-    var h2 = document.createElement("h2");
-    h2.appendChild(tag);
-    h2.appendChild(document.createTextNode("  " + level.title));
-    var goal = document.createElement("p");
-    goal.className = "goal";
-    goal.textContent = level.goal;
-
-    var prog = document.createElement("div");
-    prog.className = "overall";
-    var pct = document.createElement("span");
-    pct.className = "pct";
+    var head = el("div", "level-head");
+    var tag = el("span", "tag lvl-" + (li + 1), level.tag);
+    var h2 = el("h2");
+    add(h2, tag, document.createTextNode("  " + level.title));
+    var goal = el("p", "goal", level.goal);
+    var prog = el("div", "overall");
+    var pct = el("span", "pct");
     pct.id = level.id + "-pct";
-    var bar = document.createElement("span");
-    bar.className = "bar";
-    bar.setAttribute("role","progressbar");
-    bar.setAttribute("aria-labelledby", pct.id);
-    bar.setAttribute("aria-valuemin","0");
-    bar.setAttribute("aria-valuemax","100");
-    var barI = document.createElement("i");
-    bar.appendChild(barI);
-    prog.appendChild(pct); prog.appendChild(bar);
-
-    head.appendChild(h2); head.appendChild(goal); head.appendChild(prog);
+    var bar = barEl(0, false, level.tag + " Core progress");
+    add(prog, pct, bar);
+    add(head, h2, goal, prog);
     sec.appendChild(head);
 
-    sec._pct = pct; sec._bar = barI; sec._barWrap = bar; sec._items = [];
+    var info = { level:level, sec:sec, pct:pct, bar:bar, dets:[] };
 
-    level.sections.forEach(function(block){
-      var det = document.createElement("details");
-      det.className = "concept";
+    level.sections.forEach(function(block, si){
+      var det = el("details", "concept");
       var openKey = hash(level.id + "|" + block.name);
-      det.open = state.open[openKey] !== false;   /* default open */
-      det.addEventListener("toggle", function(){
-        state.open[openKey] = det.open; save();
-      });
+      det.open = state.open[openKey] !== false;
+      det.addEventListener("toggle", function(){ state.open[openKey] = det.open; save(); });
 
-      var sum = document.createElement("summary");
-      var dtag = document.createElement("span");
-      if(block.day){ dtag.className = "daytag d-core"; dtag.textContent = "Day " + block.day; }
-      else if(block.prio === "stretch"){ dtag.className = "daytag d-stretch"; dtag.textContent = "Stretch"; }
-      else { dtag.className = "daytag d-optional"; dtag.textContent = "Optional"; }
-      dtag.title = block.day ? "Scheduled for day " + block.day + " of the 8-day plan"
-                 : (block.prio === "stretch" ? "Not in the 8-day plan; pick up first if you have spare time"
-                                             : "Not in the 8-day plan; only if your stack or role needs it");
-      var nm = document.createElement("span");
-      nm.textContent = block.name;
-      var st = document.createElement("span");
-      st.className = "st";
-      var ck = document.createElement("span");
-      ck.className = "ck";
-      var sBar = document.createElement("span");
-      sBar.className = "bar mini";
-      var sBarI = document.createElement("i");
-      sBar.appendChild(sBarI);
-      st.appendChild(ck); st.appendChild(sBar);
-      sum.appendChild(dtag); sum.appendChild(nm); sum.appendChild(st);
+      var recs = [];
+      for(var k = 0; k < block.qs.length; k++) recs.push(Q[n + k]);
+
+      var coreDays = [];
+      recs.forEach(function(r){ if(r.prio === "core" && coreDays.indexOf(r.day) < 0) coreDays.push(r.day); });
+      var coreCount = recs.filter(function(r){ return r.prio === "core"; }).length;
+      var allOptional = recs.every(function(r){ return r.prio === "optional"; });
+
+      var sum = el("summary");
+      var dtag = el("span", "daytag");
+      if(coreCount){
+        dtag.classList.add("d-core");
+        dtag.textContent = "Core · " + dayLabel(coreDays);
+        dtag.title = coreCount + " of " + recs.length + " questions are Core in this topic (days " + coreDays.join(", ") + ")";
+      }else if(allOptional){
+        dtag.classList.add("d-optional");
+        dtag.textContent = "Optional";
+        dtag.title = OPTIONAL_NOTE;
+      }else{
+        dtag.classList.add("d-stretch");
+        dtag.textContent = "Stretch";
+        dtag.title = PRIO_META.stretch.full;
+      }
+      var nm = el("span", "secname", block.name);
+      var st = el("span", "st");
+      var ck = el("span", "ck");
+      var sBar = barEl(0, true, block.name + " progress");
+      add(st, ck, sBar);
+      add(sum, dtag, nm, st);
       det.appendChild(sum);
-      det.dataset.day  = block.day ? String(block.day) : "";
-      det.dataset.prio = block.prio;
+      if(allOptional) det.appendChild(el("p", "optnote", OPTIONAL_NOTE));
 
-      var ol = document.createElement("ol");
-      ol.className = "qs";
-
+      var ol = el("ol", "qs");
       var items = [];
-      block.qs.forEach(function(pair){
-        var type = pair[0], text = pair[1];
-        var id = hash(text);
-        if(seen[id]){ id = hash(block.name + "|" + text); }   /* collision / duplicate guard */
-        seen[id] = true;
+      recs.forEach(function(rec){
         n++;
-
-        var liEl = document.createElement("li");
-        liEl.className = "q";
-        liEl.dataset.type = type;
-        liEl.dataset.text = (text + " " + block.name + " " + TYPE_META[type].label).toLowerCase();
-
-        var row = document.createElement("div");
-        row.className = "qrow";
-
-        var cb = document.createElement("input");
-        cb.type = "checkbox";
-        cb.id = "q-" + id;
-        cb.checked = !!state.done[id];
-
-        var lab = document.createElement("label");
-        lab.setAttribute("for", cb.id);
-        var num = document.createElement("span");
-        num.className = "num";
-        num.textContent = n + ".";
-        var badge = document.createElement("span");
-        badge.className = "badge " + TYPE_META[type].cls;
-        badge.textContent = TYPE_META[type].label;
-        var txt = document.createElement("span");
-        txt.className = "txt";
-        txt.appendChild(num); txt.appendChild(badge);
-        txt.appendChild(document.createTextNode(text));
-        lab.appendChild(txt);
-
-        row.appendChild(cb); row.appendChild(lab);
-        liEl.appendChild(row);
-        if(cb.checked) liEl.classList.add("done");
-
-        /* my answer, if I have written one — always starts closed */
-        var tpl = ANSWERS[text], ansText = "";
-        if(tpl){
-          ANS_USED[text] = 1;
-          var aDet = document.createElement("details");
-          aDet.className = "ans";
-          var aSum = document.createElement("summary");
-          var chip = document.createElement("span");
-          chip.className = "anschip";
-          chip.textContent = "Answer";
-          var hint = document.createElement("span");
-          hint.className = "anshint";
-          hint.textContent = "show my notes";
-          aSum.appendChild(chip); aSum.appendChild(hint);
-          var aBody = document.createElement("div");
-          aBody.className = "ansbody";
-          aBody.appendChild(tpl.content.cloneNode(true));
-          aDet.appendChild(aSum); aDet.appendChild(aBody);
-          aDet.addEventListener("toggle", function(){
-            hint.textContent = aDet.open ? "hide" : "show my notes";
-          });
-          liEl.appendChild(aDet);
-          liEl.classList.add("hasAns");
-          ansText = (aBody.textContent || "").toLowerCase();
-        }
-
-        var rec = { id:id, li:liEl, cb:cb, type:type, det:det, sec:sec, day:block.day, prio:block.prio,
-                    hasAns:!!tpl, ansText:ansText };
-        cb.addEventListener("change", function(){
-          if(cb.checked){ state.done[id] = 1; liEl.classList.add("done"); }
-          else { delete state.done[id]; liEl.classList.remove("done"); }
-          save(); recount(); applyFilters(true);
-        });
-
+        var liEl = buildQuestionLi(rec, "q-");
+        liEl.dataset.n = String(rec.n);
+        rec.li = liEl; rec.det = det;
         ol.appendChild(liEl);
-        items.push(rec); ALL.push(rec); sec._items.push(rec);
+        items.push(rec);
       });
 
-      var empty = document.createElement("p");
-      empty.className = "empty";
-      empty.textContent = "No questions match the current filters in this topic.";
-      det.appendChild(ol); det.appendChild(empty);
-
-      det._items = items; det._ck = ck; det._bar = sBarI; det._sum = sum; det._empty = empty;
+      var empty = el("p", "empty", "No questions match the current filters in this topic.");
+      add(det, ol, empty);
+      det._items = items; det._ck = ck; det._bar = sBar; det._sum = sum; det._empty = empty;
+      info.dets.push(det);
       sec.appendChild(det);
     });
 
+    LEVELS.push(info);
     main.appendChild(sec);
 
-    var a = document.createElement("a");
+    var a = el("a", null, level.tag + " · " + level.title.split("—")[0].trim());
     a.href = "#" + level.id;
-    a.textContent = level.tag + " · " + level.title.split("—")[0].trim();
     nav.appendChild(a);
   });
-
-  TOTAL = n;
 }
 
 /* ------------------------------------------------------------------
    Counting
 -------------------------------------------------------------------*/
+function stats(pred){
+  var t = 0, d = 0, p = 0, r = 0;
+  Q.forEach(function(q){
+    if(!pred(q)) return;
+    t++;
+    var s = statusOf(q.id);
+    if(s === "done") d++; else if(s === "p") p++; else if(s === "r") r++;
+  });
+  return { t:t, d:d, p:p, r:r, pct:pctOf(d, t) };
+}
+var isCore = function(q){ return q.prio === "core"; };
+var isStretch = function(q){ return q.prio === "stretch"; };
+var isOptional = function(q){ return q.prio === "optional"; };
+
 function recount(){
-  var doneAll = 0;
-  ALL.forEach(function(r){ if(r.cb.checked) doneAll++; });
+  var core = stats(isCore), str = stats(isStretch), opt = stats(isOptional), all = stats(function(){ return true; });
 
-  var pctAll = TOTAL ? Math.round(doneAll * 100 / TOTAL) : 0;
-  document.getElementById("overallPct").textContent = doneAll + " of " + TOTAL + " done · " + pctAll + "%";
-  document.getElementById("overallBar").style.width = pctAll + "%";
-  document.querySelector(".overall .bar").setAttribute("aria-valuenow", String(pctAll));
+  /* header: the mandatory number is Core only */
+  $("overallPct").textContent = "Core: " + core.d + " of " + core.t + " done · " + core.pct + "%";
+  setBar($("overallBar").parentNode, core.pct);
+  $("extraStats").textContent = "Stretch " + str.d + "/" + str.t + " · Optional " + opt.d + "/" + opt.t +
+    " · In progress " + all.p + " · Needs revision " + all.r + " (Stretch and Optional never count toward the 14-day total)";
+  $("reviseCount").textContent = String(all.r);
 
-  DATA.forEach(function(level){
-    var sec = document.getElementById(level.id);
-    var items = sec._items, d = 0;
-    items.forEach(function(r){ if(r.cb.checked) d++; });
-    var p = items.length ? Math.round(d * 100 / items.length) : 0;
-    sec._pct.textContent = level.tag + ": " + d + " / " + items.length + " · " + p + "%";
-    sec._bar.style.width = p + "%";
-    sec._barWrap.setAttribute("aria-valuenow", String(p));
-
-    sec.querySelectorAll("details.concept").forEach(function(det){
+  LEVELS.forEach(function(L){
+    var c = stats(function(q){ return q.level === L.level.tag.replace("Level ", "") * 1 && q.prio === "core"; });
+    var s = stats(function(q){ return q.level === L.level.tag.replace("Level ", "") * 1 && q.prio === "stretch"; });
+    var o = stats(function(q){ return q.level === L.level.tag.replace("Level ", "") * 1 && q.prio === "optional"; });
+    L.pct.textContent = L.level.tag + " — Core " + c.d + "/" + c.t + " · Stretch " + s.d + "/" + s.t + " · Optional " + o.d + "/" + o.t;
+    setBar(L.bar, c.t ? c.pct : 0);
+    L.dets.forEach(function(det){
       var d2 = 0;
-      det._items.forEach(function(r){ if(r.cb.checked) d2++; });
-      var p2 = det._items.length ? Math.round(d2 * 100 / det._items.length) : 0;
+      det._items.forEach(function(r){ if(statusOf(r.id) === "done") d2++; });
+      var p2 = pctOf(d2, det._items.length);
       det._ck.textContent = d2 + " / " + det._items.length;
-      det._bar.style.width = p2 + "%";
+      setBar(det._bar, p2);
       det._sum.classList.toggle("allDone", d2 === det._items.length && det._items.length > 0);
     });
   });
-
-  if(planRows.length) recountPlan();
 }
 
 /* ------------------------------------------------------------------
    Filters
 -------------------------------------------------------------------*/
-function applyFilters(keepOpen){
-  var term = document.getElementById("q").value.trim().toLowerCase();
-  var ft = document.getElementById("fType").value;
-  var fs = document.getElementById("fStat").value;
-  var fp = document.getElementById("fPlan").value;
-  var fa = document.getElementById("fAns").value;
-  var filtering = !!term || ft !== "all" || fs !== "all" || fp !== "all" || fa !== "all";
+function currentFilters(){
+  return {
+    term: $("q").value.trim().toLowerCase(),
+    prio: $("fPrio").value, level: $("fLevel").value, topic: $("fTopic").value, type: $("fType").value,
+    stat: state.view === "revise" ? "r" : $("fStat").value, day: $("fDay").value, ans: $("fAns").value
+  };
+}
+function matches(r, f){
+  if(f.prio !== "all"){
+    if(f.prio === "stretch-moved"){ if(!(r.prio === "stretch" && r.demoted)) return false; }
+    else if(r.prio !== f.prio) return false;
+  }
+  if(f.level !== "all" && String(r.level) !== f.level) return false;
+  if(f.topic !== "all" && r.topic !== f.topic) return false;
+  if(f.type !== "all" && r.type !== f.type) return false;
+  if(f.stat !== "all" && statusOf(r.id) !== f.stat) return false;
+  if(f.day !== "all"){
+    if(f.day === "none"){ if(r.day) return false; }
+    else if(String(r.day) !== f.day) return false;
+  }
+  if(f.ans === "own" && !(r.hasAns && !r.draft)) return false;
+  if(f.ans === "draft" && !r.draft) return false;
+  if(f.ans === "none" && r.hasAns) return false;
+  if(f.term){
+    var code = /^q0*(\d{1,3})$/.exec(f.term);          /* "q45" or "Q045" jumps to that question */
+    if(code){ if(r.n !== parseInt(code[1], 10)) return false; }
+    else if(r.search.indexOf(f.term) < 0 && (!r.ansText || r.ansText.indexOf(f.term) < 0)) return false;
+  }
+  return true;
+}
+function activeFilterCount(){
+  var f = currentFilters(), c = 0;
+  if(f.term) c++;
+  ["prio","level","topic","type","day","ans"].forEach(function(k){ if(f[k] !== "all") c++; });
+  if(state.view !== "revise" && f.stat !== "all") c++;
+  return c;
+}
 
-  ALL.forEach(function(r){
-    var ok = true;
-    if(ft !== "all" && r.type !== ft) ok = false;
-    if(ok && fs === "done" && !r.cb.checked) ok = false;
-    if(ok && fs === "todo" &&  r.cb.checked) ok = false;
-    if(ok && fa === "yes" && !r.hasAns) ok = false;
-    if(ok && fa === "no"  &&  r.hasAns) ok = false;
-    if(ok && fp !== "all"){
-      if(fp === "core")          ok = r.prio === "core";
-      else if(fp === "stretch")  ok = r.prio === "stretch";
-      else if(fp === "optional") ok = r.prio === "optional";
-      else                       ok = String(r.day) === fp.slice(1);
-    }
-    /* search matches the question text or anything inside my answer */
-    if(ok && term){
-      ok = r.li.dataset.text.indexOf(term) !== -1 || (!!r.ansText && r.ansText.indexOf(term) !== -1);
-    }
+function applyFilters(keepOpen){
+  if(state.view !== "bank" && state.view !== "revise") return;
+  var f = currentFilters();
+  var nActive = activeFilterCount();
+  var filtering = nActive > 0 || state.view === "revise";
+  var visible = 0;
+
+  Q.forEach(function(r){
+    var ok = matches(r, f);
     r.li.classList.toggle("hidden", !ok);
+    if(ok) visible++;
   });
 
-  DATA.forEach(function(level){
-    var sec = document.getElementById(level.id);
+  LEVELS.forEach(function(L){
     var anyLevel = 0;
-    sec.querySelectorAll("details.concept").forEach(function(det){
+    L.dets.forEach(function(det){
       var vis = det._items.filter(function(r){ return !r.li.classList.contains("hidden"); }).length;
       anyLevel += vis;
       det.classList.toggle("hidden", filtering && vis === 0);
       det._empty.style.display = (vis === 0 && !filtering) ? "block" : "none";
       if(filtering && vis > 0 && !keepOpen) det.open = true;
     });
-    sec.classList.toggle("hidden", filtering && anyLevel === 0);
+    L.sec.classList.toggle("hidden", filtering && anyLevel === 0);
   });
+
+  $("filterCount").textContent = nActive ? "(" + nActive + " active)" : "";
+  $("resultCount").textContent = visible + " question" + (visible === 1 ? "" : "s") + " shown";
+  var nr = $("noResults");
+  nr.textContent = "";
+  if(visible === 0){
+    if(state.view === "revise" && nActive === 0){
+      nr.appendChild(el("p", "empty-big", "Nothing is marked Needs Revision yet. Use the status menu next to any question and choose “Needs revision”; it will show up here."));
+    }else{
+      nr.appendChild(el("p", "empty-big", "No questions match these filters."));
+      var b = el("button", null, "Clear filters");
+      b.type = "button";
+      b.addEventListener("click", clearFilters);
+      nr.appendChild(b);
+    }
+  }
+}
+function clearFilters(){
+  $("q").value = "";
+  ["fPrio","fLevel","fTopic","fType","fDay","fAns"].forEach(function(id){ $(id).value = "all"; });
+  if(state.view !== "revise") $("fStat").value = "all";
+  applyFilters(false);
+}
+/* open the bank with a given set of filters (used by dashboard and plan links) */
+function openBank(opts){
+  opts = opts || {};
+  $("q").value = opts.q || "";
+  ["prio","level","topic","type","stat","day","ans"].forEach(function(k){
+    var id = "f" + k.charAt(0).toUpperCase() + k.slice(1);
+    $(id).value = opts[k] || "all";
+  });
+  showView(opts.view || "bank");
+  if(window.scrollTo) window.scrollTo(0, 0);
 }
 
 /* ------------------------------------------------------------------
-   8-day plan panel
+   Plan arithmetic
 -------------------------------------------------------------------*/
-var DAY_LABEL = {
-  1:"Spring core, beans, configuration, Boot, profiles",
-  2:"MVC & REST, Spring Data JPA, validation, tests, microservices intro",
-  3:"Container depth, AOP, transaction management",
-  4:"JPA performance & mapping, REST API design",
-  5:"Security, caching, async & scheduling, actuator",
-  6:"Inter-service calls, discovery & gateway, messaging, resilience",
-  7:"OAuth2/OIDC, distributed data & saga, event-driven, observability",
-  8:"Architecture & DDD, performance, memory/GC, DB pools, incident drills"
-};
-var planRows = [];
-function buildPlan(){
-  var tb = document.getElementById("planRows");
-  for(var d = 1; d <= 8; d++){
-    var items = ALL.filter(function(r){ return r.day === d; });
-    var tr = document.createElement("tr");
-    tr.className = "dayrow";
-    tr.tabIndex = 0;
-    tr.title = "Show only day " + d;
-
-    var td1 = document.createElement("td");
-    td1.className = "dcell";
-    var bdg = document.createElement("span");
-    bdg.className = "daytag d-core";
-    bdg.textContent = "Day " + d;
-    td1.appendChild(bdg);
-
-    var td2 = document.createElement("td");
-    td2.textContent = DAY_LABEL[d];
-
-    var td3 = document.createElement("td");
-    td3.className = "n";
-    td3.textContent = items.length;
-
-    var td4 = document.createElement("td");
-    td4.className = "n";
-
-    var td5 = document.createElement("td");
-    td5.className = "pcell";
-    var bar = document.createElement("span");
-    bar.className = "bar mini";
-    var barI = document.createElement("i");
-    bar.appendChild(barI);
-    td5.appendChild(bar);
-
-    tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3); tr.appendChild(td4); tr.appendChild(td5);
-    tb.appendChild(tr);
-
-    (function(day){
-      function go(){
-        document.getElementById("fPlan").value = "d" + day;
-        document.getElementById("q").value = "";
-        document.getElementById("fType").value = "all";
-        document.getElementById("fStat").value = "all";
-        applyFilters(false);
-        var c = document.getElementById("content");
-        if(c && typeof c.scrollIntoView === "function"){
-          c.scrollIntoView({behavior:"smooth", block:"start"});
-        }
-        toast("Showing day " + day + " only — " + DAY_LABEL[day]);
-      }
-      tr.addEventListener("click", go);
-      tr.addEventListener("keydown", function(e){
-        if(e.key === "Enter" || e.key === " "){ e.preventDefault(); go(); }
-      });
-    })(d);
-
-    planRows.push({ day:d, items:items, doneCell:td4, bar:barI });
-  }
+function doneIn(nums){
+  var c = 0;
+  nums.forEach(function(n){ if(Q[n - 1] && statusOf(Q[n - 1].id) === "done") c++; });
+  return c;
 }
-function recountPlan(){
-  planRows.forEach(function(row){
-    var d = row.items.filter(function(r){ return r.cb.checked; }).length;
-    var p = row.items.length ? Math.round(d * 100 / row.items.length) : 0;
-    row.doneCell.textContent = d + " (" + p + "%)";
-    row.bar.style.width = p + "%";
+function actKey(d, a){ return "d" + d.day + "." + a.id; }
+function checkKey(d, i){ return "d" + d.day + ".c" + i; }
+function checklistDone(d){
+  var c = 0;
+  d.checklist.forEach(function(_, i){ if(state.act[checkKey(d, i)]) c++; });
+  return c;
+}
+function actFrac(d, a){
+  if(a.kind === "drill") return ratio(doneIn(d.drill), d.drill.length);
+  if(a.kind === "scen") return ratio(doneIn(d.scen), d.scen.length);
+  if(a.kind === "list") return ratio(checklistDone(d), d.checklist.length);
+  return state.act[actKey(d, a)] ? 1 : 0;
+}
+function dayFrac(d){
+  var tot = 0, got = 0;
+  d.acts.forEach(function(a){ tot += a.min; got += a.min * actFrac(d, a); });
+  return got / tot;
+}
+function dayCoreStats(d){
+  var nums = d.drill.concat(d.scen);
+  return { t:nums.length, d:doneIn(nums) };
+}
+function remainingMinutes(){
+  var m = 0;
+  PLAN.forEach(function(d){ m += 180 * (1 - dayFrac(d)); });
+  return Math.round(m);
+}
+
+/* ------------------------------------------------------------------
+   Views
+-------------------------------------------------------------------*/
+var DAYBTN = {};
+var CARD = null;
+
+function showView(v, fromHash){
+  if(VIEWS.indexOf(v) < 0) v = "dashboard";
+  state.view = v;
+  var inBank = v === "bank" || v === "revise";
+  $("view-dashboard").classList.toggle("hidden", v !== "dashboard");
+  $("view-plan").classList.toggle("hidden", v !== "plan");
+  $("view-bank").classList.toggle("hidden", !inBank);
+  $("bankTools").classList.toggle("hidden", !inBank);
+  $("reviseBanner").classList.toggle("hidden", v !== "revise");
+  $("fStat").disabled = v === "revise";
+  if(v === "revise") $("fStat").value = "r";
+  document.querySelectorAll("#tabs button").forEach(function(b){
+    if(b.dataset.view === v) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
+  });
+  if(v === "dashboard") renderDashboard();
+  if(v === "plan") updatePlanProgress();
+  if(inBank) applyFilters(true);
+  save();
+  var target = "#" + v;
+  if(!fromHash && location.hash !== target){ location.hash = v; }
+}
+
+function refresh(){
+  recount();
+  updatePlanProgress();
+  if(state.view === "dashboard") renderDashboard();
+  if(state.view === "bank" || state.view === "revise") applyFilters(true);
+}
+
+/* ------------------------------------------------------------------
+   Dashboard
+-------------------------------------------------------------------*/
+function card(label, value, sub, cls){
+  var c = el("div", "card" + (cls ? " " + cls : ""));
+  add(c, el("div", "v", value), el("div", "l", label));
+  if(sub) c.appendChild(el("div", "s", sub));
+  return c;
+}
+
+function renderDashboard(){
+  var root = $("view-dashboard");
+  root.textContent = "";
+  var core = stats(isCore), str = stats(isStretch), opt = stats(isOptional), all = stats(function(){ return true; });
+  var left = remainingMinutes();
+  var daysDone = PLAN.filter(function(d){ return dayFrac(d) > 0.9999; }).length;
+
+  root.appendChild(el("h2", "vtitle", "My 14-Day Interview Preparation Plan"));
+  root.appendChild(el("p", "vsub", "14 days × 3 hours = 42 hours. Spring Boot and Microservices get the most time. Mandatory progress counts Core questions only."));
+
+  if(PLAN_PROBLEMS.length){
+    var warn = el("div", "problem");
+    warn.appendChild(el("b", null, "Plan data problem: "));
+    warn.appendChild(document.createTextNode(PLAN_PROBLEMS.join(" ")));
+    root.appendChild(warn);
+  }
+
+  var next = null;
+  for(var i = 0; i < PLAN.length; i++){ if(dayFrac(PLAN[i]) < 0.9999){ next = PLAN[i]; break; } }
+  var nextBox = el("div", "next");
+  if(next){
+    var cs = dayCoreStats(next);
+    nextBox.appendChild(el("div", "nl", "Next up"));
+    nextBox.appendChild(el("div", "nt", "Day " + next.day + " — " + next.title));
+    nextBox.appendChild(el("div", "ns", cs.d + " of " + cs.t + " Core questions done · " + Math.round(dayFrac(next) * 100) + "% of the day's 3 hours"));
+    var go = el("button", "primary", "Open Day " + next.day);
+    go.type = "button";
+    go.addEventListener("click", function(){ openDay(next.day); });
+    nextBox.appendChild(go);
+  }else{
+    nextBox.appendChild(el("div", "nt", "All 14 days complete. Keep revising the Needs Revision list."));
+  }
+  root.appendChild(nextBox);
+
+  var cards = el("div", "cards");
+  var hero = card("Overall 14-day completion (Core only)", core.pct + "%", core.d + " of " + core.t + " Core questions", "hero");
+  hero.insertBefore(barEl(core.pct, false, "Overall Core completion"), hero.children[2]);
+  add(cards,
+    hero,
+    card("Total Core questions", String(core.t), "mandatory, all scheduled in the plan"),
+    card("Core completed", String(core.d), core.t - core.d + " to go"),
+    card("Needs revision", String(all.r), "all priorities; open the list below", all.r ? "warnc" : ""),
+    card("In progress", String(all.p)),
+    card("Remaining study hours", hours(left), "of 42 h (questions + hands-on + revision tasks)"),
+    card("Days fully complete", daysDone + " / 14")
+  );
+  root.appendChild(cards);
+
+  var actions = el("div", "qa");
+  var b1 = el("button", null, "Open Needs Revision (" + all.r + ")");
+  b1.type = "button";
+  b1.addEventListener("click", function(){ openBank({ view:"revise" }); });
+  var b2 = el("button", null, "Browse all Core questions");
+  b2.type = "button";
+  b2.addEventListener("click", function(){ openBank({ prio:"core" }); });
+  add(actions, b1, b2);
+  root.appendChild(actions);
+
+  /* daily plan completion */
+  root.appendChild(el("h3", "sh", "Daily plan completion"));
+  var tw = el("div", "twrap");
+  var tbl = el("table", "dtbl");
+  var thead = el("thead"), hr = el("tr");
+  ["Day","Focus","Core questions","Day complete",""].forEach(function(h){ var th = el("th", null, h); th.scope = "col"; hr.appendChild(th); });
+  thead.appendChild(hr); tbl.appendChild(thead);
+  var tb = el("tbody");
+  PLAN.forEach(function(d){
+    var tr = el("tr");
+    var cs = dayCoreStats(d), fr = Math.round(dayFrac(d) * 100);
+    var a = el("button", "linkbtn", "Day " + d.day);
+    a.type = "button";
+    a.addEventListener("click", function(){ openDay(d.day); });
+    var td1 = el("td"); td1.appendChild(a);
+    var td2 = el("td", null, d.title + (d.weak ? "  ★" : ""));
+    var td3 = el("td", "n", cs.t ? cs.d + " / " + cs.t : "mock / revision");
+    var td4 = el("td", "n", fr + "%");
+    var td5 = el("td", "pc"); td5.appendChild(barEl(fr, true, "Day " + d.day + " completion"));
+    add(tr, td1, td2, td3, td4, td5);
+    tb.appendChild(tr);
+  });
+  tbl.appendChild(tb);
+  tw.appendChild(tbl);
+  root.appendChild(tw);
+  root.appendChild(el("p", "note", "★ weak-area day (Spring Boot or Microservices). “Day complete” is time-weighted: questions, hands-on lab and revision tasks. Only Core questions feed the overall percentage above."));
+
+  /* topic-wise */
+  root.appendChild(el("h3", "sh", "Topic-wise progress (Core questions)"));
+  var tg = el("div", "topics");
+  var noCore = [];
+  TOPICS.forEach(function(t){
+    var s = stats(function(q){ return q.prio === "core" && q.topic === t[0]; });
+    if(!s.t){ noCore.push(t[1]); return; }
+    var row = el("div", "trow");
+    var nmBtn = el("button", "linkbtn", t[1]);
+    nmBtn.type = "button";
+    nmBtn.addEventListener("click", function(){ openBank({ prio:"core", topic:t[0] }); });
+    var meta = el("span", "tmeta", s.d + " / " + s.t + (s.r ? " · " + s.r + " to revise" : ""));
+    add(row, nmBtn, barEl(s.pct, true, t[1] + " progress"), meta);
+    tg.appendChild(row);
+  });
+  root.appendChild(tg);
+  if(noCore.length) root.appendChild(el("p", "note", "No Core questions in: " + noCore.join(", ") + " (Stretch or Optional only)."));
+
+  /* stretch and optional, kept separate */
+  root.appendChild(el("h3", "sh", "Beyond the mandatory plan (tracked separately)"));
+  var ex = el("div", "cards two");
+  var cStr = el("div", "card");
+  add(cStr, el("div", "l", "Stretch — Prepare if time permits"), el("div", "v", str.d + " / " + str.t), barEl(str.pct, false, "Stretch progress"));
+  cStr.appendChild(el("div", "s", "Deeper and senior-level topics, including " + stats(function(q){ return q.prio === "stretch" && q.demoted; }).t + " lower-frequency questions moved out of Core. Not required to finish the plan."));
+  var bs = el("button", null, "Browse Stretch");
+  bs.type = "button";
+  bs.addEventListener("click", function(){ openBank({ prio:"stretch" }); });
+  cStr.appendChild(bs);
+  var cOpt = el("div", "card");
+  add(cOpt, el("div", "l", "Optional — role dependent"), el("div", "v", opt.d + " / " + opt.t), barEl(opt.pct, false, "Optional progress"));
+  cOpt.appendChild(el("div", "s", OPTIONAL_NOTE));
+  var bo = el("button", null, "Browse Optional");
+  bo.type = "button";
+  bo.addEventListener("click", function(){ openBank({ prio:"optional" }); });
+  cOpt.appendChild(bo);
+  add(ex, cStr, cOpt);
+  root.appendChild(ex);
+}
+
+/* ------------------------------------------------------------------
+   14-day plan view
+-------------------------------------------------------------------*/
+function openDay(n){
+  state.day = n;
+  renderDay(n);
+  showView("plan");
+  updateStrip();
+  if(window.scrollTo) window.scrollTo(0, 0);
+}
+
+function buildPlanView(){
+  var root = $("view-plan");
+  root.appendChild(el("h2", "vtitle", "My 14-Day Interview Preparation Plan"));
+  root.appendChild(el("p", "vsub", "Pick a day. Each day is 3 hours (180 minutes). Only the Core questions listed here count toward completion; Stretch and Optional stay outside the plan."));
+  var strip = el("div", "daystrip");
+  strip.setAttribute("role", "group");
+  strip.setAttribute("aria-label", "Choose a day");
+  PLAN.forEach(function(d){
+    var b = el("button", "daybtn" + (d.mock ? " mock" : ""));
+    b.type = "button";
+    b.dataset.day = String(d.day);
+    var l1 = el("span", "dl1", (d.mock ? "Day " : "Day ") + d.day);
+    var l2 = el("span", "dl2", "0%");
+    add(b, l1, l2);
+    b.addEventListener("click", function(){ state.day = d.day; renderDay(d.day); updateStrip(); save(); });
+    DAYBTN[d.day] = { btn:b, pct:l2 };
+    strip.appendChild(b);
+  });
+  root.appendChild(strip);
+  var holder = el("div");
+  holder.id = "dayHolder";
+  root.appendChild(holder);
+}
+function updateStrip(){
+  PLAN.forEach(function(d){
+    var f = Math.round(dayFrac(d) * 100);
+    DAYBTN[d.day].pct.textContent = f + "%";
+    DAYBTN[d.day].btn.classList.toggle("sel", d.day === state.day);
+    DAYBTN[d.day].btn.classList.toggle("fin", f === 100);
+    if(d.day === state.day) DAYBTN[d.day].btn.setAttribute("aria-current", "true"); else DAYBTN[d.day].btn.removeAttribute("aria-current");
+  });
+}
+
+function secHead(text, extra){
+  var h = el("h3", "dh", text);
+  if(extra) h.appendChild(el("span", "dhx", extra));
+  return h;
+}
+function qList(nums, prefix){
+  var ol = el("ol", "qs plan");
+  nums.forEach(function(n){ ol.appendChild(buildQuestionLi(Q[n - 1], prefix)); });
+  return ol;
+}
+
+function renderDay(n){
+  pruneRowReg();
+  var d = PLAN[n - 1];
+  var holder = $("dayHolder");
+  holder.textContent = "";
+  var cardEl = el("article", "daycard");
+  CARD = { day:d, num:d.day, acts:{}, pct:null, bar:null };
+
+  var head = el("div", "dayhead");
+  var t = el("h2", null, "Day " + d.day + " · " + d.title);
+  var meta = el("div", "daymeta");
+  var pct = el("span", "pct", "");
+  var bar = barEl(0, false, "Day " + d.day + " completion");
+  CARD.pct = pct; CARD.bar = bar;
+  add(meta, el("span", "pill", "3 h · 180 min"), d.weak ? el("span", "pill weak", "Weak area: extra time") : null, pct, bar);
+  add(head, t, meta);
+  cardEl.appendChild(head);
+
+  /* 1. topics */
+  cardEl.appendChild(secHead("1. Topics to study"));
+  var tl = el("ul", "chips");
+  d.topics.forEach(function(x){ tl.appendChild(el("li", null, x)); });
+  cardEl.appendChild(tl);
+
+  /* 7. time plan (shown early so the day can be run top to bottom) */
+  cardEl.appendChild(secHead("2. Time plan", "estimated minutes per activity"));
+  var tt = el("div", "twrap");
+  var tbl = el("table", "dtbl acts");
+  var tb = el("tbody");
+  d.acts.forEach(function(a){
+    var tr = el("tr");
+    var c1 = el("td", "ac");
+    var c2 = el("td", null);
+    var c3 = el("td", "n", a.min + " min");
+    var c4 = el("td", "n st");
+    if(a.kind === "check"){
+      var cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.id = "act-" + actKey(d, a);
+      cb.checked = !!state.act[actKey(d, a)];
+      cb.addEventListener("change", function(){
+        if(cb.checked) state.act[actKey(d, a)] = 1; else delete state.act[actKey(d, a)];
+        save(); refresh();
+      });
+      c1.appendChild(cb);
+      var lab = el("label", null, a.label);
+      lab.setAttribute("for", cb.id);
+      c2.appendChild(lab);
+      c4.textContent = "";
+    }else{
+      c1.appendChild(el("span", "dot"));
+      c2.appendChild(document.createTextNode(a.label));
+    }
+    add(tr, c1, c2, c3, c4);
+    tb.appendChild(tr);
+    CARD.acts[a.id] = { act:a, cell:c4 };
+  });
+  tbl.appendChild(tb);
+  tt.appendChild(tbl);
+  cardEl.appendChild(tt);
+
+  /* 3. core questions */
+  var cs = dayCoreStats(d);
+  if(d.drill.length){
+    cardEl.appendChild(secHead("3. Core questions to complete", d.drill.length + " concept and FAQ questions"));
+    cardEl.appendChild(qList(d.drill, "p" + d.day + "-"));
+  }else{
+    cardEl.appendChild(secHead("3. Core questions to complete", "none new today"));
+    cardEl.appendChild(el("p", "note", "No new concept or FAQ questions. Today is for revision, mock interviews and scenario drills."));
+  }
+  if(d.revisit && d.revisit.length){
+    cardEl.appendChild(secHead("Revisit these high-value questions", "already studied earlier; re-answer aloud"));
+    cardEl.appendChild(qList(d.revisit, "p" + d.day + "v-"));
+    var rv = el("button", null, "Open my Needs Revision list");
+    rv.type = "button";
+    rv.addEventListener("click", function(){ openBank({ view:"revise" }); });
+    cardEl.appendChild(rv);
+  }
+
+  /* 4. concepts to explain */
+  cardEl.appendChild(secHead("4. Concepts I must be able to explain"));
+  var ex = el("ul", "plain");
+  d.explain.forEach(function(x){ ex.appendChild(el("li", null, x)); });
+  cardEl.appendChild(ex);
+
+  /* 5. hands-on */
+  cardEl.appendChild(secHead(d.mock ? "5. Mock interview task" : "5. Hands-on coding or implementation task"));
+  var hb = el("div", "hands");
+  hb.appendChild(el("div", "ht", d.hands.title));
+  var ho = el("ol", "plain");
+  d.hands.steps.forEach(function(x){ ho.appendChild(el("li", null, x)); });
+  hb.appendChild(ho);
+  hb.appendChild(el("div", "hd", "Done when: " + d.hands.done));
+  cardEl.appendChild(hb);
+
+  /* 6. scenarios */
+  cardEl.appendChild(secHead("6. Real-world interview scenarios", d.scen.length + " scenario questions"));
+  if(d.scen.length) cardEl.appendChild(qList(d.scen, "p" + d.day + "s-"));
+  var pr = el("ul", "plain prompts");
+  d.prompts.forEach(function(x){ pr.appendChild(el("li", null, x)); });
+  cardEl.appendChild(el("div", "pl", "Also practise saying out loud:"));
+  cardEl.appendChild(pr);
+
+  /* 7. checklist */
+  cardEl.appendChild(secHead("7. End-of-day revision checklist"));
+  var cl = el("ul", "check");
+  d.checklist.forEach(function(x, i){
+    var li = el("li");
+    var cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.id = "chk-" + checkKey(d, i);
+    cb.checked = !!state.act[checkKey(d, i)];
+    cb.addEventListener("change", function(){
+      if(cb.checked) state.act[checkKey(d, i)] = 1; else delete state.act[checkKey(d, i)];
+      save(); refresh();
+    });
+    var lab = el("label", null, x);
+    lab.setAttribute("for", cb.id);
+    add(li, cb, lab);
+    cl.appendChild(li);
+  });
+  cardEl.appendChild(cl);
+
+  /* navigation */
+  var nav = el("div", "daynav");
+  var prev = el("button", null, "← Previous day");
+  prev.type = "button";
+  prev.disabled = d.day === 1;
+  prev.addEventListener("click", function(){ openDay(d.day - 1); });
+  var nx = el("button", null, "Next day →");
+  nx.type = "button";
+  nx.disabled = d.day === PLAN.length;
+  nx.addEventListener("click", function(){ openDay(d.day + 1); });
+  add(nav, prev, nx);
+  cardEl.appendChild(nav);
+
+  holder.appendChild(cardEl);
+  updatePlanProgress();
+}
+
+function updatePlanProgress(){
+  if(!DAYBTN[1]) return;
+  updateStrip();
+  if(!CARD) return;
+  var d = CARD.day;
+  var f = Math.round(dayFrac(d) * 100);
+  CARD.pct.textContent = f + "% of today complete · " + hours(Math.round(180 * (1 - dayFrac(d)))) + " left";
+  setBar(CARD.bar, f);
+  d.acts.forEach(function(a){
+    var c = CARD.acts[a.id];
+    if(!c) return;
+    if(a.kind === "drill") c.cell.textContent = doneIn(d.drill) + " / " + d.drill.length;
+    else if(a.kind === "scen") c.cell.textContent = doneIn(d.scen) + " / " + d.scen.length;
+    else if(a.kind === "list") c.cell.textContent = checklistDone(d) + " / " + d.checklist.length;
   });
 }
 
@@ -3013,29 +4541,64 @@ function recountPlan(){
 -------------------------------------------------------------------*/
 function applyTheme(){ document.documentElement.setAttribute("data-theme", state.theme); }
 
-function wire(){
-  document.getElementById("q").addEventListener("input", function(){ applyFilters(false); });
-  document.getElementById("fType").addEventListener("change", function(){ applyFilters(false); });
-  document.getElementById("fStat").addEventListener("change", function(){ applyFilters(false); });
-  document.getElementById("fPlan").addEventListener("change", function(){ applyFilters(false); });
-  document.getElementById("fAns").addEventListener("change", function(){ applyFilters(false); });
+function buildFilterOptions(){
+  var ft = $("fTopic");
+  TOPICS.forEach(function(t){
+    var o = el("option", null, t[1]);
+    o.value = t[0];
+    ft.appendChild(o);
+  });
+  var fd = $("fDay");
+  PLAN.forEach(function(d){
+    var o = el("option", null, "Day " + d.day + " — " + d.title);
+    o.value = String(d.day);
+    fd.appendChild(o);
+  });
+  var none = el("option", null, "Not assigned (Stretch / Optional)");
+  none.value = "none";
+  fd.appendChild(none);
+  var c = stats(isCore), s = stats(isStretch), o = stats(isOptional);
+  $("optCore").textContent = "Core — Must Prepare (" + c.t + ")";
+  $("optStretch").textContent = "Stretch — Prepare if time permits (" + s.t + ")";
+  $("optMoved").textContent = "Stretch: moved from Core (" + stats(function(q){ return q.prio === "stretch" && q.demoted; }).t + ")";
+  $("optOptional").textContent = "Optional — role dependent (" + o.t + ")";
+  $("optAllPrio").textContent = "All priorities (" + Q.length + ")";
+}
 
-  document.getElementById("btnExpand").addEventListener("click", function(){
+function wire(){
+  $("q").addEventListener("input", function(){ applyFilters(false); });
+  ["fPrio","fLevel","fTopic","fType","fStat","fDay","fAns"].forEach(function(id){
+    $(id).addEventListener("change", function(){ applyFilters(false); });
+  });
+  $("btnClear").addEventListener("click", clearFilters);
+
+  $("btnExpand").addEventListener("click", function(){
     document.querySelectorAll("details.concept").forEach(function(d){ d.open = true; });
   });
-  document.getElementById("btnCollapse").addEventListener("click", function(){
+  $("btnCollapse").addEventListener("click", function(){
     document.querySelectorAll("details.concept").forEach(function(d){ d.open = false; });
     document.querySelectorAll("details.ans").forEach(function(d){ d.open = false; });
   });
 
-  document.getElementById("btnTheme").addEventListener("click", function(){
+  document.querySelectorAll("#tabs button").forEach(function(b){
+    b.addEventListener("click", function(){
+      var v = b.dataset.view;
+      if(v === "revise" && state.view !== "revise"){ $("fStat").value = "r"; }
+      if(v === "bank" && state.view === "revise"){ $("fStat").value = "all"; }
+      showView(v);
+      if(window.scrollTo) window.scrollTo(0, 0);
+    });
+  });
+
+  $("btnTheme").addEventListener("click", function(){
     state.theme = state.theme === "dark" ? "light" : "dark";
     applyTheme(); save();
   });
 
-  document.getElementById("btnExport").addEventListener("click", function(){
-    var payload = { app:"spring-msa-interview-prep", version:1, exportedAt:new Date().toISOString(), done:state.done };
-    var blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+  $("btnExport").addEventListener("click", function(){
+    var payload = { app:"spring-msa-interview-prep", version:2, exportedAt:new Date().toISOString(),
+                    done:state.done, status:state.status, act:state.act };
+    var blob = new Blob([JSON.stringify(payload, null, 2)], { type:"application/json" });
     var url = URL.createObjectURL(blob);
     var a = document.createElement("a");
     a.href = url;
@@ -3045,8 +4608,8 @@ function wire(){
     toast("Progress exported");
   });
 
-  var file = document.getElementById("fileImport");
-  document.getElementById("btnImport").addEventListener("click", function(){ file.click(); });
+  var file = $("fileImport");
+  $("btnImport").addEventListener("click", function(){ file.click(); });
   file.addEventListener("change", function(){
     var f = file.files && file.files[0];
     if(!f) return;
@@ -3056,13 +4619,16 @@ function wire(){
         var p = JSON.parse(String(rd.result));
         var done = p && p.done;
         if(!done || typeof done !== "object") throw new Error("no done map");
-        state.done = {};
-        Object.keys(done).forEach(function(k){ if(done[k]) state.done[k] = 1; });
-        ALL.forEach(function(r){
-          r.cb.checked = !!state.done[r.id];
-          r.li.classList.toggle("done", r.cb.checked);
-        });
-        save(); recount(); applyFilters(true);
+        state.done = {}; state.status = {}; state.act = {};
+        Object.keys(done).forEach(function(k){ if(done[k] && BY_ID[k]) state.done[k] = 1; });
+        var st = obj(p.status);
+        Object.keys(st).forEach(function(k){ if((st[k] === "p" || st[k] === "r") && BY_ID[k] && !state.done[k]) state.status[k] = st[k]; });
+        var ac = obj(p.act);
+        Object.keys(ac).forEach(function(k){ if(ac[k]) state.act[k] = 1; });
+        Q.forEach(function(r){ syncRow(r.id); });
+        save();
+        if(CARD) renderDay(CARD.num);
+        refresh();
         toast("Progress imported");
       }catch(e){ toast("That file is not a valid progress export"); }
       file.value = "";
@@ -3070,87 +4636,128 @@ function wire(){
     rd.readAsText(f);
   });
 
-  document.getElementById("btnReset").addEventListener("click", function(){
-    var d = 0;
-    ALL.forEach(function(r){ if(r.cb.checked) d++; });
-    if(d === 0){ toast("Nothing to reset"); return; }
-    if(!confirm("Clear all " + d + " completed questions? Export first if you want a backup.")) return;
-    state.done = {};
-    ALL.forEach(function(r){ r.cb.checked = false; r.li.classList.remove("done"); });
-    save(); recount(); applyFilters(true);
+  $("btnReset").addEventListener("click", function(){
+    var n = Object.keys(state.done).length + Object.keys(state.status).length + Object.keys(state.act).length;
+    if(n === 0){ toast("Nothing to reset"); return; }
+    if(!confirm("Clear all saved progress (question statuses, plan tasks and checklists)? Export first if you want a backup.")) return;
+    state.done = {}; state.status = {}; state.act = {};
+    Q.forEach(function(r){ syncRow(r.id); });
+    save();
+    if(CARD) renderDay(CARD.num);
+    refresh();
     toast("Progress cleared");
   });
+
+  $("toTop").addEventListener("click", function(){ window.scrollTo(0, 0); });
 
   /* "/" focuses search */
   document.addEventListener("keydown", function(e){
     if(e.key === "/" && !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)){
-      e.preventDefault(); document.getElementById("q").focus();
+      e.preventDefault();
+      if(state.view !== "bank" && state.view !== "revise") showView("bank");
+      window.scrollTo(0, 0);
+      $("q").focus();
     }
   });
 
-  /* keep multiple tabs in sync */
+  /* keep other tabs in sync */
   window.addEventListener("storage", function(e){
     if(e.key !== KEY) return;
+    var v = state.view, dd = state.day;
     load(); applyTheme();
-    ALL.forEach(function(r){
-      r.cb.checked = !!state.done[r.id];
-      r.li.classList.toggle("done", r.cb.checked);
-    });
-    recount();
+    state.view = v; state.day = dd;
+    Q.forEach(function(r){ syncRow(r.id); });
+    if(CARD) renderDay(CARD.num);
+    refresh();
   });
+
+  window.addEventListener("hashchange", route);
+  var mq = window.matchMedia ? window.matchMedia("(max-width:700px)") : null;
+  $("filterBox").open = !(mq && mq.matches);
+}
+
+function route(){
+  var h = (location.hash || "").replace("#", "");
+  if(VIEWS.indexOf(h) >= 0){
+    if(h !== state.view){
+      if(h === "revise"){ $("fStat").value = "r"; }
+      else if(state.view === "revise" && h === "bank"){ $("fStat").value = "all"; }
+      showView(h, true);
+    }
+  }else if(/^level-\d$/.test(h)){
+    if(state.view !== "bank"){ $("fStat").value = "all"; showView("bank", true); }
+    var t = document.getElementById(h);
+    if(t && t.scrollIntoView) t.scrollIntoView();
+  }
 }
 
 /* ------------------------------------------------------------------
    Boot
 -------------------------------------------------------------------*/
+var PLAN_PROBLEMS = [];
 load();
 applyTheme();
-render();
-buildPlan();
-recount();
+buildRecords();
+PLAN_PROBLEMS = validatePlan();
+if(PLAN_PROBLEMS.length) console.error("Plan problems:", PLAN_PROBLEMS);
+renderBank();
+buildFilterOptions();
+buildPlanView();
+renderDay(state.day);
 wire();
-applyFilters(true);
-console.log("Loaded " + TOTAL + " questions across " + DATA.length + " levels.");
+recount();
+(function initialView(){
+  var h = (location.hash || "").replace("#", "");
+  var v = VIEWS.indexOf(h) >= 0 ? h : state.view;
+  if(v === "revise") $("fStat").value = "r";
+  showView(v, true);
+  if(/^level-\d$/.test(h)) route();
+})();
+console.log("Loaded " + Q.length + " questions, " + stats(isCore).t + " Core, across " + DATA.length + " levels; " + PLAN.length + " plan days.");
 
 /* answer-bank sanity check: a data-q that matches nothing is a typo */
 (function checkAnswers(){
-  var keys = Object.keys(ANSWERS), used = Object.keys(ANS_USED), orphan = [];
+  var keys = Object.keys(ANSWERS), orphan = [];
   keys.forEach(function(k){ if(!ANS_USED[k]) orphan.push(k); });
-  console.log("Answers attached: " + used.length + " of " + keys.length + " in the answer bank.");
+  console.log("Answers attached: " + (keys.length - orphan.length) + " of " + keys.length + " in the answer bank.");
   if(orphan.length){
     console.warn("These answer keys match no question (check the text exactly):", orphan);
-    toast(orphan.length + " answer(s) did not match a question — see console");
+    toast(orphan.length + " answer(s) did not match a question; see console");
   }
 })();
+
+/* read-only handle for tests and debugging in the console */
+window.__prep = { Q:Q, PLAN:PLAN, stats:stats, statusOf:statusOf, setStatus:setStatus, dayFrac:dayFrac, validatePlan:validatePlan, state:state };
+
 </script>
 <script>
 /* ------------------------------------------------------------------
    Shy header — once you scroll away from the top, the sticky header
    slides out of the way and stays out, so the content keeps the full
-   screen. Scrolling back up does NOT pull it in: it only returns when
+   screen. Scrolling back up does NOT pull it in: it returns only when
    you are actually back at the top of the page.
 -------------------------------------------------------------------*/
 (function shyHeader(){
   var root = document.documentElement;
   var hdr  = document.querySelector("header");
-  if(!hdr || !("requestAnimationFrame" in window)) return;
+  if(!hdr) return;
 
-  var TOP = 90;          /* the only zone where the header is shown */
-  var ticking = false;
+  var TOP = 90;        /* the only zone where the header is shown */
+  var hidden = false;  /* mirrors the class, so we touch the DOM only on change */
 
   function update(){
-    var y = window.pageYOffset || 0;
-    root.classList.toggle("hdr-hidden", y > TOP);
+    var y = window.pageYOffset || root.scrollTop || 0;
+    var should = y > TOP;
+    if(should === hidden) return;
+    hidden = should;
+    root.classList.toggle("hdr-hidden", should);
   }
 
-  window.addEventListener("scroll", function(){
-    if(ticking) return;
-    ticking = true;
-    requestAnimationFrame(function(){ update(); ticking = false; });
-  }, {passive:true});
+  window.addEventListener("scroll", update, {passive:true});
+  window.addEventListener("orientationchange", update);
 
-  /* a focused control must never stay off-screen (e.g. "/" to search),
-     so jump back to the top instead of revealing a floating header */
+  /* a focused control must never sit off-screen (e.g. "/" to search),
+     so go back to the top instead of floating the header back in */
   hdr.addEventListener("focusin", function(){
     if((window.pageYOffset || 0) > TOP) window.scrollTo(0, 0);
   });
