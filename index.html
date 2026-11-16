@@ -1299,6 +1299,31 @@ public class PaymentRepository {
   <pre class="flow">    DataAccessException
             ↑
   Database-related errors</pre>
+  <h4>Different vendors and their exceptions in Spring</h4>
+  <table class="atbl">
+    <thead><tr><th>Technology / Vendor</th><th>Common exception</th></tr></thead>
+    <tbody>
+      <tr><td>JDBC</td><td><code>SQLException</code></td></tr>
+      <tr><td>JPA</td><td><code>PersistenceException</code></td></tr>
+      <tr><td>Hibernate</td><td><code>HibernateException</code></td></tr>
+      <tr><td>MyBatis</td><td><code>PersistenceException</code></td></tr>
+      <tr><td>MongoDB</td><td><code>MongoException</code></td></tr>
+      <tr><td>JDO</td><td><code>JDOException</code></td></tr>
+    </tbody>
+  </table>
+  <h4>Spring exception translation</h4>
+  <p>Spring translates technology-specific exceptions into its common exception hierarchy, with <code>DataAccessException</code> at the top.</p>
+  <p>Common Spring exceptions:</p>
+  <table class="atbl">
+    <thead><tr><th>Scenario</th><th>Spring exception</th></tr></thead>
+    <tbody>
+      <tr><td>Duplicate key / constraint violation</td><td><code>DataIntegrityViolationException</code></td></tr>
+      <tr><td>Record not found (in certain data access operations)</td><td><code>EmptyResultDataAccessException</code></td></tr>
+      <tr><td>Database connection failure</td><td><code>DataAccessResourceFailureException</code></td></tr>
+      <tr><td>Incorrect SQL query</td><td><code>BadSqlGrammarException</code></td></tr>
+      <tr><td>Optimistic locking failure</td><td><code>OptimisticLockingFailureException</code></td></tr>
+    </tbody>
+  </table>
   <p class="mem"><b>Remember</b> @Repository = database class + Spring can translate recognised database exceptions into <code>DataAccessException</code>. Not every exception gets converted.</p>
 </template>
 
