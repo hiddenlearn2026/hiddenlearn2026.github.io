@@ -925,6 +925,42 @@ public void cleanup() {
     System.out.println("Cleaning up resources");
 }</pre>
   <p>Typical uses: close resources, stop background tasks, release connections, clean up temporary resources.</p>
+  <h4>More examples</h4>
+  <p><b>Example 1 — @PostConstruct:</b> preload data into an in-memory cache when the bean starts.</p>
+  <pre>@PostConstruct
+public void loadDepartments() {
+
+    departmentCache = new HashMap&lt;&gt;();
+
+    departmentCache.put(1, "IT");
+    departmentCache.put(2, "HR");
+    departmentCache.put(3, "Finance");
+
+    System.out.println("Department cache initialized");
+}</pre>
+  <p><b>Example 2 — @PostConstruct and @PreDestroy together:</b> start a background scheduler when the bean is created and shut it down cleanly when the container closes.</p>
+  <pre>@PostConstruct
+public void startScheduler() {
+
+    scheduler = Executors.newScheduledThreadPool(2);
+
+    System.out.println("Scheduler started");
+}
+
+@PreDestroy
+public void stopScheduler() {
+
+    if (scheduler != null) {
+        scheduler.shutdown();
+    }
+
+    System.out.println("Scheduler stopped");
+}</pre>
+  <p><b>Other common uses:</b></p>
+  <ul>
+    <li><code>@PostConstruct</code> — starting a background scheduler</li>
+    <li><code>@PreDestroy</code> — closing custom connections</li>
+  </ul>
   <pre class="flow">Application starts
     ↓
 Constructor
