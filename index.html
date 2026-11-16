@@ -1328,6 +1328,10 @@ public class PaymentRepository {
 </template>
 
 <template data-q="What are @Configuration and @Bean, and when do you prefer @Bean over @Component?">
+  <p><b>@Configuration:</b></p>
+  <p>This class is responsible for configuring and creating Spring Beans.</p>
+  <p><b>Bean:</b></p>
+  <p><code>@Bean</code> is used at the method level to register the returned object as a Spring Bean.</p>
   <p><code>@Configuration</code> marks a class that contains Spring configuration — bean definitions. <code>@Bean</code> says <i>take the object returned by this method and manage it as a Spring bean</i>.</p>
   <pre>@Configuration
 public class AppConfig {
