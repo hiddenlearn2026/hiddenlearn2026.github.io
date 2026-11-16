@@ -862,6 +862,17 @@ class ReportService {
 </template>
 
 <template data-q="Describe the Spring bean lifecycle from instantiation to destruction.">
+  <p>In Spring, whenever we create a bean, Spring manages its complete lifecycle.</p>
+  <p>First, Spring creates the object using the constructor.</p>
+  <p>Second, Spring injects the required dependencies.</p>
+  <p>Third, Spring calls Aware interfaces if the bean implements them.</p>
+  <p>Fourth, <code>BeanPostProcessor</code> executes its before-initialization method.</p>
+  <p>Fifth, Spring executes initialization methods like <code>@PostConstruct</code>, <code>afterPropertiesSet()</code>, and custom init method.</p>
+  <p>Sixth, <code>BeanPostProcessor</code> executes its after-initialization method.</p>
+  <p>Now the bean is ready to use.</p>
+  <p>Finally, when the Spring container shuts down, Spring executes destruction methods like <code>@PreDestroy</code>, <code>destroy()</code>, and custom destroy method.</p>
+  <p>This entire process is called the Spring Bean Life Cycle.</p>
+  <h4>Summary and diagram</h4>
   <p>The lifecycle starts when the container instantiates the bean. Spring then injects its dependencies, invokes the relevant aware callbacks and <code>BeanPostProcessor</code>s, and performs initialisation such as <code>@PostConstruct</code> or <code>afterPropertiesSet()</code>. The bean is then ready for use. When the container shuts down, Spring invokes destruction callbacks such as <code>@PreDestroy</code>.</p>
   <pre class="flow">Spring Container starts
         ↓
