@@ -1344,6 +1344,16 @@ public class AppConfig {
   <pre class="flow">@Configuration → contains bean definitions
         ↓
 @Bean → Spring creates &amp; manages the returned object</pre>
+  <h4>Example with a bean scope</h4>
+  <pre>@Configuration
+public class AppConfig {
+
+    @Bean
+    @Scope("singleton")
+    public EmployeeService employeeService() {
+        return new EmployeeService();
+    }
+}</pre>
   <h4>Why @Bean if we already have @Component?</h4>
   <p>With <code>@Component</code>, Spring sees the class and creates the object — you control the class. With <code>@Bean</code>, you control <b>how the object is created</b>.</p>
   <pre>@Configuration
